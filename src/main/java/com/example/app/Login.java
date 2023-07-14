@@ -15,6 +15,7 @@ public class Login extends Alert{
 
         setContent();
         setHeaderText("Header Text");
+        initOwner(App.stage);
         showAndWait();
     }
 

@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
+
+    protected static Stage stage;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("layout.fxml"));
@@ -16,6 +19,7 @@ public class App extends Application {
 
         String imageUrl = String.valueOf( App.class.getResource("images/program-icon.png") );
         stage.getIcons().add(new Image(imageUrl));
+        App.stage = stage;
 
         stage.setTitle("Rpi Project - JFX Demo");
         stage.setScene(scene);
