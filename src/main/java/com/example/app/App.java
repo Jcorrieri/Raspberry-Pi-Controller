@@ -16,10 +16,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("layout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        App.stage = stage;
 
         String imageUrl = String.valueOf( App.class.getResource("images/program-icon.png") );
         stage.getIcons().add(new Image(imageUrl));
-        App.stage = stage;
 
         stage.setTitle("Rpi Project - JFX Demo");
         stage.setScene(scene);

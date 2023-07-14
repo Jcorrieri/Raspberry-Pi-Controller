@@ -49,6 +49,9 @@
 #main-toolbar {
     -fx-min-height: 60;
     -fx-background-color: transparent;
+}
+
+#center-hbox {
     -fx-border-width: 0 0 1px 0;
     -fx-border-style: solid;
     -fx-border-color: lightgray;
