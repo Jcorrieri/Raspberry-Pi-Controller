@@ -1,0 +1,76 @@
+/* Thickness of vertical dividers */
+#main-split-pane > .split-pane-divider {
+    -fx-padding: 1;
+}
+
+/* Remove internal scroll-pane border */
+#main-scroll-pane {
+    -fx-background-color: rgba(255, 255, 255, 0);
+}
+
+#top-hbox {
+    -fx-border-width: 1px 0px 0px 0px;
+    -fx-border-color: #d5d5d5;
+    -fx-border-style: solid;
+}
+
+.button-bar {
+    -fx-background-color: white;
+    -fx-min-height: 35px;
+}
+
+#profile-icon {
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-background-image: url('images/profile-icon.png');
+    -fx-background-size: 35px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: rgba(255, 255, 255, 0);
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-background-radius: 0px;
+}
+
+#profile-icon:hover {
+    -fx-cursor: hand;
+    -fx-background-color: lightgray;
+}
+
+#display-username-buttonbar {
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-text-fill: black;
+    -fx-text-alignment: right;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial Rounded MT Bold";
+}
+
+#main-toolbar {
+    -fx-min-height: 60;
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-style: solid;
+    -fx-border-color: lightgray;
+}
+
+.generic-button {
+    -fx-background-color: #008604;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial Rounded MT Bold";
+}
+
+.generic-button:hover {
+    -fx-background-color: #005b04;
+    -fx-cursor: hand;
+}
+
+/* Hyperlinks */
+.hyperlink:visited { -fx-underline: false; }
+.hyperlink:hover { -fx-underline: true; }
+
+/* Custom menu (profile icon) */
+.custom-menu-item, .custom-menu-item:visited, .custom-menu-item:hover { -fx-background-color: rgba(255, 255, 255, 0); }
+.menu-button { -fx-background-color: rgba(255, 255, 255, 0); }
+.menu-button > .arrow-button, .menu-button > .arrow-button > .arrow { -fx-background-color: rgba(255, 255, 255, 0); }
