@@ -29,9 +29,7 @@ public class AppController {
     protected void onHelloButtonClick() { welcomeText.setText("Welcome to JavaFX Application!"); }
 
     @FXML
-    protected void addSystem() {
-        swapPanels();
-    }
+    protected void addSystem() throws IOException { new AddSystem(); }
 
     private void swapPanels() {
         if (!testPane.isVisible()) {
