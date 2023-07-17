@@ -1,26 +1,30 @@
 package com.example.app;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.image.ImageView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-public class Login extends Alert{
+import java.io.IOException;
 
-    public Login() {
-        super(AlertType.CONFIRMATION);
-        setTitle("Sign In");
+public class Login {
 
-        String URL = String.valueOf(App.class.getResource("images/profile-icon.png"));
-        setGraphic(new ImageView(URL));
+    public Login() throws IOException {
+        FXMLLoader loginFxml = new FXMLLoader(Login.class.getResource("login.fxml"));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.setTitle("Login Dialog");
 
-        setContent();
-        setHeaderText("Header Text");
-        initOwner(App.stage);
-        showAndWait();
-    }
+        Scene scene = new Scene(loginFxml.load(), 300, 335);
+        stage.setScene(scene);
 
-    private void setContent() {
-        PasswordField password = new PasswordField();
-        setContentText("Content Text" + password);
+        double centerXPosition = App.primaryStage.getX() + App.primaryStage.getWidth()/2d;
+        double centerYPosition = App.primaryStage.getY() + App.primaryStage.getHeight()/2d;
+
+        stage.setX(centerXPosition - 150);
+        stage.setY(centerYPosition - 167.5);
+
+        stage.show();
     }
 }

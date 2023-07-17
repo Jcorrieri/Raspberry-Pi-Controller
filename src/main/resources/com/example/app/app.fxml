@@ -39,7 +39,10 @@
 <?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToolBar?>
@@ -49,12 +52,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Controller">
-   <HBox id="top-hbox" alignment="CENTER_RIGHT" prefHeight="50.0" stylesheets="@main.css">
+<VBox prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AppController">
+   <HBox id="top-hbox" alignment="CENTER_RIGHT" prefHeight="50.0" stylesheets="@app.css">
       <children>
          <Label maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Raspberry Pi Controller">
             <font>
@@ -65,10 +69,13 @@
             </padding>
          </Label>
          <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <ButtonBar buttonMinWidth="40.0" prefHeight="50.0" stylesheets="@main.css">
+         <ButtonBar buttonMinWidth="40.0" prefHeight="50.0" stylesheets="@app.css">
            <buttons>
-               <Label id="display-username-buttonbar" fx:id="displayName" alignment="CENTER_RIGHT" focusTraversable="false" maxWidth="500.0" prefHeight="17.0" prefWidth="670.0" stylesheets="@main.css" text="Guest User" textAlignment="RIGHT" />
-               <Button id="profile-icon" mnemonicParsing="false" onAction="#accountOptions" stylesheets="@main.css" />
+               <Label id="display-username-buttonbar" fx:id="displayName" alignment="CENTER_RIGHT" focusTraversable="false" maxWidth="500.0" prefHeight="17.0" prefWidth="670.0" stylesheets="@app.css" text="Guest User" textAlignment="RIGHT" />
+               <Button id="profile-icon" mnemonicParsing="false" onAction="#accountOptions" styleClass="generic-icon" stylesheets="@app.css">
+                  <tooltip>
+                     <Tooltip text="Account Options" />
+                  </tooltip></Button>
            </buttons>
             <padding>
                <Insets right="15.0" />
@@ -79,24 +86,24 @@
          <Insets left="10.0" />
       </padding>
    </HBox>
-  <SplitPane id="main-split-pane" dividerPositions="0.2505567928730512, 0.7505567928730512" stylesheets="@main.css" VBox.vgrow="ALWAYS">
-    <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="541.0" prefWidth="166.0">
+  <SplitPane id="main-split-pane" dividerPositions="0.2505567928730512, 0.7505567928730512" stylesheets="@app.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="541.0" prefWidth="246.0">
       <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" style="&#10;" text="Systems" textAlignment="CENTER" textFill="#9f9f9f">
         <font>
           <Font size="18.0" fx:id="x1" />
         </font>
       </Label>
     </AnchorPane>
-    <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@main.css">
-         <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@main.css" VBox.vgrow="NEVER">
+    <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
+         <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@app.css" VBox.vgrow="NEVER">
             <children>
-          <Label alignment="CENTER" font="$x1" prefHeight="9.0" prefWidth="124.0" style="&#10;" text="Rpi 4 - Model B" textAlignment="CENTER" textFill="#9f9f9f">
+          <Label alignment="CENTER" font="$x1" prefHeight="27.0" prefWidth="164.0" style="&#10;" text="No Model Selected" textAlignment="CENTER" textFill="#9f9f9f">
                   <HBox.margin>
                      <Insets top="16.0" />
                   </HBox.margin>
                </Label>
                <Pane prefHeight="20.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ToolBar id="main-toolbar" stylesheets="@main.css">
+            <ToolBar id="main-toolbar" stylesheets="@app.css">
               <Button mnemonicParsing="false" onAction="#addSystem" styleClass="generic-button" text="➕  Add System">
                 <padding>
                   <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
@@ -114,23 +121,54 @@
                <Insets left="5.0" right="5.0" />
             </VBox.margin>
          </HBox>
-      <ScrollPane id="main-scroll-pane" fitToHeight="true" fitToWidth="true" prefHeight="481.0" prefWidth="546.0" stylesheets="@main.css" VBox.vgrow="ALWAYS">
-        <AnchorPane id="Content" prefHeight="479.0" prefWidth="456.0" stylesheets="@main.css">
-          <Button layoutX="244.0" layoutY="521.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Hello!" />
-               <ImageView fitHeight="304.0" fitWidth="463.0" layoutX="38.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                  <image>
-                     <Image url="@images/board-01.png" />
-                  </image>
-                  <viewport>
-                     <Rectangle2D />
-                  </viewport>
-               </ImageView>
+      <ScrollPane id="main-scroll-pane" fitToHeight="true" fitToWidth="true" prefHeight="481.0" prefWidth="546.0" stylesheets="@app.css" VBox.vgrow="ALWAYS">
+        <AnchorPane prefHeight="479.0" prefWidth="456.0" stylesheets="@app.css">
+               <StackPane prefHeight="583.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <children>
+                     <Pane fx:id="testPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <children>
+                           <MenuBar layoutX="202.0" layoutY="213.0">
+                             <menus>
+                               <Menu mnemonicParsing="false" text="File">
+                                 <items>
+                                   <MenuItem mnemonicParsing="false" text="Close" />
+                                 </items>
+                               </Menu>
+                               <Menu mnemonicParsing="false" text="Edit">
+                                 <items>
+                                   <MenuItem mnemonicParsing="false" text="Delete" />
+                                 </items>
+                               </Menu>
+                               <Menu mnemonicParsing="false" text="Help">
+                                 <items>
+                                   <MenuItem mnemonicParsing="false" text="About" />
+                                 </items>
+                               </Menu>
+                             </menus>
+                           </MenuBar>
+                        </children>
+                     </Pane>
+                     <Pane fx:id="gpioPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <children>
+                           <ImageView fitHeight="304.0" fitWidth="463.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                              <image>
+                                 <Image url="@images/board-01.png" />
+                              </image>
+                              <viewport>
+                                 <Rectangle2D />
+                              </viewport>
+                           </ImageView>
+                      <Button layoutX="244.0" layoutY="544.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Hello!" />
+                        </children>
+                     </Pane>
+                  </children>
+               </StackPane>
         </AnchorPane>
       </ScrollPane>
     </VBox>
     <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="541.0" prefWidth="285.0">
       <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="#9f9f9f" />
-         <VBox alignment="CENTER" layoutX="100.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <VBox alignment="CENTER" layoutX="6.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="60.0">
             <children>
           <Label fx:id="welcomeText" text="Label" />
             </children>
@@ -139,7 +177,7 @@
            <items>
                <CustomMenuItem mnemonicParsing="false">
                   <content>
-                     <Hyperlink onAction="#signInAlert" text="Sign In" textFill="#249cd3">
+                     <Hyperlink onAction="#createLoginWindow" text="Sign In" textFill="#249cd3">
                         <font>
                            <Font size="14.0" />
                         </font>
@@ -149,9 +187,9 @@
                      </Hyperlink>
                   </content>
                </CustomMenuItem>
-               <CustomMenuItem mnemonicParsing="false">
+               <CustomMenuItem mnemonicParsing="false" onAction="#exitApplication">
                   <content>
-                     <Hyperlink alignment="CENTER" stylesheets="@main.css" text="Sign Out" textFill="#ff2727">
+                     <Hyperlink alignment="CENTER" stylesheets="@app.css" text="Exit" textFill="#ff2727">
                         <font>
                            <Font size="14.0" />
                         </font>

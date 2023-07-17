@@ -1,16 +1,18 @@
 /* Thickness of vertical dividers */
-#main-split-pane > .split-pane-divider {
-    -fx-padding: 1;
-}
+#main-split-pane > .split-pane-divider { -fx-padding: 1; }
 
 /* Remove internal scroll-pane border */
-#main-scroll-pane {
-    -fx-background-color: rgba(255, 255, 255, 0);
-}
+#main-scroll-pane { -fx-background-color: rgba(255, 255, 255, 0); }
 
 #top-hbox {
     -fx-border-width: 1px 0px 0px 0px;
     -fx-border-color: #d5d5d5;
+    -fx-border-style: solid;
+}
+
+#center-hbox {
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-border-color: lightgray;
     -fx-border-style: solid;
 }
 
@@ -19,12 +21,11 @@
     -fx-min-height: 35px;
 }
 
-#profile-icon {
+.generic-icon {
     -fx-max-width: 40px;
     -fx-max-height: 40px;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
-    -fx-background-image: url('images/profile-icon.png');
     -fx-background-size: 35px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -33,6 +34,7 @@
     -fx-background-radius: 0px;
 }
 
+#profile-icon { -fx-background-image: url('images/profile-icon.png'); }
 #profile-icon:hover {
     -fx-cursor: hand;
     -fx-background-color: lightgray;
@@ -49,12 +51,6 @@
 #main-toolbar {
     -fx-min-height: 60;
     -fx-background-color: transparent;
-}
-
-#center-hbox {
-    -fx-border-width: 0 0 1px 0;
-    -fx-border-style: solid;
-    -fx-border-color: lightgray;
 }
 
 .generic-button {
