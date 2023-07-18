@@ -17,7 +17,7 @@ public class AppController {
     public Font x1, x3;
 
     @FXML
-    private Label welcomeText, displayName;
+    private Label welcomeText, displayName, modelName;
 
     @FXML
     private MenuButton userOptions;
@@ -32,15 +32,16 @@ public class AppController {
     protected void addSystem() throws IOException { new AddSystem(); }
 
     @FXML
-    protected void swapPanels() {
-        if (!testPane.isVisible()) {
+    protected void swapPanels(String type) {
+        if (type.equals("Rpi4")) {
+            gpioPane.toFront();
+            modelName.setText("Raspberry Pi 4 Model B");
+            gpioPane.setVisible(true);
+            testPane.setVisible(false);
+        } else {
             testPane.toFront();
             testPane.setVisible(true);
             gpioPane.setVisible(false);
-        } else {
-            gpioPane.toFront();
-            gpioPane.setVisible(true);
-            testPane.setVisible(false);
         }
     }
 

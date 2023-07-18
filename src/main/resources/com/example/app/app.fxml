@@ -97,12 +97,12 @@
     <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
          <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@app.css" VBox.vgrow="NEVER">
             <children>
-          <Label alignment="CENTER" font="$x1" prefHeight="27.0" prefWidth="164.0" style="&#10;" text="No Model Selected" textAlignment="CENTER" textFill="#9f9f9f">
+          <Label fx:id="modelName" font="$x1" prefHeight="27.0" prefWidth="271.0" style="&#10;" text="No Model Selected" textAlignment="CENTER" textFill="#9f9f9f">
                   <HBox.margin>
                      <Insets top="16.0" />
                   </HBox.margin>
                </Label>
-               <Pane prefHeight="20.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+               <Pane prefHeight="20.0" HBox.hgrow="ALWAYS" />
             <ToolBar id="main-toolbar" stylesheets="@app.css">
               <Button mnemonicParsing="false" onAction="#addSystem" styleClass="generic-button" text="➕  Add System">
                 <padding>
