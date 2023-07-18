@@ -1,13 +1,4 @@
-#login-icon {
-    -fx-background-image: url('images/profile-icon.png');
-    -fx-max-width: 60px;
-    -fx-max-height: 60px;
-    -fx-min-width: 60px;
-    -fx-min-height: 60px;
-    -fx-background-size: 55px;
-}
-
-#header-container {
+.header-container {
     -fx-border-width: 0px 0px 1px 0px;
     -fx-border-color: lightgray;
     -fx-border-style: solid;
@@ -18,11 +9,12 @@
     -fx-border-color: #a1a1a1;
     -fx-border-style: solid;
     -fx-text-fill: black;
+    -fx-font-size: 14px;
     -fx-background-color: rgba(255, 255, 255, 0);
 }
 
-#login-button {
+#submit-button {
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-font-size: 18;
+    -fx-font-size: 18px;
 }

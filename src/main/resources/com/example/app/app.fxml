@@ -111,6 +111,9 @@
                      <tooltip>
                         <Tooltip text="Add Raspberry Pi" />
                      </tooltip>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
               </Button>
             </ToolBar>
             </children>
@@ -187,9 +190,9 @@
                      </Hyperlink>
                   </content>
                </CustomMenuItem>
-               <CustomMenuItem mnemonicParsing="false" onAction="#exitApplication">
+               <CustomMenuItem mnemonicParsing="false">
                   <content>
-                     <Hyperlink alignment="CENTER" stylesheets="@app.css" text="Exit" textFill="#ff2727">
+                     <Hyperlink alignment="CENTER" onAction="#exitApplication" stylesheets="@app.css" text="Exit" textFill="#ff2727">
                         <font>
                            <Font size="14.0" />
                         </font>

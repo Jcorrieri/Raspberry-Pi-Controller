@@ -6,17 +6,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="335.0" prefWidth="300.0" styleClass="anchor-pane" stylesheets="@login.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.LoginController">
+<AnchorPane prefHeight="335.0" prefWidth="300.0" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.LoginController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox id="header-container" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="200.0" stylesheets="@login.css">
+            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="200.0" styleClass="header-container" stylesheets="@dialog.css">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="123.0" text="Sign In">
                      <HBox.margin>
@@ -27,12 +29,11 @@
                      </font>
                   </Label>
                   <Pane prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Label id="login-icon" styleClass="generic-icon">
-                     <stylesheets>
-                        <URL value="@app.css" />
-                        <URL value="@login.css" />
-                     </stylesheets>
-                  </Label>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/profile-icon.png" />
+                     </image>
+                  </ImageView>
                </children>
                <padding>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -40,21 +41,21 @@
             </HBox>
             <Pane prefHeight="273.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="username" layoutX="35.0" layoutY="27.0" prefHeight="30.0" prefWidth="230.0" promptText="Username" styleClass="text-field" stylesheets="@login.css">
+                  <TextField fx:id="username" layoutX="35.0" layoutY="27.0" prefHeight="30.0" prefWidth="230.0" promptText="Username" styleClass="text-field" stylesheets="@dialog.css">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
-                  <PasswordField fx:id="password" layoutX="33.0" layoutY="88.0" prefHeight="30.0" prefWidth="230.0" promptText="Password" styleClass="text-field" stylesheets="@login.css">
+                  <PasswordField fx:id="password" layoutX="33.0" layoutY="88.0" prefHeight="30.0" prefWidth="230.0" promptText="Password" styleClass="text-field" stylesheets="@dialog.css">
                      <font>
                         <Font size="14.0" />
                      </font></PasswordField>
-                  <Button id="login-button" fx:id="loginButton" layoutX="33.0" layoutY="165.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="230.0" styleClass="generic-button" text="Login" textFill="WHITE">
+                  <Button id="submit-button" fx:id="loginButton" layoutX="33.0" layoutY="165.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="230.0" styleClass="generic-button" text="Login" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                      <stylesheets>
                         <URL value="@app.css" />
-                        <URL value="@login.css" />
+                        <URL value="@dialog.css" />
                      </stylesheets>
                   </Button>
                </children>

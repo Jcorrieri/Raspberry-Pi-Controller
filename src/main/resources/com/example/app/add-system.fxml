@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,19 +14,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="465.0" prefWidth="334.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSystemController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox id="header-container" prefHeight="60.0" prefWidth="200.0" stylesheets="@add-system.css">
+            <HBox prefHeight="60.0" prefWidth="200.0" styleClass="header-container" stylesheets="@dialog.css">
                <children>
                   <Label prefHeight="23.0" prefWidth="297.0" text="Add Raspberry Pi">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="20.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="18.5" />
+                        <Insets top="19.0" />
                      </HBox.margin>
                   </Label>
                   <Pane prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
@@ -33,10 +36,23 @@
                   </ImageView>
                </children>
                <padding>
-                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                  <Insets bottom="5.0" left="15.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <Pane prefHeight="365.0" prefWidth="320.0" VBox.vgrow="ALWAYS" />
+            <Pane prefHeight="365.0" prefWidth="320.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button id="submit-button" layoutX="67.0" layoutY="314.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
+                     <stylesheets>
+                        <URL value="@app.css" />
+                        <URL value="@dialog.css" />
+                     </stylesheets>
+                  </Button>
+                  <ComboBox fx:id="selectModel" layoutX="75.0" layoutY="37.0" onShowing="#initComboBox" prefHeight="25.0" prefWidth="185.0" promptText="Select Model" />
+                  <TextField fx:id="title" layoutX="52.0" layoutY="85.0" prefWidth="230.0" promptText="Device Title" stylesheets="@dialog.css" />
+                  <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Hostname" stylesheets="@dialog.css" />
+                  <TextField fx:id="password" layoutX="53.0" layoutY="195.0" prefWidth="230.0" promptText="Host Password" stylesheets="@dialog.css" />
+                  <TextField fx:id="port" layoutX="52.0" layoutY="250.0" prefHeight="32.0" prefWidth="230.0" promptText="Port" stylesheets="@dialog.css" />
+               </children></Pane>
          </children>
       </VBox>
    </children>
