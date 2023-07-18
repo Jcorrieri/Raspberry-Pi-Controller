@@ -19,8 +19,8 @@ public class AddSystem {
         Scene scene = new Scene(loginFxml.load(), 335, 465);
         stage.setScene(scene);
 
-        double centerXPosition = App.primaryStage.getX() + App.primaryStage.getWidth()/2d;
-        double centerYPosition = App.primaryStage.getY() + App.primaryStage.getHeight()/2d;
+        double centerXPosition = App.getPrimaryStage().getX() + App.getPrimaryStage().getWidth()/2d;
+        double centerYPosition = App.getPrimaryStage().getY() + App.getPrimaryStage().getHeight()/2d;
 
         stage.setX(centerXPosition - 167.5);
         stage.setY(centerYPosition - 232.5);

@@ -10,13 +10,15 @@ import java.io.IOException;
 
 public class App extends Application {
 
-    protected static Stage primaryStage;
+    private static Stage primaryStage;
+    private static AppController appController;
 
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("app.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         App.primaryStage = stage;
+        App.appController = fxmlLoader.getController();
 
         String imageUrl = String.valueOf( App.class.getResource("images/program-icon.png") );
         stage.getIcons().add(new Image(imageUrl));
@@ -27,4 +29,8 @@ public class App extends Application {
     }
 
     public static void main(String[] args) { launch(); }
+
+    protected static Stage getPrimaryStage() { return primaryStage; }
+
+    protected static AppController getController() { return appController; }
 }

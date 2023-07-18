@@ -19,8 +19,8 @@ public class Login {
         Scene scene = new Scene(loginFxml.load(), 300, 335);
         stage.setScene(scene);
 
-        double centerXPosition = App.primaryStage.getX() + App.primaryStage.getWidth()/2d;
-        double centerYPosition = App.primaryStage.getY() + App.primaryStage.getHeight()/2d;
+        double centerXPosition = App.getPrimaryStage().getX() + App.getPrimaryStage().getWidth()/2d;
+        double centerYPosition = App.getPrimaryStage().getY() + App.getPrimaryStage().getHeight()/2d;
 
         stage.setX(centerXPosition - 150);
         stage.setY(centerYPosition - 167.5);

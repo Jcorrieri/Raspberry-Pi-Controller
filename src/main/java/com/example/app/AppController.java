@@ -31,7 +31,8 @@ public class AppController {
     @FXML
     protected void addSystem() throws IOException { new AddSystem(); }
 
-    private void swapPanels() {
+    @FXML
+    protected void swapPanels() {
         if (!testPane.isVisible()) {
             testPane.toFront();
             testPane.setVisible(true);
@@ -50,5 +51,5 @@ public class AppController {
     protected void createLoginWindow() throws IOException { new Login(); }
 
     @FXML
-    protected void exitApplication() { App.primaryStage.close(); }
+    protected void exitApplication() { App.getPrimaryStage().close(); }
 }
