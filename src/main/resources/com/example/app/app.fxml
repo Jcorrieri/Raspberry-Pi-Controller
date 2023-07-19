@@ -88,11 +88,23 @@
    </HBox>
   <SplitPane id="main-split-pane" dividerPositions="0.2505567928730512, 0.7505567928730512" stylesheets="@app.css" VBox.vgrow="ALWAYS">
     <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="541.0" prefWidth="246.0">
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" style="&#10;" text="Systems" textAlignment="CENTER" textFill="#9f9f9f">
-        <font>
-          <Font size="18.0" fx:id="x1" />
-        </font>
-      </Label>
+         <VBox prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+            <Label alignment="CENTER" minWidth="60.0" style="&#10;" text="Systems" textAlignment="CENTER" textFill="#9f9f9f">
+              <font>
+                <Font size="18.0" fx:id="x1" />
+              </font>
+                  <VBox.margin>
+                     <Insets left="10.0" top="16.0" />
+                  </VBox.margin>
+            </Label>
+               <VBox fx:id="systemContainer" prefHeight="585.0" prefWidth="269.0" VBox.vgrow="ALWAYS">
+                  <padding>
+                     <Insets left="5.0" right="5.0" />
+                  </padding>
+               </VBox>
+            </children>
+         </VBox>
     </AnchorPane>
     <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
          <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@app.css" VBox.vgrow="NEVER">
@@ -104,7 +116,7 @@
                </Label>
                <Pane prefHeight="20.0" HBox.hgrow="ALWAYS" />
             <ToolBar id="main-toolbar" stylesheets="@app.css">
-              <Button mnemonicParsing="false" onAction="#addSystem" styleClass="generic-button" text="➕  Add System">
+              <Button mnemonicParsing="false" onAction="#createAddSystemWindow" styleClass="generic-button" text="➕  Add System">
                 <padding>
                   <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
                 </padding>

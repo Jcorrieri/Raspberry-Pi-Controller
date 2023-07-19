@@ -73,3 +73,38 @@
 .custom-menu-item, .custom-menu-item:visited, .custom-menu-item:hover { -fx-background-color: rgba(255, 255, 255, 0); }
 .menu-button { -fx-background-color: rgba(255, 255, 255, 0); }
 .menu-button > .arrow-button, .menu-button > .arrow-button > .arrow { -fx-background-color: rgba(255, 255, 255, 0); }
+
+/* Systems (left side) */
+.system-titled-pane { -fx-animated: true; }
+
+.system-titled-pane > .title {
+    -fx-background-color: #bbbbbb, white;
+    -fx-background-insets: 0, 1, 0, 0;
+    -fx-padding: 10px;
+    -fx-text-fill: black;
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 16px;
+}
+
+.system-titled-pane > .title:hover {
+    -fx-background-color: #bbbbbb, white;
+    -fx-border-color: #008604;
+    -fx-border-width: 0px 0px 0px 5px;
+    -fx-border-style: solid;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, -1, 0);
+}
+
+.system-dropdown-button {
+    -fx-text-fill: black;
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 12px;
+    -fx-min-width: 180px;
+    -fx-padding: 7px;
+}
+
+.system-remove-button {
+    -fx-background-color: #bbbbbb, linear-gradient(to bottom, #ff2c2c, #d71818);
+    -fx-text-fill: white;
+}
+
+.system-remove-button:hover { -fx-background-color: linear-gradient(to bottom, #dc2828, #b21818); }

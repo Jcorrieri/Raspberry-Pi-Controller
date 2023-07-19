@@ -7,20 +7,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Login {
+public class LoginDialog {
 
-    public Login() throws IOException {
-        FXMLLoader loginFxml = new FXMLLoader(Login.class.getResource("login.fxml"));
+    public LoginDialog() throws IOException {
+        FXMLLoader loginFxml = new FXMLLoader(LoginDialog.class.getResource("login.fxml"));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.setTitle("Login Dialog");
+        stage.setTitle("Login");
 
         Scene scene = new Scene(loginFxml.load(), 300, 335);
         stage.setScene(scene);
 
-        double centerXPosition = App.getPrimaryStage().getX() + App.getPrimaryStage().getWidth()/2d;
-        double centerYPosition = App.getPrimaryStage().getY() + App.getPrimaryStage().getHeight()/2d;
+        double centerXPosition = App.getPrimaryStage().getX() + (App.getPrimaryStage().getWidth() / 2d);
+        double centerYPosition = App.getPrimaryStage().getY() + (App.getPrimaryStage().getHeight() / 2d);
 
         stage.setX(centerXPosition - 150);
         stage.setY(centerYPosition - 167.5);

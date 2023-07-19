@@ -3,12 +3,13 @@ package com.example.app;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddSystemController {
+public class AddSysController {
 
     @FXML
     private ComboBox<String> selectModel;
@@ -45,6 +46,10 @@ public class AddSystemController {
             errorMessage.setText("*Fields cannot be blank");
             return;
         }
+        if (alreadyExists(titleStr)) {
+            errorMessage.setText("*System already exists with this title");
+            return;
+        }
 
         try {
             portNum = Integer.parseInt(port.getText());
@@ -56,8 +61,16 @@ public class AddSystemController {
         System.out.println("Adding [" + model + ", " + titleStr + ", "
                 + ipStr + ", " + passwordStr + "," + portNum + "]...");
 
-        App.getController().swapPanels("Rpi4");
+        RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, passwordStr, portNum);
+        App.getController().addSystemToUI(raspberryPi);
         Stage stage = (Stage) selectModel.getScene().getWindow();
         stage.close();
     }
+    
+    private boolean alreadyExists(String title) {
+        for (RaspberryPi pi : App.systems)
+            if (pi.getTitle().equals(title))
+                return true;
+        return false;
+    }    
 }

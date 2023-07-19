@@ -1,33 +1,35 @@
 package com.example.app;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class LoginController {
 
     @FXML
-    Button loginButton;
+    private Button loginButton;
 
     @FXML
-    TextField username;
+    private TextField username;
 
     @FXML
-    PasswordField password;
+    private PasswordField password;
+
+    @FXML
+    private Label errorMessage;
 
     @FXML
     protected void login() {
         if (username.getText().equals("") || password.getText().equals("")) {
-            Alert nullText = new Alert(Alert.AlertType.ERROR, "Fields cannot be null");
-            nullText.initOwner(App.getPrimaryStage());
-            nullText.show();
+            errorMessage.setVisible(true);
             return;
         }
-
         System.out.println("Logging in [" + username.getText() + ", " + password.getText() + "]...");
+
+        App.getController().setDisplayName(username.getText());
+        App.setLoggedIn();
+        App.getController().updateUserOptions();
+
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.close();
     }
