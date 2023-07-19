@@ -3,6 +3,7 @@ package com.example.app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -15,6 +16,8 @@ public class App extends Application {
     private static AppController appController;
 
     private static boolean loggedIn = false;
+
+    private static Button selectedButton;
 
     protected static ArrayList<RaspberryPi> systems;
     protected static RaspberryPi currentPi;
@@ -47,4 +50,8 @@ public class App extends Application {
     protected static void setLoggedIn() { loggedIn = true; }
 
     protected static void setLoggedOut() { loggedIn = false; }
+
+    protected static void selectButton(Button button) { selectedButton = button; }
+
+    protected static Button getSelectedButton() { return selectedButton; }
 }

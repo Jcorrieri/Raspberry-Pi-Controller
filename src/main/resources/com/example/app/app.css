@@ -99,8 +99,16 @@
 .system-dropdown-button {
     -fx-text-fill: black;
     -fx-font-family: "Arial Rounded MT Bold";
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 0px;
     -fx-font-size: 12px;
     -fx-padding: 7px;
+}
+
+.system-dropdown-button:hover {
+    -fx-background-color: lightgray;
+    -fx-cursor: hand;
 }
 
 .system-remove-button {
@@ -109,3 +117,9 @@
 }
 
 .system-remove-button:hover { -fx-background-color: linear-gradient(to bottom, #dc2828, #b21818); }
+
+.selected-system-button {
+    -fx-border-color: #008604;
+    -fx-border-width: 0px 0px 0px 3px;
+    -fx-border-style: solid;
+}

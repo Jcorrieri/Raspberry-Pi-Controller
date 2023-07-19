@@ -51,9 +51,9 @@ public class AppController {
         }
     }
 
-    protected void addSystemToUI(RaspberryPi raspberryPi) {
-        App.systems.add(raspberryPi);
-        App.currentPi = raspberryPi;
+    protected void addSystemToUI(RaspberryPi newPi) {
+        App.systems.add(newPi);
+        App.currentPi = newPi;
 
         TitledPane titledPane = new TitledPane();
         AnchorPane anchorPane = new AnchorPane();
@@ -70,7 +70,7 @@ public class AppController {
 
         Button removeDevice = createSystemButton("Remove Device");
         removeDevice.getStyleClass().add("system-remove-button");
-        removeDevice.setOnAction(e -> removeSystemFromUI(raspberryPi));
+        removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
 
         vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, deviceInfo, removeDevice);
         anchorPane.getChildren().add(vBox);
@@ -79,8 +79,8 @@ public class AppController {
 
         titledPane.setContent(anchorPane);
         titledPane.setExpanded(false);
-        titledPane.setText(raspberryPi.getTitle());
-        titledPane.setId(raspberryPi.getTitle());
+        titledPane.setText(newPi.getTitle());
+        titledPane.setId(newPi.getTitle());
         titledPane.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
         titledPane.getStyleClass().add("system-titled-pane");
         systemContainer.getChildren().add(titledPane);
@@ -94,12 +94,12 @@ public class AppController {
         String piId = App.currentPi.getTitle(); // currentPi is already set correctly by this point in the thread
 
         switch (name) {
-            case "GPIO" -> button.setOnAction(e -> swapPanels(gpioPane, piId));
-            case "File Manager" -> button.setOnAction(e -> swapPanels(filePane, piId));
-            case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId));
-            case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId));
-            case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId));
-            case "Device Info" -> button.setOnAction(e -> swapPanels(infoPane, piId));
+            case "GPIO" -> button.setOnAction(e -> swapPanels(gpioPane, piId, button));
+            case "File Manager" -> button.setOnAction(e -> swapPanels(filePane, piId, button));
+            case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId, button));
+            case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId, button));
+            case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId, button));
+            case "Device Info" -> button.setOnAction(e -> swapPanels(infoPane, piId, button));
         }
 
         return button;
@@ -121,13 +121,15 @@ public class AppController {
                 App.systems.remove(raspberryPi);
                 systemContainer.getChildren().removeIf(node -> node.getId().equals(raspberryPi.getTitle()));
                 systemName.setText("No System Selected");
-                swapPanels(null, null);
+                swapPanels(null, null, null);
             }
         });
     }
 
     @FXML
-    protected void swapPanels(Pane pane, String piId) {
+    protected void swapPanels(Pane pane, String piId, Button button) {
+        long start = System.currentTimeMillis();
+
         for (RaspberryPi pi : App.systems)
             if (pi.getTitle().equals(piId)) {
                 App.currentPi = pi;
@@ -135,12 +137,21 @@ public class AppController {
                 break;
             }
 
+        if (button != null) {
+            if (App.getSelectedButton() != null)
+                App.getSelectedButton().getStyleClass().remove("selected-system-button");
+            button.getStyleClass().add("selected-system-button");
+            App.selectButton(button);
+        }
+
         for (Node node : stackPane.getChildren())
             node.setVisible(false);
         if (pane != null) {
             pane.toFront();
             pane.setVisible(true);
         }
+
+        System.out.println(System.currentTimeMillis() - start + "ms");
     }
 
     @FXML
