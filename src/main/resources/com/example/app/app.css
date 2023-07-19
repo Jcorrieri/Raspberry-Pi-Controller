@@ -77,6 +77,8 @@
 /* Systems (left side) */
 .system-titled-pane { -fx-animated: true; }
 
+.system-titled-pane > .content { -fx-border-color: rgba(255, 255, 255, 0); }
+
 .system-titled-pane > .title {
     -fx-background-color: #bbbbbb, white;
     -fx-background-insets: 0, 1, 0, 0;

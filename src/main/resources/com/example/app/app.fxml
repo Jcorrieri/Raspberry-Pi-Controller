@@ -109,7 +109,7 @@
     <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
          <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@app.css" VBox.vgrow="NEVER">
             <children>
-          <Label fx:id="modelName" font="$x1" prefHeight="27.0" prefWidth="271.0" style="&#10;" text="No Model Selected" textAlignment="CENTER" textFill="#9f9f9f">
+          <Label fx:id="systemName" font="$x1" prefHeight="27.0" prefWidth="271.0" style="&#10;" text="No System Selected" textAlignment="CENTER" textFill="#9f9f9f">
                   <HBox.margin>
                      <Insets top="16.0" />
                   </HBox.margin>
@@ -138,9 +138,21 @@
          </HBox>
       <ScrollPane id="main-scroll-pane" fitToHeight="true" fitToWidth="true" prefHeight="481.0" prefWidth="546.0" stylesheets="@app.css" VBox.vgrow="ALWAYS">
         <AnchorPane prefHeight="479.0" prefWidth="456.0" stylesheets="@app.css">
-               <StackPane prefHeight="583.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <StackPane fx:id="stackPane" prefHeight="583.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                     <Pane fx:id="testPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                     <Pane id="GPIO" fx:id="gpioPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <children>
+                           <ImageView fitHeight="304.0" fitWidth="463.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                              <image>
+                                 <Image url="@images/board-01.png" />
+                              </image>
+                              <viewport>
+                                 <Rectangle2D />
+                              </viewport>
+                           </ImageView>
+                        </children>
+                     </Pane>
+                     <Pane id="File Manager" fx:id="filePane" prefHeight="200.0" prefWidth="200.0" visible="false">
                         <children>
                            <MenuBar layoutX="202.0" layoutY="213.0">
                              <menus>
@@ -163,19 +175,10 @@
                            </MenuBar>
                         </children>
                      </Pane>
-                     <Pane fx:id="gpioPane" prefHeight="200.0" prefWidth="200.0" visible="false">
-                        <children>
-                           <ImageView fitHeight="304.0" fitWidth="463.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                              <image>
-                                 <Image url="@images/board-01.png" />
-                              </image>
-                              <viewport>
-                                 <Rectangle2D />
-                              </viewport>
-                           </ImageView>
-                      <Button layoutX="244.0" layoutY="544.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Hello!" />
-                        </children>
-                     </Pane>
+                     <Pane id="SSH Shell" fx:id="shellPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                     <Pane id="Scripts" fx:id="scriptPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                     <Pane id="Metrics" fx:id="metricPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                     <Pane id="Info" fx:id="infoPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                   </children>
                </StackPane>
         </AnchorPane>
@@ -183,11 +186,7 @@
     </VBox>
     <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="541.0" prefWidth="285.0">
       <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="#9f9f9f" />
-         <VBox alignment="CENTER" layoutX="6.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="60.0">
-            <children>
-          <Label fx:id="welcomeText" text="Label" />
-            </children>
-         </VBox>
+         <VBox alignment="CENTER" layoutX="6.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="60.0" />
          <MenuButton fx:id="userOptions" contentDisplay="GRAPHIC_ONLY" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" text="awewew" AnchorPane.rightAnchor="76.0">
            <items>
                <CustomMenuItem mnemonicParsing="false">

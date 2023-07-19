@@ -1,9 +1,11 @@
 package com.example.app;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,19 +20,19 @@ public class AppController {
     public Font x1, x3;
 
     @FXML
-    private Label welcomeText, displayName, modelName;
+    private Label displayName, systemName;
 
     @FXML
     private MenuButton userOptions;
 
     @FXML
-    private Pane gpioPane, testPane;
+    private Pane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private VBox systemContainer;
-
-    @FXML
-    protected void onHelloButtonClick() { welcomeText.setText("Welcome to JavaFX Application!"); }
 
     @FXML
     protected void createAddSystemWindow() throws IOException {
@@ -51,6 +53,7 @@ public class AppController {
 
     protected void addSystemToUI(RaspberryPi raspberryPi) {
         App.systems.add(raspberryPi);
+        App.currentPi = raspberryPi;
 
         TitledPane titledPane = new TitledPane();
         AnchorPane anchorPane = new AnchorPane();
@@ -83,6 +86,17 @@ public class AppController {
         Button button = new Button(name);
         button.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
         button.getStyleClass().add("system-dropdown-button");
+        String piId = App.currentPi.getTitle(); // currentPi is already set correctly by this point in the thread
+
+        switch (name) {
+            case "GPIO" -> button.setOnAction(e -> swapPanels(gpioPane, piId));
+            case "File Manager" -> button.setOnAction(e -> swapPanels(filePane, piId));
+            case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId));
+            case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId));
+            case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId));
+            case "Device Info" -> button.setOnAction(e -> swapPanels(infoPane, piId));
+        }
+
         return button;
     }
 
@@ -101,15 +115,27 @@ public class AppController {
             if (response == ButtonType.OK) {
                 App.systems.remove(raspberryPi);
                 systemContainer.getChildren().removeIf(node -> node.getId().equals(raspberryPi.getTitle()));
+                systemName.setText("No System Selected");
+                swapPanels(null, null);
             }
         });
     }
 
     @FXML
-    protected void swapPanels(String type) {
-        gpioPane.toFront();
-        gpioPane.setVisible(true);
-        modelName.setText(type);
+    protected void swapPanels(Pane pane, String piId) {
+        for (RaspberryPi pi : App.systems)
+            if (pi.getTitle().equals(piId)) {
+                App.currentPi = pi;
+                systemName.setText(pi.getTitle() + " - " + pane.getId());
+                break;
+            }
+
+        for (Node node : stackPane.getChildren())
+            node.setVisible(false);
+        if (pane != null) {
+            pane.toFront();
+            pane.setVisible(true);
+        }
     }
 
     @FXML

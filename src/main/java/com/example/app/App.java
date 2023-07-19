@@ -17,6 +17,7 @@ public class App extends Application {
     private static boolean loggedIn = false;
 
     protected static ArrayList<RaspberryPi> systems;
+    protected static RaspberryPi currentPi;
     public static final int MAX_SYSTEMS = 8;
 
     @Override

@@ -2,10 +2,7 @@ package com.example.app;
 
 public class RaspberryPi {
 
-    private String model;
-    private String title;
-    private String hostname;
-    private String hostpass;
+    private final String model, title, hostname, hostpass;
     private int port;
     private boolean connected;
 
@@ -16,7 +13,6 @@ public class RaspberryPi {
         this.hostpass = hostpass;
         this.port = port;
         this.connected = createConnection();
-
     }
 
     private boolean createConnection() {
