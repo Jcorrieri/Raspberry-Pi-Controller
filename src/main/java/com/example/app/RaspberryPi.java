@@ -1,10 +1,15 @@
 package com.example.app;
 
+import net.schmizz.sshj.SSHClient;
+
+import java.io.Console;
+import java.io.IOException;
+
 public class RaspberryPi {
 
     private final String model, title, hostname, hostpass;
+    private final Console con = System.console();
     private int port;
-    private boolean connected;
 
     public RaspberryPi(String model, String title, String hostname, String hostpass, int port) {
         this.model = model;
@@ -12,12 +17,26 @@ public class RaspberryPi {
         this.hostname = hostname;
         this.hostpass = hostpass;
         this.port = port;
-        this.connected = createConnection();
+
+        try {
+            createConnection();
+        } catch (IOException e) {
+            return;
+        }
+
     }
 
-    private boolean createConnection() {
+    private void createConnection() throws IOException {
         // Connect via ssh...
-        return false;
+        final SSHClient ssh = new SSHClient();
+        ssh.loadKnownHosts();
+        ssh.connect(hostname);
+
+        try {
+            //...
+        } finally {
+            ssh.disconnect();
+        }
     }
 
     public String getTitle() { return title; }
