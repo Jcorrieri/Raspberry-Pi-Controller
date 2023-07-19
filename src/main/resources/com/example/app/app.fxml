@@ -71,10 +71,19 @@
          <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          <ButtonBar buttonMinWidth="40.0" prefHeight="50.0" stylesheets="@app.css">
            <buttons>
-               <Label id="display-username-buttonbar" fx:id="displayName" alignment="CENTER_RIGHT" focusTraversable="false" maxWidth="500.0" prefHeight="17.0" prefWidth="670.0" stylesheets="@app.css" text="Guest User" textAlignment="RIGHT" />
+               <Button id="help-icon" layoutX="30.0" layoutY="15.0" mnemonicParsing="false" onAction="#createHelpWindow" styleClass="generic-icon" stylesheets="@app.css">
+                  <tooltip>
+                     <Tooltip text="Help" />
+                  </tooltip>
+               </Button>
+               <Button id="settings-icon" layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#createSettingsWindow" styleClass="generic-icon" stylesheets="@app.css">
+                  <tooltip>
+                     <Tooltip text="Settings" />
+                  </tooltip>
+               </Button>
                <Button id="profile-icon" mnemonicParsing="false" onAction="#accountOptions" styleClass="generic-icon" stylesheets="@app.css">
                   <tooltip>
-                     <Tooltip text="Account Options" />
+                     <Tooltip text="Account" />
                   </tooltip></Button>
            </buttons>
             <padding>
@@ -90,12 +99,12 @@
     <AnchorPane maxWidth="500.0" minWidth="235.0" prefHeight="541.0" prefWidth="246.0">
          <VBox prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <Label alignment="CENTER" minWidth="60.0" style="&#10;" text="Systems" textAlignment="CENTER" textFill="#9f9f9f">
+            <Label fx:id="displayName" alignment="CENTER" minWidth="60.0" style="&#10;" text="Guest User" textAlignment="CENTER" textFill="#9f9f9f">
               <font>
                 <Font size="18.0" fx:id="x1" />
               </font>
                   <VBox.margin>
-                     <Insets left="10.0" top="16.0" />
+                     <Insets left="15.0" top="16.0" />
                   </VBox.margin>
             </Label>
                <VBox fx:id="systemContainer" minWidth="200.0" prefHeight="585.0" prefWidth="269.0" VBox.vgrow="ALWAYS">
@@ -187,7 +196,7 @@
     <AnchorPane maxWidth="500.0" minWidth="235.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="541.0" prefWidth="285.0">
       <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="#9f9f9f" />
          <VBox alignment="CENTER" layoutX="6.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="60.0" />
-         <MenuButton fx:id="userOptions" contentDisplay="GRAPHIC_ONLY" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" text="awewew" AnchorPane.rightAnchor="76.0">
+         <MenuButton fx:id="userOptions" contentDisplay="GRAPHIC_ONLY" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" prefWidth="77.0" AnchorPane.rightAnchor="76.0">
            <items>
                <CustomMenuItem mnemonicParsing="false">
                   <content>

@@ -35,17 +35,12 @@
 }
 
 #profile-icon { -fx-background-image: url('images/profile-icon.png'); }
-#profile-icon:hover {
+#settings-icon { -fx-background-image: url('images/settings-icon.png'); }
+#help-icon { -fx-background-image: url('images/help-icon.png'); }
+
+.generic-icon:hover {
     -fx-cursor: hand;
     -fx-background-color: lightgray;
-}
-
-#display-username-buttonbar {
-    -fx-background-color: rgba(255, 255, 255, 0);
-    -fx-text-fill: black;
-    -fx-text-alignment: right;
-    -fx-font-size: 14px;
-    -fx-font-family: "Arial Rounded MT Bold";
 }
 
 #main-toolbar {

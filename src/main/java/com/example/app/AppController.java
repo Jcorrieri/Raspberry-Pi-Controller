@@ -47,7 +47,7 @@ public class AppController {
             alert.show();
             System.out.println(alert.getWidth() + ", " + alert.getHeight());
         } else {
-            new AddSysDialog();
+            new Popup(Popup.ADD_SYS);
         }
     }
 
@@ -177,7 +177,13 @@ public class AppController {
     }
 
     @FXML
-    protected void createLoginWindow() throws IOException { new LoginDialog(); }
+    protected void createLoginWindow() throws IOException { new Popup(Popup.LOGIN); }
+
+    @FXML
+    protected void createSettingsWindow() throws IOException { new Popup(Popup.SETTINGS); }
+
+    @FXML
+    protected void createHelpWindow() throws IOException { new Popup(Popup.HELP); }
 
     @FXML
     protected void exitApplication() { App.getPrimaryStage().close(); }
