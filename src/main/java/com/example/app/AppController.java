@@ -58,6 +58,8 @@ public class AppController {
         TitledPane titledPane = new TitledPane();
         AnchorPane anchorPane = new AnchorPane();
         VBox vBox = new VBox();
+        vBox.setFillWidth(true);
+        vBox.setMaxWidth(Double.MAX_VALUE);
 
         Button gpio = createSystemButton("GPIO");
         Button fileManager = createSystemButton("File Manager");
@@ -72,6 +74,8 @@ public class AppController {
 
         vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, deviceInfo, removeDevice);
         anchorPane.getChildren().add(vBox);
+        AnchorPane.setLeftAnchor(vBox, 0d);
+        AnchorPane.setRightAnchor(vBox, 0d);
 
         titledPane.setContent(anchorPane);
         titledPane.setExpanded(false);
@@ -86,6 +90,7 @@ public class AppController {
         Button button = new Button(name);
         button.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
         button.getStyleClass().add("system-dropdown-button");
+        button.setMaxWidth(Double.MAX_VALUE);
         String piId = App.currentPi.getTitle(); // currentPi is already set correctly by this point in the thread
 
         switch (name) {

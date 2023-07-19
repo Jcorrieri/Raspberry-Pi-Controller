@@ -86,8 +86,8 @@
          <Insets left="10.0" />
       </padding>
    </HBox>
-  <SplitPane id="main-split-pane" dividerPositions="0.2505567928730512, 0.7505567928730512" stylesheets="@app.css" VBox.vgrow="ALWAYS">
-    <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="541.0" prefWidth="246.0">
+  <SplitPane id="main-split-pane" dividerPositions="0.2506, 0.7506" stylesheets="@app.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxWidth="500.0" minWidth="235.0" prefHeight="541.0" prefWidth="246.0">
          <VBox prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <Label alignment="CENTER" minWidth="60.0" style="&#10;" text="Systems" textAlignment="CENTER" textFill="#9f9f9f">
@@ -98,7 +98,7 @@
                      <Insets left="10.0" top="16.0" />
                   </VBox.margin>
             </Label>
-               <VBox fx:id="systemContainer" prefHeight="585.0" prefWidth="269.0" VBox.vgrow="ALWAYS">
+               <VBox fx:id="systemContainer" minWidth="200.0" prefHeight="585.0" prefWidth="269.0" VBox.vgrow="ALWAYS">
                   <padding>
                      <Insets left="5.0" right="5.0" />
                   </padding>
@@ -106,10 +106,10 @@
             </children>
          </VBox>
     </AnchorPane>
-    <VBox id="center-vbox" minWidth="175.0" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
+    <VBox id="center-vbox" prefHeight="541.0" prefWidth="489.0" stylesheets="@app.css">
          <HBox id="center-hbox" fillHeight="false" prefHeight="20.0" prefWidth="200.0" stylesheets="@app.css" VBox.vgrow="NEVER">
             <children>
-          <Label fx:id="systemName" font="$x1" prefHeight="27.0" prefWidth="271.0" style="&#10;" text="No System Selected" textAlignment="CENTER" textFill="#9f9f9f">
+          <Label fx:id="systemName" font="$x1" prefHeight="27.0" style="&#10;" text="No System Selected" textAlignment="CENTER" textFill="#9f9f9f" HBox.hgrow="ALWAYS">
                   <HBox.margin>
                      <Insets top="16.0" />
                   </HBox.margin>
@@ -136,7 +136,7 @@
                <Insets left="5.0" right="5.0" />
             </VBox.margin>
          </HBox>
-      <ScrollPane id="main-scroll-pane" fitToHeight="true" fitToWidth="true" prefHeight="481.0" prefWidth="546.0" stylesheets="@app.css" VBox.vgrow="ALWAYS">
+      <ScrollPane id="main-scroll-pane" fitToHeight="true" prefHeight="481.0" prefWidth="546.0" stylesheets="@app.css" VBox.vgrow="ALWAYS">
         <AnchorPane prefHeight="479.0" prefWidth="456.0" stylesheets="@app.css">
                <StackPane fx:id="stackPane" prefHeight="583.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
@@ -184,7 +184,7 @@
         </AnchorPane>
       </ScrollPane>
     </VBox>
-    <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="541.0" prefWidth="285.0">
+    <AnchorPane maxWidth="500.0" minWidth="235.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="541.0" prefWidth="285.0">
       <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="#9f9f9f" />
          <VBox alignment="CENTER" layoutX="6.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="401.0" prefWidth="268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="60.0" />
          <MenuButton fx:id="userOptions" contentDisplay="GRAPHIC_ONLY" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" text="awewew" AnchorPane.rightAnchor="76.0">

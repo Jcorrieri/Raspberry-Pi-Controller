@@ -50,9 +50,15 @@ public class AddSysController {
             errorMessage.setText("*System already exists with this title");
             return;
         }
+        if (titleStr.length() > 20) {
+            errorMessage.setText("*Title must no more than 20 characters");
+            return;
+        }
 
         try {
             portNum = Integer.parseInt(port.getText());
+            if (portNum < 0)
+                throw new NumberFormatException();
         } catch (NumberFormatException e) {
             errorMessage.setText("*Port must be a positive integer");
             return;
