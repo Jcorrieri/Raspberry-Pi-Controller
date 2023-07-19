@@ -3,10 +3,7 @@ package com.example.app;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class AddSysController {
@@ -15,7 +12,10 @@ public class AddSysController {
     private ComboBox<String> selectModel;
 
     @FXML
-    private TextField title, ip, password, port;
+    private TextField title, ip, username, port;
+
+    @FXML
+    private PasswordField password;
 
     @FXML
     private Label errorMessage;
@@ -35,6 +35,7 @@ public class AddSysController {
         String model = selectModel.getSelectionModel().getSelectedItem();
         String titleStr = title.getText();
         String ipStr = ip.getText();
+        String userStr = username.getText();
         String passwordStr = password.getText();
         int portNum;
 
@@ -42,7 +43,7 @@ public class AddSysController {
             errorMessage.setText("*Must select a model");
             return;
         }
-        if (titleStr.equals("") || ipStr.equals("") || passwordStr.equals("")) {
+        if (titleStr.equals("") || ipStr.equals("") || passwordStr.equals("") || userStr.equals("")) {
             errorMessage.setText("*Fields cannot be blank");
             return;
         }
@@ -65,9 +66,9 @@ public class AddSysController {
         }
 
         System.out.println("Adding [" + model + ", " + titleStr + ", "
-                + ipStr + ", " + passwordStr + "," + portNum + "]...");
+                + ipStr + ", " + userStr + ", " + passwordStr + "," + portNum + "]...");
 
-        RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, passwordStr, portNum);
+        RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
         App.getController().addSystemToUI(raspberryPi);
         Stage stage = (Stage) selectModel.getScene().getWindow();
         stage.close();

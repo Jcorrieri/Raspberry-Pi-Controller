@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="465.0" prefWidth="334.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSysController">
+<AnchorPane prefHeight="520.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSysController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -39,9 +40,9 @@
                   <Insets bottom="5.0" left="15.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <Pane prefHeight="365.0" prefWidth="320.0" VBox.vgrow="ALWAYS">
+            <Pane prefHeight="458.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button id="submit-button" layoutX="67.0" layoutY="311.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
+                  <Button id="submit-button" layoutX="67.0" layoutY="374.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
                      <stylesheets>
                         <URL value="@app.css" />
                         <URL value="@dialog.css" />
@@ -49,10 +50,11 @@
                   </Button>
                   <ComboBox fx:id="selectModel" layoutX="75.0" layoutY="37.0" onShowing="#initComboBox" prefHeight="25.0" prefWidth="185.0" promptText="Select Model" />
                   <TextField fx:id="title" layoutX="52.0" layoutY="85.0" prefWidth="230.0" promptText="Device Title" stylesheets="@dialog.css" />
-                  <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Hostname" stylesheets="@dialog.css" />
-                  <TextField fx:id="password" layoutX="53.0" layoutY="195.0" prefWidth="230.0" promptText="Host Password" stylesheets="@dialog.css" />
-                  <TextField fx:id="port" layoutX="52.0" layoutY="250.0" prefHeight="32.0" prefWidth="230.0" promptText="Port" stylesheets="@dialog.css" />
-                  <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="56.0" layoutY="288.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+                  <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Host" stylesheets="@dialog.css" />
+                  <TextField fx:id="port" layoutX="52.0" layoutY="305.0" prefHeight="32.0" prefWidth="230.0" promptText="Port" stylesheets="@dialog.css" />
+                  <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="56.0" layoutY="347.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+                  <TextField fx:id="username" layoutX="52.0" layoutY="195.0" prefWidth="230.0" promptText="Username" stylesheets="@dialog.css" />
+                  <PasswordField fx:id="password" layoutX="52.0" layoutY="250.0" prefWidth="230.0" promptText="Password" stylesheets="@dialog.css" />
                </children></Pane>
          </children>
       </VBox>

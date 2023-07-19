@@ -7,15 +7,16 @@ import java.io.IOException;
 
 public class RaspberryPi {
 
-    private final String model, title, hostname, hostpass;
+    private final String model, title, host, username, password;
     private final Console con = System.console();
     private int port;
 
-    public RaspberryPi(String model, String title, String hostname, String hostpass, int port) {
+    public RaspberryPi(String model, String title, String hostname, String username, String password, int port) {
         this.model = model;
         this.title = title;
-        this.hostname = hostname;
-        this.hostpass = hostpass;
+        this.host = hostname;
+        this.username = username;
+        this.password = password;
         this.port = port;
 
         try {
@@ -30,10 +31,12 @@ public class RaspberryPi {
         // Connect via ssh...
         final SSHClient ssh = new SSHClient();
         ssh.loadKnownHosts();
-        ssh.connect(hostname);
+        ssh.connect(host);
 
         try {
             //...
+            ssh.authPassword(username, password);
+            System.out.println(ssh.isAuthenticated() + ", " + ssh.isAuthenticated());
         } finally {
             ssh.disconnect();
         }
