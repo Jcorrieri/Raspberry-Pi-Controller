@@ -118,7 +118,9 @@ public class AppController {
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                App.currentPi.disconnect();
                 App.systems.remove(raspberryPi);
+                App.currentPi = null;
                 systemContainer.getChildren().removeIf(node -> node.getId().equals(raspberryPi.getTitle()));
                 systemName.setText("No System Selected");
                 swapPanels(null, null, null);
@@ -186,7 +188,21 @@ public class AppController {
     protected void createHelpWindow() throws IOException { new Popup(Popup.HELP); }
 
     @FXML
-    protected void exitApplication() { App.getPrimaryStage().close(); }
+    protected void exitApplication() {
+        for (RaspberryPi pi : App.systems)
+            pi.disconnect();
+        App.getPrimaryStage().close();
+    }
 
     protected void setDisplayName(String name) { displayName.setText(name); }
+
+    /*  *  *  *  *  *  *  *  *
+     * START SYSTEM METHODS  *
+     *  *  *  *  *  *  *  *  */
+
+    @FXML
+    protected void getTemp() {
+        Monitor monitor = new Monitor(App.currentPi);
+        monitor.getTemp();
+    }
 }

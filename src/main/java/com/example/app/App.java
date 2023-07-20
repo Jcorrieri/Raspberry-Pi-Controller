@@ -36,6 +36,7 @@ public class App extends Application {
 
         stage.setTitle("Rpi Project - JFX Demo");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> appController.exitApplication());
         stage.show();
     }
 

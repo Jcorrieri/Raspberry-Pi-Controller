@@ -3,8 +3,11 @@ package com.example.app;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AddSysController {
 
@@ -19,6 +22,9 @@ public class AddSysController {
 
     @FXML
     private Label errorMessage;
+
+    @FXML
+    private Button submitButton;
 
     @FXML
     protected void initComboBox() {
@@ -65,11 +71,14 @@ public class AddSysController {
             return;
         }
 
-        System.out.println("Adding [" + model + ", " + titleStr + ", "
-                + ipStr + ", " + userStr + ", " + passwordStr + "," + portNum + "]...");
+        try {
+            RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
+            App.getController().addSystemToUI(raspberryPi);
+        } catch (IOException e) {
+            errorMessage.setText("*Could not connect to device");
+            return;
+        }
 
-        RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
-        App.getController().addSystemToUI(raspberryPi);
         Stage stage = (Stage) selectModel.getScene().getWindow();
         stage.close();
     }
