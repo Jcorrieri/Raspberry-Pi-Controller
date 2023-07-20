@@ -41,10 +41,10 @@ public class RaspberryPi {
         try {
             if (ssh != null && ssh.isConnected()) {
                 ssh.disconnect();
-                System.out.println(username + "@" + title + " disconnected successfully");
+                System.out.println(username + "@" + host + " disconnected successfully");
             }
         } catch (IOException e) {
-            System.out.println(username + "@" + title + " failed to disconnect");
+            System.out.println(username + "@" + host + " failed to disconnect");
             throw new RuntimeException(e);
         }
     }
@@ -73,4 +73,6 @@ public class RaspberryPi {
     }
 
     public String getTitle() { return title; }
+
+    protected String getHost() { return host; }
 }

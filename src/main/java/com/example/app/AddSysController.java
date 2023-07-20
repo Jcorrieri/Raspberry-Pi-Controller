@@ -2,12 +2,11 @@ package com.example.app;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class AddSysController {
 
@@ -27,6 +26,9 @@ public class AddSysController {
     private Button submitButton;
 
     @FXML
+    private ProgressIndicator progressIndicator;
+
+    @FXML
     protected void initComboBox() {
         ObservableList<String> models = FXCollections.observableArrayList(
                 "Raspberry Pi 4 Model B",
@@ -43,50 +45,76 @@ public class AddSysController {
         String ipStr = ip.getText();
         String userStr = username.getText();
         String passwordStr = password.getText();
-        int portNum;
+        String portStr = port.getText();
 
-        if (selectModel.getSelectionModel().isEmpty()) {
+        if (!validate(model, titleStr, ipStr, userStr, passwordStr, portStr))
+            return;
+        int portNum = Integer.parseInt(portStr);
+
+        try {
+            Task<RaspberryPi> createPi = new Task<>() {
+                @Override
+                protected RaspberryPi call() throws Exception {
+                    return new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
+                }
+            };
+            new Thread(createPi).start();
+            Stage stage = (Stage) selectModel.getScene().getWindow();
+            stage.setOnCloseRequest(e -> createPi.cancel(true));
+
+            progressIndicator.setVisible(true);
+            submitButton.setCursor(Cursor.WAIT);
+            submitButton.setDisable(true);
+
+            createPi.setOnSucceeded(e -> {
+                App.getController().addSystemToUI(createPi.getValue());
+                stage.close();
+            });
+            createPi.setOnFailed(e -> {
+                errorMessage.setText("*Failed to connect");
+                progressIndicator.setVisible(false);
+                submitButton.setCursor(Cursor.DEFAULT);
+                submitButton.setDisable(false);
+            });
+        } catch (Exception e) {
+            System.out.println("Thread Error");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean validate(String model, String title, String host, String user, String password, String port) {
+        if (model.isEmpty()) {
             errorMessage.setText("*Must select a model");
-            return;
+            return false;
         }
-        if (titleStr.equals("") || ipStr.equals("") || passwordStr.equals("") || userStr.equals("")) {
+        if (title.equals("") || host.equals("") || password.equals("") || user.equals("")) {
             errorMessage.setText("*Fields cannot be blank");
-            return;
+            return false;
         }
-        if (alreadyExists(titleStr)) {
-            errorMessage.setText("*System already exists with this title");
-            return;
+        if (alreadyExists(title) || alreadyExists(host)) {
+            errorMessage.setText("*System already exists");
+            return false;
         }
-        if (titleStr.length() > 20) {
+        if (title.length() > 20) {
             errorMessage.setText("*Title must no more than 20 characters");
-            return;
+            return false;
         }
 
         try {
-            portNum = Integer.parseInt(port.getText());
+            int portNum = Integer.parseInt(port);
             if (portNum < 0)
                 throw new NumberFormatException();
         } catch (NumberFormatException e) {
             errorMessage.setText("*Port must be a positive integer");
-            return;
+            return false;
         }
-
-        try {
-            RaspberryPi raspberryPi = new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
-            App.getController().addSystemToUI(raspberryPi);
-        } catch (IOException e) {
-            errorMessage.setText("*Could not connect to device");
-            return;
-        }
-
-        Stage stage = (Stage) selectModel.getScene().getWindow();
-        stage.close();
+        return true;
     }
-    
-    private boolean alreadyExists(String title) {
+
+    private boolean alreadyExists(String identifier) {
         for (RaspberryPi pi : App.systems)
-            if (pi.getTitle().equals(title))
+            if (pi.getTitle().equals(identifier) || pi.getHost().equals(identifier))
                 return true;
         return false;
-    }    
+    }
 }

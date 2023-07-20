@@ -149,7 +149,7 @@
         <AnchorPane prefHeight="479.0" prefWidth="456.0" stylesheets="@app.css">
                <StackPane fx:id="stackPane" prefHeight="583.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                     <Pane id="GPIO" fx:id="gpioPane" prefHeight="200.0" prefWidth="200.0">
+                     <Pane id="GPIO" fx:id="gpioPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                         <children>
                            <ImageView fitHeight="304.0" fitWidth="463.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                               <image>

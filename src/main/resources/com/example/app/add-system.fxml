@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -55,6 +56,7 @@
                   <PasswordField fx:id="password" layoutX="52.0" layoutY="250.0" prefWidth="230.0" promptText="Password" stylesheets="@dialog.css" />
                   <TextField fx:id="port" layoutX="52.0" layoutY="305.0" prefHeight="32.0" prefWidth="230.0" promptText="Port" stylesheets="@dialog.css" />
                   <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="56.0" layoutY="347.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+                  <ProgressIndicator fx:id="progressIndicator" layoutX="270.0" layoutY="378.0" prefHeight="32.0" prefWidth="34.0" visible="false" />
                </children></Pane>
          </children>
       </VBox>

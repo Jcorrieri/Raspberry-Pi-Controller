@@ -190,7 +190,8 @@ public class AppController {
     @FXML
     protected void exitApplication() {
         for (RaspberryPi pi : App.systems)
-            pi.disconnect();
+            if (pi != null)
+                pi.disconnect();
         App.getPrimaryStage().close();
     }
 
