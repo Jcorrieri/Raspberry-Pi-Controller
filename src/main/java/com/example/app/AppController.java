@@ -1,10 +1,14 @@
 package com.example.app;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,7 +30,7 @@ public class AppController {
     private MenuButton userOptions;
 
     @FXML
-    private Pane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
+    private AnchorPane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
 
     @FXML
     private StackPane stackPane;
@@ -129,9 +133,7 @@ public class AppController {
     }
 
     @FXML
-    protected void swapPanels(Pane pane, String piId, Button button) {
-        long start = System.currentTimeMillis();
-
+    protected void swapPanels(AnchorPane pane, String piId, Button button) {
         for (RaspberryPi pi : App.systems)
             if (pi.getTitle().equals(piId)) {
                 App.currentPi = pi;
@@ -152,8 +154,6 @@ public class AppController {
             pane.toFront();
             pane.setVisible(true);
         }
-
-        System.out.println(System.currentTimeMillis() - start + "ms");
     }
 
     @FXML
@@ -202,8 +202,34 @@ public class AppController {
      *  *  *  *  *  *  *  *  */
 
     @FXML
-    protected void getTemp() {
-        Monitor monitor = new Monitor(App.currentPi);
-        monitor.getTemp();
+    private AreaChart<String, Number> tempChart;
+
+    @FXML
+    private ProgressBar tempMeter;
+
+    @FXML
+    private Label tempLabel;
+
+    private XYChart.Series<String, Number> series;
+
+    @FXML
+    protected void initTemp() {
+        series = new XYChart.Series<>();
+        series.setName("Temperature");
+        tempChart.getData().add(series);
+
+        App.currentPi.initTempMonitor();
+    }
+
+    @FXML
+    protected void updateTemp(String time, double temp) {
+        // Update GUI on JavaFX app thread
+        Platform.runLater(() -> {
+            series.getData().add(new XYChart.Data<>(time, temp));
+            tempLabel.setText(temp + "°C");
+            tempMeter.setProgress(temp / 100);
+            if (series.getData().size() == 5)
+                series.getData().remove(0);
+        });
     }
 }

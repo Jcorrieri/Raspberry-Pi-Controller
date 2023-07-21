@@ -47,7 +47,7 @@ public class AddSysController {
         String passwordStr = password.getText();
         String portStr = port.getText();
 
-        if (!validate(model, titleStr, ipStr, userStr, passwordStr, portStr))
+        if (!isValid(model, titleStr, ipStr, userStr, passwordStr, portStr))
             return;
         int portNum = Integer.parseInt(portStr);
 
@@ -82,8 +82,8 @@ public class AddSysController {
         }
     }
 
-    private boolean validate(String model, String title, String host, String user, String password, String port) {
-        if (model.isEmpty()) {
+    private boolean isValid(String model, String title, String host, String user, String password, String port) {
+        if (model == null || model.isEmpty()) {
             errorMessage.setText("*Must select a model");
             return false;
         }
