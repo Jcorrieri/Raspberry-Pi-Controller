@@ -182,21 +182,29 @@
                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                              </rowConstraints>
                               <children>
-                                 <Button mnemonicParsing="false" onAction="#initTemp" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  <AreaChart fx:id="tempChart" createSymbols="false" title="CPU Temperature" GridPane.rowIndex="1">
                                    <xAxis>
-                                     <CategoryAxis label="Time Elapsed" side="BOTTOM" />
+                                     <CategoryAxis label="Time Elapsed (s)" side="BOTTOM" />
                                    </xAxis>
                                    <yAxis>
                                      <NumberAxis label="Temperature °C" side="LEFT" />
                                    </yAxis>
                                  </AreaChart>
-                                 <ProgressBar fx:id="tempMeter" prefWidth="200.0" progress="0.6" rotate="-90.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                 <Label fx:id="tempLabel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                 <Label fx:id="tempLabel" text="tetst" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                     <GridPane.margin>
                                        <Insets top="10.0" />
                                     </GridPane.margin>
                                  </Label>
+                                 <Label fx:id="diskUsageLabel" text="Label">
+                                    <GridPane.margin>
+                                       <Insets bottom="60.0" left="38.0" />
+                                    </GridPane.margin>
+                                 </Label>
+                                 <ProgressBar fx:id="diskUsageIndicator" prefWidth="150.0" progress="0.0">
+                                    <GridPane.margin>
+                                       <Insets left="38.0" />
+                                    </GridPane.margin>
+                                 </ProgressBar>
                               </children>
                            </GridPane>
                         </children>

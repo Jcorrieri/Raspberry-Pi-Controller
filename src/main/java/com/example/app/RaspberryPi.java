@@ -10,6 +10,7 @@ import net.schmizz.sshj.transport.TransportException;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class RaspberryPi {
@@ -22,7 +23,7 @@ public class RaspberryPi {
 
     private final long initTime;
 
-    private Task<Void> tempMonitor;
+    private Task<Void> monitor;
 
     public RaspberryPi(String model, String title, String hostname, String username, String password, int port) throws IOException {
         this.model = model;
@@ -31,8 +32,8 @@ public class RaspberryPi {
         this.username = username;
         this.password = password;
         this.port = port;
-        connect();
         initTime = System.currentTimeMillis();
+        connect();
     }
 
     private void connect() throws IOException {
@@ -49,7 +50,7 @@ public class RaspberryPi {
         try {
             if (ssh != null && ssh.isConnected()) {
                 ssh.disconnect();
-                tempMonitor.cancel();
+                monitor.cancel();
                 System.out.println(username + "@" + host + " disconnected successfully");
             }
         } catch (IOException e) {
@@ -63,12 +64,12 @@ public class RaspberryPi {
         if (ssh == null || !ssh.isConnected())
             return null;
 
+        String result;
         try {
            session = ssh.startSession();
            Command cmd = session.exec(command);
-           String result = String.valueOf(IOUtils.readFully(cmd.getInputStream()));
+           result = String.valueOf(IOUtils.readFully(cmd.getInputStream()));
            cmd.join(5, TimeUnit.SECONDS);
-           return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -77,37 +78,40 @@ public class RaspberryPi {
                     session.close();
             } catch (TransportException | ConnectionException e) {
                 System.out.println(Arrays.toString(e.getStackTrace()));
+                System.out.println("Failed to close command session");
             }
         }
+        return result;
     }
 
     public String getTitle() { return title; }
 
     protected String getHost() { return host; }
 
-    private long getTimeElapsed() { return System.currentTimeMillis() - initTime; }
-
     public boolean isConnected() {
         connected = ssh.isConnected();
         return connected;
     }
 
-    public void initTempMonitor() {
-        tempMonitor = new Task<>() {
+    public boolean isMonitoring() { return monitor != null && monitor.isRunning(); }
+
+    protected void initMonitor() {
+        monitor = new Task<>() {
             @Override
             protected Void call() {
                 long start = System.currentTimeMillis();
 
-                while (App.currentPi.isConnected()) {
-                    String time = String.valueOf(getTimeElapsed() / 1000);
+                while (App.currentPi.equals(RaspberryPi.this) && isConnected()) {
+                    String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000);
 
-                    String result = executeCommand("vcgencmd measure_temp | grep  -o  -E '*.[[:digit:]].[[:digit:]]'");
-                    if (result == null)
+                    double temperature = getTemperature();
+                    String[] diskMetrics = getDiskUsage();
+
+                    if (temperature == Double.MAX_VALUE || diskMetrics == null)
                         continue;
 
-                    double temp = Double.parseDouble(result);
-
-                    App.getController().updateTemp(time, temp);
+                    if (App.currentPi.equals(RaspberryPi.this)) // Paranoia
+                        App.getController().updateMetrics(time, temperature, diskMetrics);
 
                     // Better than Thread.sleep for performance reasons of sorts (for some reason)
                     while (System.currentTimeMillis() - start < 1000)
@@ -118,12 +122,47 @@ public class RaspberryPi {
                 return null;
             }
         };
-        tempMonitor.setOnCancelled(e -> System.out.println("tempMonitor cancelled"));
-        tempMonitor.setOnSucceeded(e -> System.out.println("tempMonitor succeeded"));
-        tempMonitor.setOnFailed(e ->
-                System.out.println("Temperature monitoring for " + title + " ended (tempMonitor failed")
+        monitor.setOnCancelled(e -> System.out.println("Monitor cancelled"));
+        monitor.setOnSucceeded(e -> System.out.println("Monitor succeeded"));
+        monitor.setOnFailed(e ->
+                System.out.println("Monitoring for " + title + " ended (Monitor failed)")
         );
 
-        new Thread(tempMonitor).start();
+        new Thread(monitor).start();
+    }
+
+    private double getTemperature() {
+        String temperature = executeCommand("vcgencmd measure_temp | grep  -o  -E '*.[[:digit:]].[[:digit:]]'");
+        if (temperature != null)
+            return Double.parseDouble(temperature);
+        return Double.MAX_VALUE;
+    }
+
+    private String[] getDiskUsage() {
+        if (App.currentPi.equals(RaspberryPi.this) && isConnected()) {
+            String result = executeCommand("df -h");
+            if (result == null)
+                return null;
+
+            Scanner scnr = new Scanner(result);
+
+            while (scnr.hasNextLine()) {
+                scnr.nextLine();
+                if (!scnr.hasNext())
+                    break;
+
+                String[] data = new String[6];
+                for (int i = 0; i < 6; i++)
+                    data[i] = scnr.next();
+
+                if (data[0].equals("/dev/root")) {
+                    String desc = "Root Drive (SD): " + data[2] + "/" + data[1] + " used";
+                    double percentage = ( Double.parseDouble(data[4].substring(0, data[4].length() - 1)) ) / 100;
+                    return new String[]{desc, String.valueOf(percentage)};
+                }
+                System.out.println(Arrays.toString(data));
+            }
+        }
+        return null;
     }
 }

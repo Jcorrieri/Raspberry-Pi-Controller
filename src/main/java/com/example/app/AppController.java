@@ -1,11 +1,9 @@
 package com.example.app;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -122,10 +120,9 @@ public class AppController {
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                App.currentPi.disconnect();
-                App.systems.remove(raspberryPi);
-                App.currentPi = null;
                 systemContainer.getChildren().removeIf(node -> node.getId().equals(raspberryPi.getTitle()));
+                App.systems.remove(raspberryPi);
+                raspberryPi.disconnect();
                 systemName.setText("No System Selected");
                 swapPanels(null, null, null);
             }
@@ -135,7 +132,7 @@ public class AppController {
     @FXML
     protected void swapPanels(AnchorPane pane, String piId, Button button) {
         for (RaspberryPi pi : App.systems)
-            if (pi.getTitle().equals(piId)) {
+            if (pi.getTitle().equals(piId) && pane != null) {
                 App.currentPi = pi;
                 systemName.setText(pi.getTitle() + " - " + pane.getId());
                 break;
@@ -150,7 +147,19 @@ public class AppController {
 
         for (Node node : stackPane.getChildren())
             node.setVisible(false);
+
         if (pane != null) {
+
+            switch (pane.getId()) {
+                case "GPIO" -> {}
+                case "File Manager" -> {}
+                case "SSH Shell" -> {}
+                case "Scripts" -> {}
+                case "Metrics" -> displayMetrics();
+                case "Info" -> {}
+                default -> {}
+            }
+
             pane.toFront();
             pane.setVisible(true);
         }
@@ -205,31 +214,39 @@ public class AppController {
     private AreaChart<String, Number> tempChart;
 
     @FXML
-    private ProgressBar tempMeter;
+    private ProgressBar diskUsageIndicator;
 
     @FXML
-    private Label tempLabel;
+    private Label tempLabel, diskUsageLabel;
 
     private XYChart.Series<String, Number> series;
 
-    @FXML
-    protected void initTemp() {
+    private void displayMetrics() {
         series = new XYChart.Series<>();
         series.setName("Temperature");
+        tempChart.getData().clear();
         tempChart.getData().add(series);
 
-        App.currentPi.initTempMonitor();
+        if (!App.currentPi.isMonitoring())
+            App.currentPi.initMonitor();
     }
 
-    @FXML
-    protected void updateTemp(String time, double temp) {
+    protected void updateMetrics(String time, double temp, String[] diskMetrics) {
         // Update GUI on JavaFX app thread
+        if (!App.getSelectedButton().getText().equals("CPU, RAM, and Disk Metrics"))
+            return;
+
         Platform.runLater(() -> {
             series.getData().add(new XYChart.Data<>(time, temp));
             tempLabel.setText(temp + "°C");
-            tempMeter.setProgress(temp / 100);
-            if (series.getData().size() == 5)
+            if (series.getData().size() == 8)
                 series.getData().remove(0);
+
+            String diskUsage = diskMetrics[0];
+            double percentage = Double.parseDouble(diskMetrics[1]);
+
+            diskUsageLabel.setText(diskUsage);
+            diskUsageIndicator.setProgress(percentage);
         });
     }
 }
