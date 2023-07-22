@@ -49,8 +49,8 @@ public class RaspberryPi {
     protected void disconnect() {
         try {
             if (ssh != null && ssh.isConnected()) {
-                ssh.disconnect();
                 monitor.cancel();
+                ssh.disconnect();
                 System.out.println(username + "@" + host + " disconnected successfully");
             }
         } catch (IOException e) {
@@ -71,6 +71,7 @@ public class RaspberryPi {
            result = String.valueOf(IOUtils.readFully(cmd.getInputStream()));
            cmd.join(5, TimeUnit.SECONDS);
         } catch (IOException e) {
+            System.out.println(e.getMessage() + "SDSDSD");
             throw new RuntimeException(e);
         } finally {
             try {
@@ -102,16 +103,20 @@ public class RaspberryPi {
                 long start = System.currentTimeMillis();
 
                 while (App.currentPi.equals(RaspberryPi.this) && isConnected()) {
-                    String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000);
+                    String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
 
                     double temperature = getTemperature();
+                    double[] voltage = getVoltage();
                     String[] diskMetrics = getDiskUsage();
 
-                    if (temperature == Double.MAX_VALUE || diskMetrics == null)
+
+                    if (temperature == Double.MAX_VALUE || diskMetrics == null || voltage == null) {
+                        System.out.println("Issue reading one or more metrics");
                         continue;
+                    }
 
                     if (App.currentPi.equals(RaspberryPi.this)) // Paranoia
-                        App.getController().updateMetrics(time, temperature, diskMetrics);
+                        App.getController().updateMetrics(time, temperature, diskMetrics, voltage);
 
                     // Better than Thread.sleep for performance reasons of sorts (for some reason)
                     while (System.currentTimeMillis() - start < 1000)
@@ -124,9 +129,7 @@ public class RaspberryPi {
         };
         monitor.setOnCancelled(e -> System.out.println("Monitor cancelled"));
         monitor.setOnSucceeded(e -> System.out.println("Monitor succeeded"));
-        monitor.setOnFailed(e ->
-                System.out.println("Monitoring for " + title + " ended (Monitor failed)")
-        );
+        monitor.setOnFailed(e -> System.out.println("Monitoring for " + title + " ended (Monitor failed)" + e));
 
         new Thread(monitor).start();
     }
@@ -136,6 +139,23 @@ public class RaspberryPi {
         if (temperature != null)
             return Double.parseDouble(temperature);
         return Double.MAX_VALUE;
+    }
+
+    private double[] getVoltage() {
+        String coreStr = executeCommand("vcgencmd measure_volts | grep -o -E '[[:digit:]].*[[:digit:]]'");
+        String sdramCoreStr = executeCommand("vcgencmd measure_volts sdram_c | grep -o -E '[[:digit:]].*[[:digit:]]'");
+        String sdramIOStr = executeCommand("vcgencmd measure_volts sdram_i | grep -o -E '[[:digit:]].*[[:digit:]]'");
+        String sdramPhyStr = executeCommand("vcgencmd measure_volts sdram_p | grep -o -E '[[:digit:]].*[[:digit:]]'");
+
+        if (coreStr != null && sdramCoreStr != null && sdramIOStr != null && sdramPhyStr != null) {
+            double core = Double.parseDouble(coreStr);
+            double sdramCore = Double.parseDouble(sdramCoreStr);
+            double sdramIO = Double.parseDouble(sdramIOStr);
+            double sdramPhy = Double.parseDouble(sdramPhyStr);
+
+            return new double[]{core, sdramCore, sdramIO, sdramPhy};
+        }
+        return null;
     }
 
     private String[] getDiskUsage() {

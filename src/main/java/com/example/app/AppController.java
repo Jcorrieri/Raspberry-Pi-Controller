@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -211,7 +212,7 @@ public class AppController {
      *  *  *  *  *  *  *  *  */
 
     @FXML
-    private AreaChart<String, Number> tempChart;
+    private AreaChart<String, Number> tempChart, voltageChart;
 
     @FXML
     private ProgressBar diskUsageIndicator;
@@ -219,34 +220,62 @@ public class AppController {
     @FXML
     private Label tempLabel, diskUsageLabel;
 
-    private XYChart.Series<String, Number> series;
+    private XYChart.Series<String, Number> temperatureData, v1, v2, v3, v4;
 
     private void displayMetrics() {
-        series = new XYChart.Series<>();
-        series.setName("Temperature");
+        temperatureData = new XYChart.Series<>();
+        temperatureData.setName("Core");
         tempChart.getData().clear();
-        tempChart.getData().add(series);
+        tempChart.getData().add(temperatureData);
+
+        v1 = new XYChart.Series<>();
+        v1.setName("Core");
+
+        v2 = new XYChart.Series<>();
+        v2.setName("SDRAM Core");
+
+        v3 = new XYChart.Series<>();
+        v3.setName("SDRAM I/O");
+
+        v4 = new XYChart.Series<>();
+        v4.setName("SDRAM Physical");
+
+        voltageChart.getData().clear();
+        voltageChart.getData().addAll(v1, v2, v3, v4);
 
         if (!App.currentPi.isMonitoring())
             App.currentPi.initMonitor();
     }
 
-    protected void updateMetrics(String time, double temp, String[] diskMetrics) {
+    protected void updateMetrics(String time, double temp, String[] diskMetrics, double[] voltage) {
         // Update GUI on JavaFX app thread
         if (!App.getSelectedButton().getText().equals("CPU, RAM, and Disk Metrics"))
             return;
 
         Platform.runLater(() -> {
-            series.getData().add(new XYChart.Data<>(time, temp));
+            temperatureData.getData().add(new XYChart.Data<>(time, temp));
             tempLabel.setText(temp + "°C");
-            if (series.getData().size() == 8)
-                series.getData().remove(0);
+            if (temperatureData.getData().size() == 8)
+                temperatureData.getData().remove(0);
 
             String diskUsage = diskMetrics[0];
             double percentage = Double.parseDouble(diskMetrics[1]);
 
             diskUsageLabel.setText(diskUsage);
             diskUsageIndicator.setProgress(percentage);
+
+            v1.getData().add(new XYChart.Data<>(time, voltage[0]));
+            v2.getData().add(new XYChart.Data<>(time, voltage[1]));
+            v3.getData().add(new XYChart.Data<>(time, voltage[2]));
+            v4.getData().add(new XYChart.Data<>(time, voltage[3]));
+
+            // all voltage data is updated at the same rate
+            if (v1.getData().size() == 8) {
+                v1.getData().remove(0);
+                v2.getData().remove(0);
+                v3.getData().remove(0);
+                v4.getData().remove(0);
+            }
         });
     }
 }
