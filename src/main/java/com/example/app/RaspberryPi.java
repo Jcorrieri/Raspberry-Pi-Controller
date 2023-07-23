@@ -106,17 +106,16 @@ public class RaspberryPi {
                     String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
 
                     double temperature = getTemperature();
-                    double[] voltage = getVoltage();
-                    String[] diskMetrics = getDiskUsage();
+                    String[][] diskMetrics = getDiskUsage();
 
 
-                    if (temperature == Double.MAX_VALUE || diskMetrics == null || voltage == null) {
+                    if (temperature == Double.MAX_VALUE || diskMetrics == null) {
                         System.out.println("Issue reading one or more metrics");
                         continue;
                     }
 
                     if (App.currentPi.equals(RaspberryPi.this)) // Paranoia
-                        App.getController().updateMetrics(time, temperature, diskMetrics, voltage);
+                        App.getController().updateMetrics(time, temperature, diskMetrics);
 
                     // Better than Thread.sleep for performance reasons of sorts (for some reason)
                     while (System.currentTimeMillis() - start < 1000)
@@ -158,14 +157,16 @@ public class RaspberryPi {
         return null;
     }
 
-    private String[] getDiskUsage() {
+    private String[][] getDiskUsage() {
         if (App.currentPi.equals(RaspberryPi.this) && isConnected()) {
             String result = executeCommand("df -h");
             if (result == null)
                 return null;
 
             Scanner scnr = new Scanner(result);
+            String[][] diskData = new String[3][3];
 
+            int count = 0;
             while (scnr.hasNextLine()) {
                 scnr.nextLine();
                 if (!scnr.hasNext())
@@ -175,12 +176,14 @@ public class RaspberryPi {
                 for (int i = 0; i < 6; i++)
                     data[i] = scnr.next();
 
-                if (data[0].equals("/dev/root")) {
-                    String desc = "Root Drive (SD): " + data[2] + "/" + data[1] + " used";
-                    double percentage = ( Double.parseDouble(data[4].substring(0, data[4].length() - 1)) ) / 100;
-                    return new String[]{desc, String.valueOf(percentage)};
-                }
-                System.out.println(Arrays.toString(data));
+                String desc = data[2] + "B/" + data[1] + "B used";
+                double percentage = (Double.parseDouble(data[4].substring(0, data[4].length() - 1))) / 100;
+
+                if (count == 3)
+                    return diskData;
+                else
+                    diskData[count] = new String[]{data[0], desc, String.valueOf(percentage)};
+                count++;
             }
         }
         return null;
