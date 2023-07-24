@@ -17,7 +17,6 @@ public class RaspberryPi {
 
     private final String model, title, host, username, password;
     private SSHClient ssh;
-    private int port;
 
     private volatile boolean connected;
 
@@ -25,13 +24,12 @@ public class RaspberryPi {
 
     private Task<Void> monitor;
 
-    public RaspberryPi(String model, String title, String hostname, String username, String password, int port) throws IOException {
+    public RaspberryPi(String model, String title, String hostname, String username, String password) throws IOException {
         this.model = model;
         this.title = title;
         this.host = hostname;
         this.username = username;
         this.password = password;
-        this.port = port;
         initTime = System.currentTimeMillis();
         connect();
     }
@@ -106,16 +104,16 @@ public class RaspberryPi {
                     String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
 
                     double temperature = getTemperature();
-                    String[][] diskMetrics = getDiskUsage();
+                    double[] usages = getSystemUsage();
+                    String[][] diskMetrics = getDriveInfo();
 
-
-                    if (temperature == Double.MAX_VALUE || diskMetrics == null) {
+                    if (temperature == Double.MAX_VALUE || diskMetrics == null || usages == null) {
                         System.out.println("Issue reading one or more metrics");
                         continue;
                     }
 
                     if (App.currentPi.equals(RaspberryPi.this)) // Paranoia
-                        App.getController().updateMetrics(time, temperature, diskMetrics);
+                        App.getController().updateMetrics(time, temperature, diskMetrics, usages);
 
                     // Better than Thread.sleep for performance reasons of sorts (for some reason)
                     while (System.currentTimeMillis() - start < 1000)
@@ -157,7 +155,39 @@ public class RaspberryPi {
         return null;
     }
 
-    private String[][] getDiskUsage() {
+    private double[] getSystemUsage() {
+        String topCmd = executeCommand(" top -n 1 -b | grep -o -E '%Cpu'.*'id'");
+        String freeCmd = executeCommand("free -k");
+        if (freeCmd == null || topCmd == null)
+            return null;
+
+        double cpuLoadPercentage = Double.parseDouble(topCmd.substring(topCmd.indexOf("ni,") + 3, topCmd.indexOf("id")));
+        cpuLoadPercentage = (100 - cpuLoadPercentage) / 100;
+
+        Scanner scnr = new Scanner(freeCmd);
+        scnr.nextLine();
+
+        double memoryPercentage = Double.MAX_VALUE;
+        if (scnr.hasNext() && scnr.next().contains("Mem:")) {
+            double total = scnr.nextDouble();
+            double used = scnr.nextDouble();
+            memoryPercentage = used / total;
+        }
+
+        scnr.nextLine();
+
+        double swapPercentage = Double.MAX_VALUE;
+        if (scnr.hasNext() && scnr.next().contains("Swap:")) {
+            double total = scnr.nextDouble();
+            double used = scnr.nextDouble();
+            swapPercentage = used / total;
+        }
+
+        scnr.close();
+        return new double[]{cpuLoadPercentage, memoryPercentage, swapPercentage};
+    }
+
+    private String[][] getDriveInfo() {
         if (App.currentPi.equals(RaspberryPi.this) && isConnected()) {
             String result = executeCommand("df -h");
             if (result == null)
@@ -179,11 +209,13 @@ public class RaspberryPi {
                 String desc = data[2] + "B/" + data[1] + "B used";
                 double percentage = (Double.parseDouble(data[4].substring(0, data[4].length() - 1))) / 100;
 
-                if (count == 3)
+                if (count == 3) {
+                    scnr.close();
                     return diskData;
-                else
+                } else {
                     diskData[count] = new String[]{data[0], desc, String.valueOf(percentage)};
-                count++;
+                    count++;
+                }
             }
         }
         return null;

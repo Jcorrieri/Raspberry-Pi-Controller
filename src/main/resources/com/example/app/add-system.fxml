@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="520.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSysController">
+<AnchorPane prefHeight="459.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSysController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,22 +41,21 @@
                   <Insets bottom="5.0" left="15.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <Pane prefHeight="458.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
+            <Pane prefHeight="387.0" prefWidth="335.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button id="submit-button" fx:id="submitButton" layoutX="67.0" layoutY="374.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
-                     <stylesheets>
-                        <URL value="@app.css" />
-                        <URL value="@dialog.css" />
-                     </stylesheets>
-                  </Button>
                   <ComboBox fx:id="selectModel" layoutX="75.0" layoutY="37.0" onShowing="#initComboBox" prefHeight="25.0" prefWidth="185.0" promptText="Select Model" />
                   <TextField fx:id="title" layoutX="52.0" layoutY="85.0" prefWidth="230.0" promptText="Device Title" stylesheets="@dialog.css" />
                   <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Host" stylesheets="@dialog.css" />
                   <TextField fx:id="username" layoutX="52.0" layoutY="195.0" prefWidth="230.0" promptText="Username" stylesheets="@dialog.css" />
                   <PasswordField fx:id="password" layoutX="52.0" layoutY="250.0" prefWidth="230.0" promptText="Password" stylesheets="@dialog.css" />
-                  <TextField fx:id="port" layoutX="52.0" layoutY="305.0" prefHeight="32.0" prefWidth="230.0" promptText="Port" stylesheets="@dialog.css" />
-                  <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="56.0" layoutY="347.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
-                  <ProgressIndicator fx:id="progressIndicator" layoutX="270.0" layoutY="378.0" prefHeight="32.0" prefWidth="34.0" visible="false" />
+                  <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="57.0" layoutY="293.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+                  <Button id="submit-button" fx:id="submitButton" layoutX="68.0" layoutY="317.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
+                     <stylesheets>
+                        <URL value="@app.css" />
+                        <URL value="@dialog.css" />
+                     </stylesheets>
+                  </Button>
+                  <ProgressIndicator fx:id="progressIndicator" layoutX="270.0" layoutY="320.0" prefHeight="32.0" prefWidth="34.0" visible="false" />
                </children></Pane>
          </children>
       </VBox>

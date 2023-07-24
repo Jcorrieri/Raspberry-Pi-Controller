@@ -20,16 +20,18 @@
     -fx-padding: 2px;
 }
 
-.metric-meter > .track { -fx-background-color: #efefef; }
+.metric-meter > .track { -fx-background-color: #c4c4c4; }
 
 .metric-titled-pane > .title {
-    -fx-background-color: #008604;
-    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-border-color: #008604;
+    -fx-border-width: 0px 0px 2px 0px;
+    -fx-border-style: solid;
     -fx-alignment: center;
 }
 
 .metric-titled-pane > .content {
-    -fx-background-color: #d5d5d5;
+    -fx-background-color: rgba(255, 255, 255, 0);
     -fx-background-radius: 0px 0px 10px 10px;
     -fx-border-color: rgba(255, 255, 255, 0);
 }

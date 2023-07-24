@@ -59,7 +59,7 @@ public class Popup {
                 resource = "add-system.fxml";
                 title = "Add System";
                 width = 335;
-                height = 520;
+                height = 460;
             }
             default -> { return -1; }
         }

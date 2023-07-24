@@ -14,7 +14,7 @@ public class AddSysController {
     private ComboBox<String> selectModel;
 
     @FXML
-    private TextField title, ip, username, port;
+    private TextField title, ip, username;
 
     @FXML
     private PasswordField password;
@@ -45,17 +45,29 @@ public class AddSysController {
         String ipStr = ip.getText();
         String userStr = username.getText();
         String passwordStr = password.getText();
-        String portStr = port.getText();
 
-        if (!isValid(model, titleStr, ipStr, userStr, passwordStr, portStr))
+        if (model == null || model.isEmpty()) {
+            errorMessage.setText("*Must select a model");
             return;
-        int portNum = Integer.parseInt(portStr);
+        }
+        if (titleStr.equals("") || ipStr.equals("") || passwordStr.equals("") || userStr.equals("")) {
+            errorMessage.setText("*Fields cannot be blank");
+            return;
+        }
+        if (alreadyExists(titleStr) || alreadyExists(ipStr)) {
+            errorMessage.setText("*System already exists");
+            return;
+        }
+        if (titleStr.length() > 20) {
+            errorMessage.setText("*Title must no more than 20 characters");
+            return;
+        }
 
         try {
             Task<RaspberryPi> createPi = new Task<>() {
                 @Override
                 protected RaspberryPi call() throws Exception {
-                    return new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr, portNum);
+                    return new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr);
                 }
             };
             new Thread(createPi).start();
@@ -80,35 +92,6 @@ public class AddSysController {
             System.out.println("Thread Error");
             throw new RuntimeException(e);
         }
-    }
-
-    private boolean isValid(String model, String title, String host, String user, String password, String port) {
-        if (model == null || model.isEmpty()) {
-            errorMessage.setText("*Must select a model");
-            return false;
-        }
-        if (title.equals("") || host.equals("") || password.equals("") || user.equals("")) {
-            errorMessage.setText("*Fields cannot be blank");
-            return false;
-        }
-        if (alreadyExists(title) || alreadyExists(host)) {
-            errorMessage.setText("*System already exists");
-            return false;
-        }
-        if (title.length() > 20) {
-            errorMessage.setText("*Title must no more than 20 characters");
-            return false;
-        }
-
-        try {
-            int portNum = Integer.parseInt(port);
-            if (portNum < 0)
-                throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            errorMessage.setText("*Port must be a positive integer");
-            return false;
-        }
-        return true;
     }
 
     private boolean alreadyExists(String identifier) {

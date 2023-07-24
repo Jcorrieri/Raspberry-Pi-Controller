@@ -170,7 +170,7 @@
                      <AnchorPane id="File Manager" fx:id="filePane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                      <AnchorPane id="SSH Shell" fx:id="shellPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                      <AnchorPane id="Scripts" fx:id="scriptPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
-                     <AnchorPane id="Metrics" fx:id="metricPane" visible="false">
+                     <AnchorPane id="Metrics" fx:id="metricPane">
                         <children>
                            <GridPane stylesheets="@metrics.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                              <columnConstraints>
@@ -183,13 +183,13 @@
                                <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="203.0" vgrow="SOMETIMES" />
                              </rowConstraints>
                               <children>
-                                 <TitledPane animated="false" collapsible="false" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" text="SYSTEM" textFill="WHITE" GridPane.halignment="CENTER">
+                                 <TitledPane animated="false" collapsible="false" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" text="SYSTEM" GridPane.halignment="CENTER">
                                    <content>
                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="132.0" prefWidth="240.0">
                                           <children>
-                                             <ProgressBar layoutX="14.0" layoutY="34.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
-                                             <ProgressBar layoutX="14.0" layoutY="76.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
-                                             <ProgressBar layoutX="14.0" layoutY="118.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
+                                             <ProgressBar fx:id="cpuUsage" layoutX="14.0" layoutY="34.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                             <ProgressBar fx:id="ramUsage" layoutX="14.0" layoutY="76.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                             <ProgressBar fx:id="swapUsage" layoutX="14.0" layoutY="118.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                              <Label layoutX="14.0" layoutY="17.0" stylesheets="@metrics.css" text="CPU Usage" AnchorPane.leftAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
@@ -205,17 +205,17 @@
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="cpuUsageLabel" layoutX="177.0" layoutY="17.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="cpuUsageLabel" layoutX="177.0" layoutY="17.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="ramUsageLabel" layoutX="177.0" layoutY="59.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="ramUsageLabel" layoutX="177.0" layoutY="59.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="swapUsageLabel" layoutX="177.0" layoutY="101.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="swapUsageLabel" layoutX="177.0" layoutY="101.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
@@ -230,13 +230,13 @@
                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                  </TitledPane>
-                                 <TitledPane animated="false" collapsible="false" layoutX="10.0" layoutY="10.0" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" stylesheets="@metrics.css" text="DISKS" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <TitledPane animated="false" collapsible="false" layoutX="10.0" layoutY="10.0" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" stylesheets="@metrics.css" text="DISKS" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                     <content>
                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="240.0" stylesheets="@metrics.css">
                                           <children>
-                                             <ProgressBar fx:id="diskUsageIndicator1" layoutX="14.0" layoutY="34.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
-                                             <ProgressBar fx:id="diskUsageIndicator2" layoutX="14.0" layoutY="76.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
-                                             <ProgressBar fx:id="diskUsageIndicator3" layoutX="14.0" layoutY="118.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" />
+                                             <ProgressBar fx:id="diskIndicator1" layoutX="14.0" layoutY="34.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                             <ProgressBar fx:id="diskIndicator2" layoutX="14.0" layoutY="76.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                             <ProgressBar fx:id="diskIndicator3" layoutX="14.0" layoutY="118.0" prefWidth="200.0" progress="0.0" styleClass="metric-meter" stylesheets="@metrics.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                              <Label fx:id="disk1" layoutX="14.0" layoutY="17.0" text="/dev/root" AnchorPane.leftAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
@@ -252,17 +252,17 @@
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="diskUsage1" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="102.0" layoutY="17.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="diskUsage1" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="102.0" layoutY="17.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="diskUsage2" layoutX="177.0" layoutY="59.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="diskUsage2" layoutX="177.0" layoutY="59.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <Label fx:id="diskUsage3" layoutX="177.0" layoutY="101.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="10.0">
+                                             <Label fx:id="diskUsage3" layoutX="177.0" layoutY="101.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="108.0" text="Label" AnchorPane.rightAnchor="0.0">
                                                 <font>
                                                    <Font name="Arial Rounded MT Bold" size="12.0" />
                                                 </font>
@@ -277,7 +277,7 @@
                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                  </TitledPane>
-                                 <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="24.0" styleClass="metric-titled-pane" text="CORE TEMPERATURE" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="24.0" styleClass="metric-titled-pane" text="CORE TEMPERATURE" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                                     <content>
                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="266.0">
                                           <children>
@@ -303,7 +303,7 @@
                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                  </TitledPane>
-                                 <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="245.0" styleClass="metric-titled-pane" text="CPU LOAD" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                 <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="245.0" styleClass="metric-titled-pane" text="CPU LOAD" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
                                        <Font name="Arial Rounded MT Bold" size="14.0" />
                                     </font>

@@ -214,10 +214,19 @@ public class AppController {
     private AreaChart<String, Number> tempChart;
 
     @FXML
-    private ProgressBar diskUsageIndicator1, diskUsageIndicator2, diskUsageIndicator3;
+    private ProgressBar diskIndicator1, diskIndicator2, diskIndicator3;
 
     @FXML
-    private Label temperature, diskUsage1, diskUsage2, diskUsage3, disk1, disk2, disk3;
+    private ProgressBar cpuUsage, ramUsage, swapUsage;
+
+    @FXML
+    private Label cpuUsageLabel, ramUsageLabel, swapUsageLabel;
+
+    @FXML
+    private Label diskUsage1, diskUsage2, diskUsage3, disk1, disk2, disk3;
+
+    @FXML
+    private Label temperature;
 
     private XYChart.Series<String, Number> temperatureData;
 
@@ -231,7 +240,7 @@ public class AppController {
             App.currentPi.initMonitor();
     }
 
-    protected void updateMetrics(String time, double temp, String[][] diskMetrics) {
+    protected void updateMetrics(String time, double temp, String[][] diskMetrics, double[] usages) {
         // Update GUI on JavaFX app thread
         if (!App.getSelectedButton().getText().equals("CPU, RAM, and Disk Metrics"))
             return;
@@ -241,6 +250,15 @@ public class AppController {
             temperature.setText(temp + "°C");
             if (temperatureData.getData().size() == 8)
                 temperatureData.getData().remove(0);
+
+            cpuUsageLabel.setText(Math.round(usages[0] * 100) + "%");
+            cpuUsage.setProgress(usages[0]);
+
+            ramUsageLabel.setText(Math.round(usages[1] * 100) + "%");
+            ramUsage.setProgress(usages[1]);
+
+            swapUsageLabel.setText(Math.round(usages[2] * 100) + "%");
+            swapUsage.setProgress(usages[2]);
 
             for (int i = 1; i < 4; i++) {
                 String[] disk = diskMetrics[i - 1];
@@ -253,17 +271,17 @@ public class AppController {
                     case 1 -> {
                         disk1.setText(name);
                         diskUsage1.setText(diskUsage);
-                        diskUsageIndicator1.setProgress(percentage);
+                        diskIndicator1.setProgress(percentage);
                     }
                     case 2 -> {
                         disk2.setText(name);
                         diskUsage2.setText(diskUsage);
-                        diskUsageIndicator2.setProgress(percentage);
+                        diskIndicator2.setProgress(percentage);
                     }
                     case 3 -> {
                         disk3.setText(name);
                         diskUsage3.setText(diskUsage);
-                        diskUsageIndicator3.setProgress(percentage);
+                        diskIndicator3.setProgress(percentage);
                     }
                 }
             }
