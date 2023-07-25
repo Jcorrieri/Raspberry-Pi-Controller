@@ -170,7 +170,7 @@
                      <AnchorPane id="File Manager" fx:id="filePane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                      <AnchorPane id="SSH Shell" fx:id="shellPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                      <AnchorPane id="Scripts" fx:id="scriptPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
-                     <AnchorPane id="Metrics" fx:id="metricPane">
+                     <AnchorPane id="Metrics" fx:id="metricPane" visible="false">
                         <children>
                            <GridPane stylesheets="@metrics.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                              <columnConstraints>
@@ -230,7 +230,7 @@
                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                  </TitledPane>
-                                 <TitledPane animated="false" collapsible="false" layoutX="10.0" layoutY="10.0" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" stylesheets="@metrics.css" text="DISKS" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <TitledPane animated="false" collapsible="false" layoutX="10.0" layoutY="10.0" prefHeight="168.0" prefWidth="240.0" styleClass="metric-titled-pane" stylesheets="@metrics.css" text="DISK" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                     <content>
                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="240.0" stylesheets="@metrics.css">
                                           <children>
