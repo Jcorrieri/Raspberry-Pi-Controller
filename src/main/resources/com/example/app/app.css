@@ -2,7 +2,7 @@
 #main-split-pane > .split-pane-divider { -fx-padding: 1; }
 
 /* Remove internal scroll-pane border */
-#main-scroll-pane { -fx-background-color: rgba(255, 255, 255, 0); }
+.app-scroll-pane { -fx-background-color: rgba(255, 255, 255, 0); }
 
 #top-hbox {
     -fx-border-width: 1px 0px 0px 0px;

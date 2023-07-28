@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Monitor<E> extends Task<E> {
 
     private final RaspberryPi OWNER;
+    private long initTime;
 
     public Monitor(RaspberryPi pi) {
         OWNER = pi;
@@ -16,24 +17,23 @@ public class Monitor<E> extends Task<E> {
     }
 
     @Override
-    protected E call() throws Exception {
+    protected E call() {
         long cycleStart = System.currentTimeMillis();
-        long initTime = cycleStart;
+        initTime = cycleStart;
 
         while (App.currentPi.equals(OWNER) && OWNER.isConnected()) {
-            String time = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
-
             double temperature = getTemperature();
-            double[] usages = getSystemUsage();
             String[][] diskMetrics = getDriveInfo();
+            double[][] usages = getSystemUsage();
+            String[] uptimeAndTasks = getUptimeAndTasks();
 
-            if (temperature == Double.MAX_VALUE || diskMetrics == null || usages == null) {
+            if (temperature == Double.MAX_VALUE || diskMetrics == null || usages == null || uptimeAndTasks == null) {
                 System.out.println("Issue reading one or more metrics");
                 continue;
             }
 
             if (App.currentPi.equals(OWNER)) // Paranoia
-                App.getController().updateMetrics(time, temperature, diskMetrics, usages);
+                App.getController().updateMetrics(uptimeAndTasks, temperature, diskMetrics, usages);
 
             // Better than Thread.sleep for performance reasons of sorts (for some reason)
             while (System.currentTimeMillis() - cycleStart < 1000)
@@ -50,53 +50,88 @@ public class Monitor<E> extends Task<E> {
         return Double.MAX_VALUE;
     }
 
-    private double[] getVoltage() {
-        String coreStr = OWNER.executeCommand("vcgencmd measure_volts | grep -o -E '[[:digit:]].*[[:digit:]]'");
-        String sdramCoreStr = OWNER.executeCommand("vcgencmd measure_volts sdram_c | grep -o -E '[[:digit:]].*[[:digit:]]'");
-        String sdramIOStr = OWNER.executeCommand("vcgencmd measure_volts sdram_i | grep -o -E '[[:digit:]].*[[:digit:]]'");
-        String sdramPhyStr = OWNER.executeCommand("vcgencmd measure_volts sdram_p | grep -o -E '[[:digit:]].*[[:digit:]]'");
+    private String[] getUptimeAndTasks() {
+        String programTime = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
+        String uptime = OWNER.executeCommand("uptime | grep -o -E 'up.*'");
+        String tasks = OWNER.executeCommand("top -n 1 -b | grep -o -E 'Tasks:'.*");
 
-        if (coreStr != null && sdramCoreStr != null && sdramIOStr != null && sdramPhyStr != null) {
-            double core = Double.parseDouble(coreStr);
-            double sdramCore = Double.parseDouble(sdramCoreStr);
-            double sdramIO = Double.parseDouble(sdramIOStr);
-            double sdramPhy = Double.parseDouble(sdramPhyStr);
+        if (uptime == null || tasks == null)
+            return null;
 
-            return new double[]{core, sdramCore, sdramIO, sdramPhy};
-        }
-        return null;
+        uptime = uptime.substring(uptime.indexOf("up") + 2, uptime.indexOf("min") + 3);
+        tasks = tasks.replace("Tasks: ", "");
+        tasks = tasks.substring(0, tasks.indexOf("total"));
+
+        return new String[]{programTime, uptime, tasks};
     }
 
-    private double[] getSystemUsage() {
-        String topCmd = OWNER.executeCommand(" top -n 1 -b | grep -o -E '%Cpu'.*'id'");
-        String freeCmd = OWNER.executeCommand("free -k");
-        if (freeCmd == null || topCmd == null)
+    private double[][] getSystemUsage() {
+        double[] cpuDataArray, ramDataArray, swapDataArray;
+
+        /*  *  *  *  *  *  *  *
+         *  CPU Load Metrics  *
+         *  *  *  *  *  *  *  */
+
+        String topCmd = OWNER.executeCommand("top -n 1 -b | grep -o -E '%Cpu'.*'id'");
+        String loads = OWNER.executeCommand("uptime | grep -o -E 'load average:'.*");
+        if (topCmd == null || loads == null)
             return null;
 
         double cpuLoadPercentage = Double.parseDouble(topCmd.substring(topCmd.indexOf("ni,") + 3, topCmd.indexOf("id")));
         cpuLoadPercentage = (100 - cpuLoadPercentage) / 100;
 
+        loads = loads.substring(loads.indexOf(':') + 1);
+        String[] loadStrArray = loads.split(",");
+
+        double oneMin = Double.parseDouble(loadStrArray[0]);
+        double fiveMin = Double.parseDouble(loadStrArray[1]);
+        double fifteenMin = Double.parseDouble(loadStrArray[2]);
+
+        cpuDataArray = new double[]{cpuLoadPercentage, oneMin, fiveMin, fifteenMin};
+
+        /*  *  *  *  *  *  *  *  *
+         *  Memory Load Metrics  *
+         *  *  *  *  *  *  *  *  */
+
+        String freeCmd = OWNER.executeCommand("free -k");
+        if (freeCmd == null)
+            return null;
+
         Scanner scnr = new Scanner(freeCmd);
         scnr.nextLine();
 
-        double memoryPercentage = Double.MAX_VALUE;
+        double ramPercentage;
         if (scnr.hasNext() && scnr.next().contains("Mem:")) {
             double total = scnr.nextDouble();
             double used = scnr.nextDouble();
-            memoryPercentage = used / total;
+            double free = scnr.nextDouble();
+            ramPercentage = used / total;
+
+            ramDataArray = new double[]{ramPercentage, total, used, free};
+        } else {
+            ramDataArray = null;
         }
 
         scnr.nextLine();
 
-        double swapPercentage = Double.MAX_VALUE;
+        double swapPercentage;
         if (scnr.hasNext() && scnr.next().contains("Swap:")) {
             double total = scnr.nextDouble();
             double used = scnr.nextDouble();
+            double free = scnr.nextDouble();
             swapPercentage = used / total;
+
+            swapDataArray = new double[]{swapPercentage, total, used, free};
+        } else {
+            swapDataArray = null;
         }
 
         scnr.close();
-        return new double[]{cpuLoadPercentage, memoryPercentage, swapPercentage};
+
+        if (ramDataArray == null || swapDataArray == null)
+            return null;
+
+        return new double[][]{cpuDataArray, ramDataArray, swapDataArray};
     }
 
     private String[][] getDriveInfo() {
@@ -106,7 +141,7 @@ public class Monitor<E> extends Task<E> {
                 return null;
 
             Scanner scnr = new Scanner(result);
-            String[][] diskData = new String[3][3];
+            String[][] diskData = new String[3][5];
 
             int count = 0;
             while (scnr.hasNextLine()) {
@@ -118,14 +153,13 @@ public class Monitor<E> extends Task<E> {
                 for (int i = 0; i < 6; i++)
                     data[i] = scnr.next();
 
-                String desc = data[2] + "B/" + data[1] + "B used";
                 double percentage = (Double.parseDouble(data[4].substring(0, data[4].length() - 1))) / 100;
 
                 if (count == 3) {
                     scnr.close();
                     return diskData;
                 } else {
-                    diskData[count] = new String[]{data[0], desc, String.valueOf(percentage)};
+                    diskData[count] = new String[]{data[0], data[1], data[2], data[3], String.valueOf(percentage)};
                     count++;
                 }
             }

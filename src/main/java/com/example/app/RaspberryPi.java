@@ -1,6 +1,5 @@
 package com.example.app;
 
-import javafx.concurrent.Task;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.ConnectionException;
@@ -10,7 +9,6 @@ import net.schmizz.sshj.transport.TransportException;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class RaspberryPi {

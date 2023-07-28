@@ -28,7 +28,7 @@ public class AppController {
     private MenuButton userOptions;
 
     @FXML
-    private AnchorPane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
+    private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
 
     @FXML
     private StackPane stackPane;
@@ -130,7 +130,7 @@ public class AppController {
     }
 
     @FXML
-    protected void swapPanels(AnchorPane pane, String piId, Button button) {
+    protected void swapPanels(ScrollPane pane, String piId, Button button) {
         for (RaspberryPi pi : App.systems)
             if (pi.getTitle().equals(piId) && pane != null) {
                 App.currentPi = pi;
@@ -215,18 +215,25 @@ public class AppController {
 
     @FXML
     private ProgressBar diskIndicator1, diskIndicator2, diskIndicator3;
+    @FXML
+    private ProgressBar cpuUsageRatio, ramUsageRatio, swapUsageRatio;
 
     @FXML
-    private ProgressBar cpuUsage, ramUsage, swapUsage;
+    private Label cpuUsagePercent, cpuAvg1, cpuAvg5, cpuAvg15;
+    @FXML
+    private Label ramUsagePercent, ramTotal, ramUsed, ramFree;
+    @FXML
+    private Label swapUsagePercent, swapTotal, swapUsed, swapFree;
 
     @FXML
-    private Label cpuUsageLabel, ramUsageLabel, swapUsageLabel;
+    private Label disk1, diskUsage1, disk1Total, disk1Used, disk1Free;
+    @FXML
+    private Label disk2, diskUsage2, disk2Total, disk2Used, disk2Free;
+    @FXML
+    private Label disk3, diskUsage3, disk3Total, disk3Used, disk3Free;
 
     @FXML
-    private Label diskUsage1, diskUsage2, diskUsage3, disk1, disk2, disk3;
-
-    @FXML
-    private Label temperature;
+    private Label uptime, tasks, temperature;
 
     private XYChart.Series<String, Number> temperatureData;
 
@@ -240,51 +247,120 @@ public class AppController {
             App.currentPi.initMonitor();
     }
 
-    protected void updateMetrics(String time, double temp, String[][] diskMetrics, double[] usages) {
+    /*
+        diskMetrics -
+            [0] disk1:
+                [0] name,
+                [1] usage (ratio),
+                [2] usage (percentage)
+            [1] disk2:
+                [0] name,
+                [1] usage (ratio),
+                [2] usage (percentage)
+            [2] disk3:
+                [0] name,
+                [1] usage (ratio),
+                [2] usage (percentage)
+
+        usageMetrics -
+            [0] cpu:
+                [0] current usage
+                [1] average load (1 minute),
+                [2] average load (5 minutes),
+                [3] average load (15 minutes)
+            [1] ram:
+                [0] current usage
+                [1] total space,
+                [2] used space,
+                [3] free space
+            [2] swap:
+                [0] current usage
+                [1] total space,
+                [2] used space,
+                [3] free space
+     */
+    protected void updateMetrics(String[] timeAndTasks, double temp, String[][] diskMetrics, double[][] usageMetrics) {
         // Update GUI on JavaFX app thread
         if (!App.getSelectedButton().getText().equals("CPU, RAM, and Disk Metrics"))
             return;
 
         Platform.runLater(() -> {
-            temperatureData.getData().add(new XYChart.Data<>(time, temp));
+            temperatureData.getData().add(new XYChart.Data<>(timeAndTasks[0], temp));
             temperature.setText(temp + "°C");
             if (temperatureData.getData().size() == 8)
                 temperatureData.getData().remove(0);
 
-            cpuUsageLabel.setText(Math.round(usages[0] * 100) + "%");
-            cpuUsage.setProgress(usages[0]);
+            uptime.setText("Uptime: " + timeAndTasks[1]);
+            tasks.setText("Tasks: " + timeAndTasks[2]);
 
-            ramUsageLabel.setText(Math.round(usages[1] * 100) + "%");
-            ramUsage.setProgress(usages[1]);
+            cpuUsagePercent.setText(Math.round(usageMetrics[0][0] * 100) + "%");
+            cpuUsageRatio.setProgress(usageMetrics[0][0]);
+            cpuAvg1.setText("1 Minute Average: " + String.format("%.1f", usageMetrics[0][1] * 100) + "%");
+            cpuAvg5.setText("5 Minute Average: " + String.format("%.1f", usageMetrics[0][2] * 100) + "%");
+            cpuAvg15.setText("15 Minute Average: " + String.format("%.1f", usageMetrics[0][3] * 100) + "%");
 
-            swapUsageLabel.setText(Math.round(usages[2] * 100) + "%");
-            swapUsage.setProgress(usages[2]);
+            ramUsagePercent.setText(Math.round(usageMetrics[1][0] * 100) + "%");
+            ramUsageRatio.setProgress(usageMetrics[1][0]);
+            ramTotal.setText("Total: " + kilobytesToReadable(usageMetrics[1][1]));
+            ramUsed.setText("Used: " + kilobytesToReadable(usageMetrics[1][2]));
+            ramFree.setText("Free: " + kilobytesToReadable(usageMetrics[1][3]));
+
+            swapUsagePercent.setText(Math.round(usageMetrics[2][0] * 100) + "%");
+            swapUsageRatio.setProgress(usageMetrics[2][0]);
+            swapTotal.setText("Total: " + kilobytesToReadable(usageMetrics[2][1]));
+            swapUsed.setText("Used: " + kilobytesToReadable(usageMetrics[2][2]));
+            swapFree.setText("Free: " + kilobytesToReadable(usageMetrics[2][3]));
 
             for (int i = 1; i < 4; i++) {
                 String[] disk = diskMetrics[i - 1];
 
                 String name = disk[0];
-                String diskUsage = disk[1];
-                double percentage = Double.parseDouble(disk[2]);
+                String total = disk[1];
+                String used = disk[2];
+                String free = disk[3];
+                double percentage = Double.parseDouble(disk[4]);
 
                 switch(i) {
                     case 1 -> {
                         disk1.setText(name);
-                        diskUsage1.setText(diskUsage);
+                        diskUsage1.setText(percentage * 100 + "%");
+                        disk1Total.setText("Total: " + total + "B");
+                        disk1Used.setText("Used: " + used + "B");
+                        disk1Free.setText("Free: " + free + "B");
                         diskIndicator1.setProgress(percentage);
                     }
                     case 2 -> {
                         disk2.setText(name);
-                        diskUsage2.setText(diskUsage);
+                        diskUsage2.setText(percentage * 100 + "%");
+                        disk2Total.setText("Total: " + total + "B");
+                        disk2Used.setText("Used: " + used + "B");
+                        disk2Free.setText("Free: " + free + "B");
                         diskIndicator2.setProgress(percentage);
                     }
                     case 3 -> {
                         disk3.setText(name);
-                        diskUsage3.setText(diskUsage);
+                        diskUsage3.setText(percentage * 100 + "%");
+                        disk3Total.setText("Total: " + total + "B");
+                        disk3Used.setText("Used: " + used + "B");
+                        disk3Free.setText("Free: " + free + "B");
                         diskIndicator3.setProgress(percentage);
                     }
                 }
             }
         });
+    }
+
+    private String kilobytesToReadable(double kb) {
+        if (kb < 0 || kb >= Double.MAX_VALUE)
+            return null;
+
+        if (kb > 999999999)
+            return String.format("%.1f%cB", kb / 1000000000d, 'T');
+        else if (kb > 999999)
+            return String.format("%.1f%cB", kb / 1000000d, 'G');
+        else if (kb > 999)
+            return String.format("%.1f%cB", kb / 1000d, 'M');
+        else
+            return kb + " KB";
     }
 }
