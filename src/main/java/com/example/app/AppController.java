@@ -31,7 +31,10 @@ public class AppController {
     private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
 
     @FXML
-    private StackPane stackPane;
+    private StackPane stackPane, details;
+
+    @FXML
+    private AnchorPane metricsDetails;
 
     @FXML
     private VBox systemContainer;
@@ -68,13 +71,13 @@ public class AppController {
         Button sshShell = createSystemButton("SSH Shell");
         Button scripts = createSystemButton("Scripts </>");
         Button metrics = createSystemButton("CPU, RAM, and Disk Metrics");
-        Button deviceInfo = createSystemButton("Device Info");
+        Button power = createSystemButton("Shutdown/Reboot");
 
         Button removeDevice = createSystemButton("Remove Device");
         removeDevice.getStyleClass().add("system-remove-button");
         removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
 
-        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, deviceInfo, removeDevice);
+        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, power, removeDevice);
         anchorPane.getChildren().add(vBox);
         AnchorPane.setLeftAnchor(vBox, 0d);
         AnchorPane.setRightAnchor(vBox, 0d);
@@ -93,7 +96,7 @@ public class AppController {
         button.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
         button.getStyleClass().add("system-dropdown-button");
         button.setMaxWidth(Double.MAX_VALUE);
-        String piId = App.currentPi.getTitle(); // currentPi is already set correctly by this point in the thread
+        String piId = App.currentPi.getTitle();
 
         switch (name) {
             case "GPIO" -> button.setOnAction(e -> swapPanels(gpioPane, piId, button));
@@ -101,7 +104,7 @@ public class AppController {
             case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId, button));
             case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId, button));
             case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId, button));
-            case "Device Info" -> button.setOnAction(e -> swapPanels(infoPane, piId, button));
+            case "Shutdown/Reboot" -> button.setOnAction(e -> swapPanels(infoPane, piId, button));
         }
 
         return button;
@@ -131,6 +134,8 @@ public class AppController {
 
     @FXML
     protected void swapPanels(ScrollPane pane, String piId, Button button) {
+        long start = System.currentTimeMillis();
+
         for (RaspberryPi pi : App.systems)
             if (pi.getTitle().equals(piId) && pane != null) {
                 App.currentPi = pi;
@@ -147,6 +152,8 @@ public class AppController {
 
         for (Node node : stackPane.getChildren())
             node.setVisible(false);
+        for (Node node : details.getChildren())
+            node.setVisible(false);
 
         if (pane != null) {
 
@@ -156,13 +163,15 @@ public class AppController {
                 case "SSH Shell" -> {}
                 case "Scripts" -> {}
                 case "Metrics" -> displayMetrics();
-                case "Info" -> {}
+                case "Shutdown/Reboot" -> {}
                 default -> {}
             }
 
             pane.toFront();
             pane.setVisible(true);
         }
+
+        System.out.println("Time to change panels: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @FXML
@@ -237,6 +246,9 @@ public class AppController {
 
     private XYChart.Series<String, Number> temperatureData;
 
+    @FXML
+    private TextArea metricsTextArea;
+
     private void displayMetrics() {
         temperatureData = new XYChart.Series<>();
         temperatureData.setName("Core");
@@ -245,6 +257,11 @@ public class AppController {
 
         if (!App.currentPi.isMonitoring())
             App.currentPi.initMonitor();
+
+        metricsDetails.toFront();
+        metricsDetails.setVisible(true);
+
+        metricsTextArea.setText(App.currentPi.getMetricsDetails());
     }
 
     /*

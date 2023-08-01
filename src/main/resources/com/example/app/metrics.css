@@ -36,3 +36,13 @@
     -fx-border-color: rgba(255, 255, 255, 0);
 }
 
+/* Details */
+.metric-detail-textarea {
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 14px;
+    -fx-text-fill: gray;
+    -fx-highlight-fill: white;
+}
+
+.metric-detail-textarea .content { -fx-background-color: white; }

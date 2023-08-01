@@ -93,4 +93,26 @@ public class RaspberryPi {
         monitor = new Monitor<>(this);
         new Thread(monitor).start();
     }
+
+    private double[] getVoltageConfig() {
+        String coreStr = executeCommand("vcgencmd measure_volts core");
+        String ramStr = executeCommand("vcgencmd measure_volts sdram_c");
+
+        if (coreStr == null || ramStr == null)
+            return null;
+
+        double coreVolts = Double.parseDouble(coreStr.substring(coreStr.indexOf('=') + 1, coreStr.indexOf('V')));
+        double ramVolts = Double.parseDouble(ramStr.substring(ramStr.indexOf('=') + 1, ramStr.indexOf('V')));
+
+        return new double[]{coreVolts, ramVolts};
+    }
+
+    public String getMetricsDetails() {
+        double[] voltConfig = getVoltageConfig();
+        if (voltConfig == null)
+            return model;
+
+        return model + "\n\n" + executeCommand("vcgencmd version") + "\nCore Voltage Config: " + voltConfig[0]
+                + "v\n" + "SDRAM Voltage Config: " + voltConfig[1] + "v";
+    }
 }

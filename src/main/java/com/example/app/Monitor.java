@@ -52,13 +52,14 @@ public class Monitor<E> extends Task<E> {
 
     private String[] getUptimeAndTasks() {
         String programTime = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
-        String uptime = OWNER.executeCommand("uptime | grep -o -E 'up.*'");
+        String uptime = OWNER.executeCommand("uptime | grep -o -E 'up.*.user'");
         String tasks = OWNER.executeCommand("top -n 1 -b | grep -o -E 'Tasks:'.*");
 
         if (uptime == null || tasks == null)
             return null;
 
-        uptime = uptime.substring(uptime.indexOf("up") + 2, uptime.indexOf("min") + 3);
+        uptime = uptime.substring(uptime.indexOf("up") + 2);
+
         tasks = tasks.replace("Tasks: ", "");
         tasks = tasks.substring(0, tasks.indexOf("total"));
 
