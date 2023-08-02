@@ -170,8 +170,7 @@ public class AppController {
             pane.toFront();
             pane.setVisible(true);
         }
-
-        System.out.println("Time to change panels: " + (System.currentTimeMillis() - start) + "ms");
+        System.out.println("Swapped panels in: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @FXML
@@ -260,7 +259,6 @@ public class AppController {
 
         metricsDetails.toFront();
         metricsDetails.setVisible(true);
-
         metricsTextArea.setText(App.currentPi.getMetricsDetails());
     }
 

@@ -52,11 +52,15 @@ public class Monitor<E> extends Task<E> {
 
     private String[] getUptimeAndTasks() {
         String programTime = String.valueOf( (System.currentTimeMillis() - initTime) / 1000 );
-        String uptime = OWNER.executeCommand("uptime | grep -o -E 'up.*.user'");
-        String tasks = OWNER.executeCommand("top -n 1 -b | grep -o -E 'Tasks:'.*");
 
-        if (uptime == null || tasks == null)
+        String cmd = OWNER.executeCommand("uptime | grep -o -E 'up.*.user'; top -n 1 -b | grep -o -E 'Tasks:'.*");
+        if (cmd == null)
             return null;
+
+        Scanner scanner = new Scanner(cmd);
+        String uptime = scanner.nextLine();
+        String tasks = scanner.nextLine();
+        scanner.close();
 
         uptime = uptime.substring(uptime.indexOf("up") + 2);
 
@@ -73,10 +77,15 @@ public class Monitor<E> extends Task<E> {
          *  CPU Load Metrics  *
          *  *  *  *  *  *  *  */
 
-        String topCmd = OWNER.executeCommand("top -n 1 -b | grep -o -E '%Cpu'.*'id'");
-        String loads = OWNER.executeCommand("uptime | grep -o -E 'load average:'.*");
-        if (topCmd == null || loads == null)
+        String cmd = OWNER.executeCommand("top -n 1 -b | grep -o -E '%Cpu'.*'id'; " +
+                "uptime | grep -o -E 'load average:'.*");
+        if (cmd == null)
             return null;
+
+        Scanner scanner = new Scanner(cmd);
+        String topCmd = scanner.nextLine();
+        String loads = scanner.nextLine();
+        scanner.close();
 
         double cpuLoadPercentage = Double.parseDouble(topCmd.substring(topCmd.indexOf("ni,") + 3, topCmd.indexOf("id")));
         cpuLoadPercentage = (100 - cpuLoadPercentage) / 100;

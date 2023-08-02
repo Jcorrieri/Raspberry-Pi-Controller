@@ -9,6 +9,7 @@ import net.schmizz.sshj.transport.TransportException;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class RaspberryPi {
@@ -95,11 +96,14 @@ public class RaspberryPi {
     }
 
     private double[] getVoltageConfig() {
-        String coreStr = executeCommand("vcgencmd measure_volts core");
-        String ramStr = executeCommand("vcgencmd measure_volts sdram_c");
-
-        if (coreStr == null || ramStr == null)
+        String cmd = executeCommand("vcgencmd measure_volts core; vcgencmd measure_volts sdram_c");
+        if (cmd == null)
             return null;
+
+        Scanner scnr = new Scanner(cmd);
+        String coreStr = scnr.nextLine();
+        String ramStr = scnr.nextLine();
+        scnr.close();
 
         double coreVolts = Double.parseDouble(coreStr.substring(coreStr.indexOf('=') + 1, coreStr.indexOf('V')));
         double ramVolts = Double.parseDouble(ramStr.substring(ramStr.indexOf('=') + 1, ramStr.indexOf('V')));
