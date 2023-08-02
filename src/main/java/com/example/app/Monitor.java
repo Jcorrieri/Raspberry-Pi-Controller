@@ -58,22 +58,18 @@ public class Monitor<E> extends Task<E> {
             return null;
 
         Scanner scanner = new Scanner(cmd);
-        String uptime = scanner.nextLine();
+        String[] uptimeSplit = scanner.nextLine().split(",");
         String tasks = scanner.nextLine();
         scanner.close();
 
-        uptime = uptime.substring(uptime.indexOf("up") + 2);
-        String[] tempUptime = uptime.split(",");
-
-        StringBuilder uptimeStrBld = new StringBuilder();
-        for (int i = 0; i < tempUptime.length - 1; i++)
-            uptimeStrBld.append(tempUptime[i]);
-        uptime = uptimeStrBld.toString();
+        StringBuilder uptime = new StringBuilder();
+        for (int i = 0; i < uptimeSplit.length - 1; i++)
+            uptime.append(uptimeSplit[i]);
 
         tasks = tasks.replace("Tasks: ", "");
         tasks = tasks.substring(0, tasks.indexOf("total"));
 
-        return new String[]{programTime, uptime, tasks};
+        return new String[]{programTime, uptime.substring(uptime.indexOf("up") + 2), tasks};
     }
 
     private double[][] getSystemUsage() {
