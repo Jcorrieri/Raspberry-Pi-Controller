@@ -63,6 +63,12 @@ public class Monitor<E> extends Task<E> {
         scanner.close();
 
         uptime = uptime.substring(uptime.indexOf("up") + 2);
+        String[] tempUptime = uptime.split(",");
+
+        StringBuilder uptimeStrBld = new StringBuilder();
+        for (int i = 0; i < tempUptime.length - 1; i++)
+            uptimeStrBld.append(tempUptime[i]);
+        uptime = uptimeStrBld.toString();
 
         tasks = tasks.replace("Tasks: ", "");
         tasks = tasks.substring(0, tasks.indexOf("total"));
