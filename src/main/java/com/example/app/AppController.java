@@ -1,6 +1,7 @@
 package com.example.app;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
@@ -257,6 +258,17 @@ public class AppController {
 
         if (!App.currentPi.isMonitoring())
             App.currentPi.initMonitor();
+
+        Task<Void> checkDetails = new Task<>() {
+            @Override
+            protected Void call() {
+                String currentInfo = App.currentPi.getMetricInfo();
+                if (!currentInfo.equals(App.currentPi.metricInfo))
+                    App.currentPi.metricInfo = currentInfo;
+                return null;
+            }
+        };
+        new Thread(checkDetails).start();
 
         metricsDetails.toFront();
         metricsDetails.setVisible(true);
