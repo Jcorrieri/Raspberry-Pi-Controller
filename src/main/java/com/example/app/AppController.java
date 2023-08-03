@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 
 public class AppController {
+
     @FXML
     public Color x4;
 
@@ -259,7 +260,7 @@ public class AppController {
 
         metricsDetails.toFront();
         metricsDetails.setVisible(true);
-        metricsTextArea.setText(App.currentPi.getMetricsDetails());
+        metricsTextArea.setText(App.currentPi.metricInfo);
     }
 
     /*

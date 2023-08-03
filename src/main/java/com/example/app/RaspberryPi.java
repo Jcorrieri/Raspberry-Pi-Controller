@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit;
 public class RaspberryPi {
 
     private final String model, title, host, username, password;
-    private SSHClient ssh;
 
-    private volatile boolean connected;
+    protected String metricInfo;
+
+    private SSHClient ssh;
 
     private Monitor<Void> monitor;
 
@@ -28,6 +29,7 @@ public class RaspberryPi {
         this.username = username;
         this.password = password;
         connect();
+        metricInfo = getMetricInfo();
     }
 
     private void connect() throws IOException {
@@ -41,12 +43,14 @@ public class RaspberryPi {
     }
 
     protected void disconnect() {
+        if (!isConnected())
+            return;
+
         try {
-            if (ssh != null && ssh.isConnected()) {
+            if (isMonitoring())
                 monitor.cancel();
-                ssh.disconnect();
-                System.out.println(username + "@" + host + " disconnected successfully");
-            }
+            ssh.disconnect();
+            System.out.println(username + "@" + host + " disconnected successfully");
         } catch (IOException e) {
             System.out.println(username + "@" + host + " failed to disconnect");
             throw new RuntimeException(e);
@@ -65,14 +69,13 @@ public class RaspberryPi {
            result = String.valueOf(IOUtils.readFully(cmd.getInputStream()));
            cmd.join(5, TimeUnit.SECONDS);
         } catch (IOException e) {
-            System.out.println(e.getMessage() + "SDSDSD");
+            System.out.println("Exception executing command");
             throw new RuntimeException(e);
         } finally {
             try {
                 if (session != null)
                     session.close();
             } catch (TransportException | ConnectionException e) {
-                System.out.println(Arrays.toString(e.getStackTrace()));
                 System.out.println("Failed to close command session");
             }
         }
@@ -83,10 +86,7 @@ public class RaspberryPi {
 
     protected String getHost() { return host; }
 
-    public boolean isConnected() {
-        connected = ssh.isConnected();
-        return connected;
-    }
+    public boolean isConnected() { return ssh != null && ssh.isConnected(); }
 
     public boolean isMonitoring() { return monitor != null && monitor.isRunning(); }
 
@@ -111,7 +111,7 @@ public class RaspberryPi {
         return new double[]{coreVolts, ramVolts};
     }
 
-    public String getMetricsDetails() {
+    public String getMetricInfo() {
         double[] voltConfig = getVoltageConfig();
         if (voltConfig == null)
             return model;
