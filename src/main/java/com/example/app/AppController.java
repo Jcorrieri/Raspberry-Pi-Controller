@@ -30,7 +30,7 @@ public class AppController {
     private MenuButton userOptions;
 
     @FXML
-    private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane, infoPane;
+    private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane;
 
     @FXML
     private StackPane stackPane, details;
@@ -44,15 +44,8 @@ public class AppController {
     @FXML
     protected void createAddSystemWindow() throws IOException {
         if (App.systems.size() >= App.MAX_SYSTEMS) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "System Limit Reached");
-
-            double centerXPosition = App.getPrimaryStage().getX() + (App.getPrimaryStage().getWidth() / 2d);
-            double centerYPosition = App.getPrimaryStage().getY() + (App.getPrimaryStage().getHeight() / 2d);
-            alert.setX(centerXPosition - 188);
-            alert.setY(centerYPosition - 92.5);
-
+            Alert alert = App.createAlert("System Limit Reached", Alert.AlertType.ERROR);
             alert.show();
-            System.out.println(alert.getWidth() + ", " + alert.getHeight());
         } else {
             new Popup(Popup.ADD_SYS);
         }
@@ -73,13 +66,13 @@ public class AppController {
         Button sshShell = createSystemButton("SSH Shell");
         Button scripts = createSystemButton("Scripts </>");
         Button metrics = createSystemButton("CPU, RAM, and Disk Metrics");
-        Button power = createSystemButton("Shutdown/Reboot");
+        Button settings = createSystemButton("Settings");
 
         Button removeDevice = createSystemButton("Remove Device");
         removeDevice.getStyleClass().add("system-remove-button");
         removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
 
-        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, power, removeDevice);
+        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, settings, removeDevice);
         anchorPane.getChildren().add(vBox);
         AnchorPane.setLeftAnchor(vBox, 0d);
         AnchorPane.setRightAnchor(vBox, 0d);
@@ -106,7 +99,13 @@ public class AppController {
             case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId, button));
             case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId, button));
             case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId, button));
-            case "Shutdown/Reboot" -> button.setOnAction(e -> swapPanels(infoPane, piId, button));
+            case "Settings" -> button.setOnAction(e -> {
+                try {
+                    new Popup(Popup.SETTINGS);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
         }
 
         return button;
@@ -114,14 +113,9 @@ public class AppController {
 
     @FXML
     protected void removeSystemFromUI(RaspberryPi raspberryPi) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert confirm = App.createAlert(null, Alert.AlertType.CONFIRMATION);
         confirm.setHeaderText("Are you sure you want to remove this device?");
         confirm.setContentText("Remove " + raspberryPi.getTitle());
-
-        double centerXPosition = App.getPrimaryStage().getX() + (App.getPrimaryStage().getWidth() / 2d);
-        double centerYPosition = App.getPrimaryStage().getY() + (App.getPrimaryStage().getHeight() / 2d);
-        confirm.setX(centerXPosition - 188);
-        confirm.setY(centerYPosition - 92.5);
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -165,7 +159,6 @@ public class AppController {
                 case "SSH Shell" -> {}
                 case "Scripts" -> {}
                 case "Metrics" -> displayMetrics();
-                case "Shutdown/Reboot" -> {}
                 default -> {}
             }
 
@@ -199,9 +192,6 @@ public class AppController {
 
     @FXML
     protected void createLoginWindow() throws IOException { new Popup(Popup.LOGIN); }
-
-    @FXML
-    protected void createSettingsWindow() throws IOException { new Popup(Popup.SETTINGS); }
 
     @FXML
     protected void createHelpWindow() throws IOException { new Popup(Popup.HELP); }

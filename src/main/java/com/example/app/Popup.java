@@ -45,9 +45,9 @@ public class Popup {
             }
             case SETTINGS -> {
                 resource = "settings.fxml";
-                title = "Settings";
+                title = App.currentPi.getTitle();
                 width = 300;
-                height = 335;
+                height = 440;
             }
             case HELP -> {
                 resource = "help.fxml";

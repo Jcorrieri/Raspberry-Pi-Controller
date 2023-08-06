@@ -85,6 +85,10 @@ public class RaspberryPi {
 
     protected String getHost() { return host; }
 
+    protected String getUser() { return username; }
+
+    protected String getPass() { return password; }
+
     public boolean isConnected() { return ssh != null && ssh.isConnected(); }
 
     public boolean isMonitoring() { return monitor != null && monitor.isRunning(); }
@@ -117,5 +121,51 @@ public class RaspberryPi {
 
         return model + "\n\n" + executeCommand("vcgencmd version") + "\nCore Voltage Config: " + voltConfig[0]
                 + "v\n" + "SDRAM Voltage Config: " + voltConfig[1] + "v";
+    }
+
+    protected void restart() {
+        if (isMonitoring())
+            monitor.cancel();
+        Session session = null;
+        if (ssh == null || !ssh.isConnected())
+            return;
+
+        try {
+            session = ssh.startSession();
+            session.exec("sudo shutdown -r now");
+        } catch (IOException e) {
+            System.out.println("Exception shutting down");
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (session != null)
+                    session.close();
+            } catch (TransportException | ConnectionException e) {
+                System.out.println("Failed to close command session");
+            }
+        }
+    }
+
+    protected void shutdown() {
+        if (isMonitoring())
+            monitor.cancel();
+        Session session = null;
+        if (ssh == null || !ssh.isConnected())
+            return;
+
+        try {
+            session = ssh.startSession();
+            session.exec("sudo shutdown -h now");
+        } catch (IOException e) {
+            System.out.println("Exception shutting down");
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (session != null)
+                    session.close();
+            } catch (TransportException | ConnectionException e) {
+                System.out.println("Failed to close command session");
+            }
+        }
     }
 }

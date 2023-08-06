@@ -3,6 +3,7 @@ package com.example.app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -41,6 +42,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) { launch(); }
+
+    public static Alert createAlert(String title, Alert.AlertType type) {
+        Alert alert = (title == null) ? new Alert(type) : new Alert(type, title);
+
+        double centerXPosition = primaryStage.getX() + (primaryStage.getWidth() / 2d);
+        double centerYPosition = primaryStage.getY() + (primaryStage.getHeight() / 2d);
+        alert.setX(centerXPosition - 188);
+        alert.setY(centerYPosition - 85);
+
+        return alert;
+    }
 
     protected static Stage getPrimaryStage() { return primaryStage; }
 
