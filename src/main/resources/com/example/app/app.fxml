@@ -146,7 +146,7 @@
                     <Insets left="5.0" right="5.0" />
                 </VBox.margin>
             </HBox>
-              <StackPane fx:id="stackPane" stylesheets="@app.css">
+              <StackPane fx:id="panels" stylesheets="@app.css">
                   <children>
                <ScrollPane id="GPIO" fx:id="gpioPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
                   <content>

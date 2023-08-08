@@ -66,7 +66,7 @@
                   <TextField fx:id="hostname" layoutX="64.0" layoutY="69.0" promptText="Host IP" />
                   <TextField fx:id="username" layoutX="64.0" layoutY="116.0" promptText="Username" />
                   <PasswordField fx:id="password" layoutX="64.0" layoutY="162.0" promptText="Password" />
-                  <Button id="submit-button" layoutX="64.0" layoutY="306.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="173.0" styleClass="generic-button" text="Apply" textFill="WHITE">
+                  <Button id="submit-button" layoutX="64.0" layoutY="306.0" mnemonicParsing="false" onAction="#applyChanges" prefHeight="39.0" prefWidth="173.0" styleClass="generic-button" text="Apply" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
@@ -75,7 +75,7 @@
                         <URL value="@dialog.css" />
                      </stylesheets>
                   </Button>
-                  <Label alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="39.0" layoutY="283.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+                  <Label fx:id="message" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="39.0" layoutY="283.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
                </children>
             </Pane>
          </children>

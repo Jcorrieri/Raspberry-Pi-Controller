@@ -33,7 +33,7 @@ public class AppController {
     private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane;
 
     @FXML
-    private StackPane stackPane, details;
+    private StackPane panels, details;
 
     @FXML
     private AnchorPane metricsDetails;
@@ -61,18 +61,8 @@ public class AppController {
         vBox.setFillWidth(true);
         vBox.setMaxWidth(Double.MAX_VALUE);
 
-        Button gpio = createSystemButton("GPIO");
-        Button fileManager = createSystemButton("File Manager");
-        Button sshShell = createSystemButton("SSH Shell");
-        Button scripts = createSystemButton("Scripts </>");
-        Button metrics = createSystemButton("CPU, RAM, and Disk Metrics");
-        Button settings = createSystemButton("Settings");
+        createButtons(newPi, vBox);
 
-        Button removeDevice = createSystemButton("Remove Device");
-        removeDevice.getStyleClass().add("system-remove-button");
-        removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
-
-        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, settings, removeDevice);
         anchorPane.getChildren().add(vBox);
         AnchorPane.setLeftAnchor(vBox, 0d);
         AnchorPane.setRightAnchor(vBox, 0d);
@@ -84,31 +74,44 @@ public class AppController {
         titledPane.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
         titledPane.getStyleClass().add("system-titled-pane");
         systemContainer.getChildren().add(titledPane);
+        App.currentPi.setTitledPane(titledPane);
     }
 
-    private Button createSystemButton(String name) {
-        Button button = new Button(name);
-        button.getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
-        button.getStyleClass().add("system-dropdown-button");
-        button.setMaxWidth(Double.MAX_VALUE);
-        String piId = App.currentPi.getTitle();
+    private void createButtons(RaspberryPi newPi, VBox vBox) {
+        CustomButton gpio = new CustomButton("GPIO", newPi);
+        gpio.setOnAction(e -> swapPanels(gpioPane, gpio.getPi().getTitle(), gpio));
 
-        switch (name) {
-            case "GPIO" -> button.setOnAction(e -> swapPanels(gpioPane, piId, button));
-            case "File Manager" -> button.setOnAction(e -> swapPanels(filePane, piId, button));
-            case "SSH Shell" -> button.setOnAction(e -> swapPanels(shellPane, piId, button));
-            case "Scripts </>" -> button.setOnAction(e -> swapPanels(scriptPane, piId, button));
-            case "CPU, RAM, and Disk Metrics" -> button.setOnAction(e -> swapPanels(metricPane, piId, button));
-            case "Settings" -> button.setOnAction(e -> {
-                try {
-                    new Popup(Popup.SETTINGS);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-        }
+        CustomButton fileManager = new CustomButton("File Manager", newPi);
+        fileManager.setOnAction(e -> swapPanels(filePane, fileManager.getPi().getTitle(), fileManager));
 
-        return button;
+        CustomButton sshShell = new CustomButton("SSH Shell", newPi);
+        sshShell.setOnAction(e -> swapPanels(shellPane, sshShell.getPi().getTitle(), sshShell));
+
+        CustomButton scripts = new CustomButton("Scripts </>", newPi);
+        scripts.setOnAction(e -> swapPanels(scriptPane, scripts.getPi().getTitle(), scripts));
+
+        CustomButton metrics = new CustomButton("CPU, RAM, and Disk Metrics", newPi);
+        metrics.setOnAction(e -> swapPanels(metricPane, metrics.getPi().getTitle(), metrics));
+
+        CustomButton settings = new CustomButton("Settings", newPi);
+        settings.setOnAction(e -> {
+            try {
+                App.selectButton(settings);
+                systemName.setText(settings.getPi().getTitle() + " - " + "Settings");
+
+                for (Node node : panels.getChildren())
+                    node.setVisible(false);
+
+                new Popup(Popup.SETTINGS);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        CustomButton removeDevice = new CustomButton("Remove Device", newPi);
+        removeDevice.getStyleClass().add("system-remove-button");
+        removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
+        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, settings, removeDevice);
     }
 
     @FXML
@@ -129,7 +132,7 @@ public class AppController {
     }
 
     @FXML
-    protected void swapPanels(ScrollPane pane, String piId, Button button) {
+    protected void swapPanels(ScrollPane pane, String piId, CustomButton customButton) {
         long start = System.currentTimeMillis();
 
         for (RaspberryPi pi : App.systems)
@@ -139,20 +142,15 @@ public class AppController {
                 break;
             }
 
-        if (button != null) {
-            if (App.getSelectedButton() != null)
-                App.getSelectedButton().getStyleClass().remove("selected-system-button");
-            button.getStyleClass().add("selected-system-button");
-            App.selectButton(button);
-        }
+        if (customButton != null)
+            App.selectButton(customButton);
 
-        for (Node node : stackPane.getChildren())
+        for (Node node : panels.getChildren())
             node.setVisible(false);
         for (Node node : details.getChildren())
             node.setVisible(false);
 
         if (pane != null) {
-
             switch (pane.getId()) {
                 case "GPIO" -> {}
                 case "File Manager" -> {}
@@ -205,6 +203,8 @@ public class AppController {
     }
 
     protected void setDisplayName(String name) { displayName.setText(name); }
+
+    protected void setSystemName(String text) { systemName.setText(text); }
 
     /*  *  *  *  *  *  *  *  *
      * START SYSTEM METHODS  *

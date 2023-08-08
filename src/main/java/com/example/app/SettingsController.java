@@ -3,10 +3,8 @@ package com.example.app;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class SettingsController {
 
@@ -15,6 +13,9 @@ public class SettingsController {
 
     @FXML
     private PasswordField password;
+
+    @FXML
+    private Label message;
 
     public SettingsController() {
         Task<Void> task = new Task<>() {
@@ -59,6 +60,69 @@ public class SettingsController {
 
     @FXML
     private void applyChanges() {
+        String title = deviceName.getText();
+        String host = hostname.getText();
+        String user = username.getText();
+        String pass = password.getText();
 
+        if (title.equals("") || host.equals("") || user.equals("") || pass.equals("")) {
+            message.setText("*Fields cannot be empty");
+            return;
+        }
+
+        boolean updated = false;
+        if (!App.currentPi.getTitle().equals(title)) {
+            if (updateTitle(title) == -1) {
+                return;
+            } else {
+                updated = true;
+            }
+        }
+
+        if (!App.currentPi.getHost().equals(host)) {
+            if (updateHost(host) == -1) {
+                return;
+            } else {
+                updated = true;
+            }
+        }
+
+        if (!App.currentPi.getUser().equals(user)) {
+            App.currentPi.setUser(user);
+            updated = true;
+        }
+        if (!App.currentPi.getPass().equals(pass)) {
+            App.currentPi.setPass(pass);
+            updated = true;
+        }
+
+        if (updated) {
+            Stage stage = (Stage) deviceName.getScene().getWindow();
+            stage.setTitle(title);
+            message.setText("Changes saved!");
+        }
+    }
+
+    private int updateTitle(String title) {
+        if (App.alreadyExists(title)) {
+            message.setText("*System already exists");
+            return -1;
+        } else if (title.length() > 20) {
+            message.setText("*Title must no more than 20 characters");
+            return -1;
+        } else {
+            App.currentPi.setTitle(title);
+        }
+        return 0;
+    }
+
+    private int updateHost(String host) {
+        if (App.alreadyExists(host)) {
+            message.setText("*System already exists");
+            return -1;
+        } else {
+            App.currentPi.setHost(host);
+        }
+        return 0;
     }
 }

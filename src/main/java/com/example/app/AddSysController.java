@@ -54,7 +54,7 @@ public class AddSysController {
             errorMessage.setText("*Fields cannot be blank");
             return;
         }
-        if (alreadyExists(titleStr) || alreadyExists(ipStr)) {
+        if (App.alreadyExists(titleStr) || App.alreadyExists(ipStr)) {
             errorMessage.setText("*System already exists");
             return;
         }
@@ -92,12 +92,5 @@ public class AddSysController {
             System.out.println("Thread Error");
             throw new RuntimeException(e);
         }
-    }
-
-    private boolean alreadyExists(String identifier) {
-        for (RaspberryPi pi : App.systems)
-            if (pi.getTitle().equals(identifier) || pi.getHost().equals(identifier))
-                return true;
-        return false;
     }
 }

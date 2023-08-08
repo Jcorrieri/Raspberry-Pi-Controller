@@ -1,6 +1,7 @@
 package com.example.app;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -64,7 +65,19 @@ public class App extends Application {
 
     protected static void setLoggedOut() { loggedIn = false; }
 
-    protected static void selectButton(Button button) { selectedButton = button; }
+    protected static void selectButton(Button button) {
+        if (selectedButton != null)
+            selectedButton.getStyleClass().remove("selected-system-button");
+        button.getStyleClass().add("selected-system-button");
+        selectedButton = button;
+    }
 
     protected static Button getSelectedButton() { return selectedButton; }
+
+    public static boolean alreadyExists(String identifier) {
+        for (RaspberryPi pi : App.systems)
+            if (pi.getTitle().equals(identifier) || pi.getHost().equals(identifier))
+                return true;
+        return false;
+    }
 }

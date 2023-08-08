@@ -1,5 +1,10 @@
 package com.example.app;
 
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.ConnectionException;
@@ -13,7 +18,10 @@ import java.util.concurrent.TimeUnit;
 
 public class RaspberryPi {
 
-    private final String model, title, host, username, password;
+    private final String model;
+    private String title, host, username, password;
+
+    private TitledPane titledPane;
 
     protected String metricInfo;
 
@@ -81,13 +89,30 @@ public class RaspberryPi {
         return result;
     }
 
+    protected TitledPane getTitledPane() { return titledPane; }
+
+    protected void setTitledPane(TitledPane pane) { titledPane = pane; }
+
     public String getTitle() { return title; }
+
+    protected void setTitle(String newTitle) {
+        title = newTitle;
+        titledPane.setText(newTitle);
+        titledPane.setId(newTitle);
+        App.getController().setSystemName(newTitle + " - " + "Settings");
+    }
 
     protected String getHost() { return host; }
 
+    protected void setHost(String newHost) { host = newHost; }
+
     protected String getUser() { return username; }
 
+    protected void setUser(String newUser) { username = newUser; }
+
     protected String getPass() { return password; }
+
+    protected void setPass(String newPass) {password = newPass; }
 
     public boolean isConnected() { return ssh != null && ssh.isConnected(); }
 
