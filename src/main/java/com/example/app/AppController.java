@@ -111,6 +111,7 @@ public class AppController {
         CustomButton removeDevice = new CustomButton("Remove Device", newPi);
         removeDevice.getStyleClass().add("system-remove-button");
         removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
+
         vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, settings, removeDevice);
     }
 
@@ -129,6 +130,25 @@ public class AppController {
                 swapPanels(null, null, null);
             }
         });
+    }
+
+    protected void toggleSystemButtons(RaspberryPi pi, boolean enabled) {
+        AnchorPane anchorPane = (AnchorPane) pi.getTitledPane().getContent();
+        VBox buttons = (VBox) anchorPane.getChildren().get(0);
+
+        if (enabled) {
+            for (Node node : buttons.getChildren()){
+                CustomButton b = (CustomButton) node;
+                b.setDisable(false);
+            }
+        } else {
+            for (Node node : buttons.getChildren()) {
+                CustomButton b = (CustomButton) node;
+                if (b.getText().equals("Settings") || b.getText().equals("Remove Device"))
+                    continue;
+                b.setDisable(true);
+            }
+        }
     }
 
     @FXML

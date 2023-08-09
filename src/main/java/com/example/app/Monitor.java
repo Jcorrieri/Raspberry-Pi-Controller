@@ -11,9 +11,18 @@ public class Monitor<E> extends Task<E> {
 
     public Monitor(RaspberryPi pi) {
         OWNER = pi;
-        setOnCancelled(e -> System.out.println("Monitor cancelled"));
-        setOnSucceeded(e -> System.out.println("Monitor succeeded"));
-        setOnFailed(e -> System.out.println("Monitoring for " + OWNER.getTitle() + " ended (Monitor failed)" + e));
+        setOnCancelled(e -> {
+            System.out.println("Monitor cancelled for " + OWNER.getTitle());
+            App.getController().toggleSystemButtons(OWNER, false);
+        });
+        setOnSucceeded(e -> {
+            System.out.println("Monitor succeeded for " + OWNER.getTitle());
+            App.getController().toggleSystemButtons(OWNER, false);
+        });
+        setOnFailed(e ->  {
+            System.out.println("Monitoring for " + OWNER.getTitle() + " ended (Monitor failed)" + e);
+            App.getController().toggleSystemButtons(OWNER, false);
+        });
     }
 
     @Override
@@ -40,6 +49,7 @@ public class Monitor<E> extends Task<E> {
                 Thread.onSpinWait();
             cycleStart = System.currentTimeMillis();
         }
+
         return null;
     }
 

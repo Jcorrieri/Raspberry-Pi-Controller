@@ -39,13 +39,17 @@ public class RaspberryPi {
         metricInfo = getMetricInfo();
     }
 
-    private void connect() throws IOException {
+    protected void connect() throws IOException {
         // Connect via ssh...
         ssh = new SSHClient();
         ssh.loadKnownHosts();
         ssh.setTimeout(5000);
         ssh.connect(host); // See tutorial on loading new hosts
         ssh.authPassword(username, password);
+
+        if (App.systems.contains(this))
+            App.getController().toggleSystemButtons(this, true);
+
         System.out.println(ssh.isAuthenticated() + ", " + ssh.isAuthenticated());
     }
 

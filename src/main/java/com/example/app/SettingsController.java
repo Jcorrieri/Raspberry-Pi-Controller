@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class SettingsController {
 
     @FXML
@@ -16,6 +18,8 @@ public class SettingsController {
 
     @FXML
     private Label message;
+
+    private final int HOST = 0, USER = 1, PASS = 2;
 
     public SettingsController() {
         Task<Void> task = new Task<>() {
@@ -60,6 +64,8 @@ public class SettingsController {
 
     @FXML
     private void applyChanges() {
+        String[] oldSSHInfo = new String[]{App.currentPi.getHost(), App.currentPi.getUser(), App.currentPi.getPass()};
+
         String title = deviceName.getText();
         String host = hostname.getText();
         String user = username.getText();
@@ -70,33 +76,46 @@ public class SettingsController {
             return;
         }
 
-        boolean updated = false;
+        boolean titleUpdate = false;
         if (!App.currentPi.getTitle().equals(title)) {
             if (updateTitle(title) == -1) {
                 return;
             } else {
-                updated = true;
+                titleUpdate = true;
             }
         }
 
+        boolean connectionUpdate = false;
         if (!App.currentPi.getHost().equals(host)) {
-            if (updateHost(host) == -1) {
+            if (updateSSHInfo(host, HOST) == -1)
                 return;
-            } else {
-                updated = true;
-            }
+            else
+                connectionUpdate = true;
         }
-
         if (!App.currentPi.getUser().equals(user)) {
-            App.currentPi.setUser(user);
-            updated = true;
+            if (updateSSHInfo(user, USER) == -1)
+                return;
+            else
+                connectionUpdate = true;
         }
         if (!App.currentPi.getPass().equals(pass)) {
-            App.currentPi.setPass(pass);
-            updated = true;
+            if (updateSSHInfo(pass, PASS) == -1)
+                return;
+            else
+                connectionUpdate = true;
         }
 
-        if (updated) {
+        if (titleUpdate || connectionUpdate) {
+            if (connectionUpdate) {
+                try {
+                    App.currentPi.disconnect();
+                    App.currentPi.connect();
+                } catch (IOException e) {
+                    Alert alert = App.createAlert("Failed to connect, please try again", Alert.AlertType.ERROR);
+                    alert.show();
+                    return;
+                }
+            }
             Stage stage = (Stage) deviceName.getScene().getWindow();
             stage.setTitle(title);
             message.setText("Changes saved!");
@@ -116,12 +135,19 @@ public class SettingsController {
         return 0;
     }
 
-    private int updateHost(String host) {
-        if (App.alreadyExists(host)) {
-            message.setText("*System already exists");
-            return -1;
+    private int updateSSHInfo(String info, int type) {
+        if (type == HOST) {
+            if (App.alreadyExists(info)) {
+                message.setText("*System already exists");
+                return -1;
+            } else {
+                App.currentPi.setHost(info);
+            }
+            return 0;
+        } else if (type == USER) {
+            App.currentPi.setUser(info);
         } else {
-            App.currentPi.setHost(host);
+            App.currentPi.setPass(info);
         }
         return 0;
     }
