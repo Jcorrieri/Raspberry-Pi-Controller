@@ -1,5 +1,6 @@
-package com.example.app;
+package com.example.app.Controllers;
 
+import com.example.app.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;

@@ -1,5 +1,7 @@
-package com.example.app;
+package com.example.app.Controllers;
 
+import com.example.app.App;
+import com.example.app.RaspberryPi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;

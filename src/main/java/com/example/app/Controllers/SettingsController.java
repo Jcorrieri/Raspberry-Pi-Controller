@@ -1,5 +1,6 @@
-package com.example.app;
+package com.example.app.Controllers;
 
+import com.example.app.App;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

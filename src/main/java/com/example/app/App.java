@@ -1,14 +1,13 @@
 package com.example.app;
 
+import com.example.app.Controllers.AppController;
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,19 +20,21 @@ public class App extends Application {
 
     private static Button selectedButton;
 
-    protected static ArrayList<RaspberryPi> systems;
-    protected static RaspberryPi currentPi;
+    public static ArrayList<RaspberryPi> systems;
+    public static RaspberryPi currentPi;
     public static final int MAX_SYSTEMS = 8;
+
+    public static final int GPIO = 0, FILE_MAN = 1, SSH = 2, SCRIPTS = 3, METRICS = 4;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("app.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/app.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         App.primaryStage = stage;
         App.appController = fxmlLoader.getController();
         App.systems = new ArrayList<>();
 
-        String imageUrl = String.valueOf( App.class.getResource("images/program-icon.png") );
+        String imageUrl = String.valueOf(App.class.getResource("images/program-icon.png") );
         stage.getIcons().add(new Image(imageUrl));
 
         stage.setTitle("Rpi Project - JFX Demo");
@@ -55,24 +56,24 @@ public class App extends Application {
         return alert;
     }
 
-    protected static Stage getPrimaryStage() { return primaryStage; }
+    public static Stage getPrimaryStage() { return primaryStage; }
 
-    protected static AppController getController() { return appController; }
+    public static AppController getController() { return appController; }
 
     public static boolean isLoggedIn() { return loggedIn; }
 
-    protected static void setLoggedIn() { loggedIn = true; }
+    public static void setLoggedIn() { loggedIn = true; }
 
-    protected static void setLoggedOut() { loggedIn = false; }
+    public static void setLoggedOut() { loggedIn = false; }
 
-    protected static void selectButton(Button button) {
+    public static void selectButton(Button button) {
         if (selectedButton != null)
             selectedButton.getStyleClass().remove("selected-system-button");
         button.getStyleClass().add("selected-system-button");
         selectedButton = button;
     }
 
-    protected static Button getSelectedButton() { return selectedButton; }
+    public static Button getSelectedButton() { return selectedButton; }
 
     public static boolean alreadyExists(String identifier) {
         for (RaspberryPi pi : App.systems)

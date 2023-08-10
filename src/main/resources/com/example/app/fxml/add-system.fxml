@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="459.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AddSysController">
+<AnchorPane prefHeight="459.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Controllers.AddSysController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="60.0" prefWidth="200.0" styleClass="header-container" stylesheets="@dialog.css">
+            <HBox prefHeight="60.0" prefWidth="200.0" styleClass="header-container" stylesheets="@../css/dialog.css">
                <children>
                   <Label prefHeight="23.0" prefWidth="297.0" text="Add Raspberry Pi">
                      <font>
@@ -33,7 +33,7 @@
                   <Pane prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/program-icon.png" />
+                        <Image url="@../images/program-icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -44,15 +44,15 @@
             <Pane prefHeight="387.0" prefWidth="335.0" VBox.vgrow="ALWAYS">
                <children>
                   <ComboBox fx:id="selectModel" layoutX="75.0" layoutY="37.0" onShowing="#initComboBox" prefHeight="25.0" prefWidth="185.0" promptText="Select Model" />
-                  <TextField fx:id="title" layoutX="52.0" layoutY="85.0" prefWidth="230.0" promptText="Device Title" stylesheets="@dialog.css" />
-                  <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Host" stylesheets="@dialog.css" />
-                  <TextField fx:id="username" layoutX="52.0" layoutY="195.0" prefWidth="230.0" promptText="Username" stylesheets="@dialog.css" />
-                  <PasswordField fx:id="password" layoutX="52.0" layoutY="250.0" prefWidth="230.0" promptText="Password" stylesheets="@dialog.css" />
+                  <TextField fx:id="title" layoutX="52.0" layoutY="85.0" prefWidth="230.0" promptText="Device Title" stylesheets="@../css/dialog.css" />
+                  <TextField fx:id="ip" layoutX="53.0" layoutY="140.0" prefWidth="230.0" promptText="IP / Host" stylesheets="@../css/dialog.css" />
+                  <TextField fx:id="username" layoutX="52.0" layoutY="195.0" prefWidth="230.0" promptText="Username" stylesheets="@../css/dialog.css" />
+                  <PasswordField fx:id="password" layoutX="52.0" layoutY="250.0" prefWidth="230.0" promptText="Password" stylesheets="@../css/dialog.css" />
                   <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="57.0" layoutY="293.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
                   <Button id="submit-button" fx:id="submitButton" layoutX="68.0" layoutY="317.0" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="200.0" styleClass="generic-button" text="Add Raspberry Pi">
                      <stylesheets>
-                        <URL value="@app.css" />
-                        <URL value="@dialog.css" />
+                        <URL value="@../css/app.css" />
+                        <URL value="@../css/dialog.css" />
                      </stylesheets>
                   </Button>
                   <ProgressIndicator fx:id="progressIndicator" layoutX="270.0" layoutY="320.0" prefHeight="32.0" prefWidth="34.0" visible="false" />

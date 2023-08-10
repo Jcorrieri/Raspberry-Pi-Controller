@@ -23,7 +23,7 @@ public class RaspberryPi {
 
     private TitledPane titledPane;
 
-    protected String metricInfo;
+    public String metricInfo;
 
     private SSHClient ssh;
 
@@ -39,7 +39,7 @@ public class RaspberryPi {
         metricInfo = getMetricInfo();
     }
 
-    protected void connect() throws IOException {
+    public void connect() throws IOException {
         // Connect via ssh...
         ssh = new SSHClient();
         ssh.loadKnownHosts();
@@ -53,7 +53,7 @@ public class RaspberryPi {
         System.out.println(ssh.isAuthenticated() + ", " + ssh.isAuthenticated());
     }
 
-    protected void disconnect() {
+    public void disconnect() {
         if (!isConnected())
             return;
 
@@ -93,36 +93,36 @@ public class RaspberryPi {
         return result;
     }
 
-    protected TitledPane getTitledPane() { return titledPane; }
+    public TitledPane getTitledPane() { return titledPane; }
 
-    protected void setTitledPane(TitledPane pane) { titledPane = pane; }
+    public void setTitledPane(TitledPane pane) { titledPane = pane; }
 
     public String getTitle() { return title; }
 
-    protected void setTitle(String newTitle) {
+    public void setTitle(String newTitle) {
         title = newTitle;
         titledPane.setText(newTitle);
         titledPane.setId(newTitle);
         App.getController().setSystemName(newTitle + " - " + "Settings");
     }
 
-    protected String getHost() { return host; }
+    public String getHost() { return host; }
 
-    protected void setHost(String newHost) { host = newHost; }
+    public void setHost(String newHost) { host = newHost; }
 
-    protected String getUser() { return username; }
+    public String getUser() { return username; }
 
-    protected void setUser(String newUser) { username = newUser; }
+    public void setUser(String newUser) { username = newUser; }
 
-    protected String getPass() { return password; }
+    public String getPass() { return password; }
 
-    protected void setPass(String newPass) {password = newPass; }
+    public void setPass(String newPass) {password = newPass; }
 
     public boolean isConnected() { return ssh != null && ssh.isConnected(); }
 
     public boolean isMonitoring() { return monitor != null && monitor.isRunning(); }
 
-    protected void initMonitor() {
+    public void initMonitor() {
         monitor = new Monitor<>(this);
         new Thread(monitor).start();
     }
@@ -152,7 +152,7 @@ public class RaspberryPi {
                 + "v\n" + "SDRAM Voltage Config: " + voltConfig[1] + "v";
     }
 
-    protected void restart() {
+    public void restart() {
         if (isMonitoring())
             monitor.cancel();
         Session session = null;
@@ -175,7 +175,7 @@ public class RaspberryPi {
         }
     }
 
-    protected void shutdown() {
+    public void shutdown() {
         if (isMonitoring())
             monitor.cancel();
         Session session = null;

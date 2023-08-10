@@ -34,9 +34,9 @@
     -fx-background-radius: 0px;
 }
 
-#profile-icon { -fx-background-image: url('images/profile-icon.png'); }
-#settings-icon { -fx-background-image: url('images/settings-icon.png'); }
-#help-icon { -fx-background-image: url('images/help-icon.png'); }
+#profile-icon { -fx-background-image: url('../images/profile-icon.png'); }
+#settings-icon { -fx-background-image: url('../images/settings-icon.png'); }
+#help-icon { -fx-background-image: url('../images/help-icon.png'); }
 
 .generic-icon:hover {
     -fx-cursor: hand;
