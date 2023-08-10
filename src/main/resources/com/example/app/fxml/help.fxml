@@ -15,7 +15,7 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="60.0" prefWidth="200.0" styleClass="header-container" stylesheets="@dialog.css">
+            <HBox prefHeight="60.0" prefWidth="200.0" styleClass="header-container" stylesheets="@../css/dialog.css">
                <children>
                   <Label prefHeight="23.0" prefWidth="297.0" text="Help">
                      <font>
@@ -28,7 +28,7 @@
                   <Pane prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/help-icon.png" />
+                        <Image url="@../images/help-icon.png" />
                      </image>
                   </ImageView>
                </children>

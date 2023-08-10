@@ -21,12 +21,12 @@
 
 /* For device options */
 #shutdown-button {
-    -fx-background-image: url('images/power-icon.png');
+    -fx-background-image: url('../images/power-icon.png');
     -fx-background-color: rgba(255, 255, 255, 0);
 }
 
 #reboot-button {
-    -fx-background-image: url('images/reset-icon.png');
+    -fx-background-image: url('../images/reset-icon.png');
     -fx-background-size: 42px;
     -fx-background-repeat: no-repeat;
     -fx-background-color: rgba(255, 255, 255, 0);

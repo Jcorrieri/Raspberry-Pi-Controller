@@ -9,7 +9,7 @@ public class CustomButton extends Button {
     public CustomButton(String name, RaspberryPi pi) {
         super(name);
         this.pi = pi;
-        getStylesheets().add(String.valueOf(AppController.class.getResource("app.css")));
+        getStylesheets().add(String.valueOf(AppController.class.getResource("css/app.css")));
         getStyleClass().add("system-dropdown-button");
         setMaxWidth(Double.MAX_VALUE);
     }

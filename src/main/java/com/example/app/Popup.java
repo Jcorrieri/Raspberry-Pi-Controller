@@ -38,25 +38,25 @@ public class Popup {
     private int init(int type) {
         switch (type) {
             case LOGIN -> {
-                resource = "login.fxml";
+                resource = "fxml/login.fxml";
                 title = "Login";
                 width = 300;
                 height = 335;
             }
             case SETTINGS -> {
-                resource = "settings.fxml";
+                resource = "fxml/settings.fxml";
                 title = App.currentPi.getTitle();
                 width = 300;
                 height = 440;
             }
             case HELP -> {
-                resource = "help.fxml";
+                resource = "fxml/help.fxml";
                 title = "Help";
                 width = 335;
                 height = 465;
             }
             case ADD_SYS -> {
-                resource = "add-system.fxml";
+                resource = "fxml/add-system.fxml";
                 title = "Add System";
                 width = 335;
                 height = 460;

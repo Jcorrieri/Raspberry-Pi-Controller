@@ -25,9 +25,11 @@ public class App extends Application {
     protected static RaspberryPi currentPi;
     public static final int MAX_SYSTEMS = 8;
 
+    public static final int GPIO = 0, FILE_MAN = 1, SSH = 2, SCRIPTS = 3, METRICS = 4;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("app.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/app.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         App.primaryStage = stage;
         App.appController = fxmlLoader.getController();
