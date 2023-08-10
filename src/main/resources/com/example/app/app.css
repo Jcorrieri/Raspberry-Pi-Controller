@@ -118,3 +118,18 @@
     -fx-border-width: 0px 0px 0px 3px;
     -fx-border-style: solid;
 }
+
+.gpioPinButton {
+    -fx-pref-width: 31px;
+    -fx-pref-height: 31px;
+}
+
+.gpioUsableButton {
+    -fx-background-color: #ffea29;
+    -fx-cursor: hand;
+}
+
+.gpioUsableButton:hover {
+    -fx-background-color: #d4c224;
+}
+.gpioGroundButton { -fx-background-color: black; }
