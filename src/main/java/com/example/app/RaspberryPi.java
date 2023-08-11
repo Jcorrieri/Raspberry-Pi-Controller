@@ -1,10 +1,6 @@
 package com.example.app;
 
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.ConnectionException;
@@ -68,7 +64,7 @@ public class RaspberryPi {
         }
     }
 
-    protected String executeCommand(String command) {
+    public String executeCommand(String command) {
         Session session = null;
         if (ssh == null || !ssh.isConnected())
             return null;

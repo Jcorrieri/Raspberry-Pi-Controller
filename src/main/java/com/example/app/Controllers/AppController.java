@@ -16,10 +16,13 @@ import java.io.IOException;
 public class AppController {
 
     @FXML
-    private Parent metrics;
+    private Parent metrics, gpio;
 
     @FXML
     private MetricsController metricsController;
+
+    @FXML
+    private GpioController gpioController;
 
     @FXML
     public Color x4;
@@ -38,12 +41,6 @@ public class AppController {
 
     @FXML
     private StackPane panels, details;
-
-    @FXML
-    private AnchorPane metricsDetails;
-
-    @FXML
-    private TextArea metricsTextArea;
 
     @FXML
     private VBox systemContainer;
@@ -179,7 +176,7 @@ public class AppController {
 
         if (pane != null) {
             switch (pane.getId()) {
-                case "GPIO" -> {}
+                case "GPIO" -> App.getController().toFront(App.GPIO);
                 case "File Manager" -> {}
                 case "SSH Shell" -> {}
                 case "Scripts" -> {}
@@ -233,19 +230,48 @@ public class AppController {
 
     public void setSystemName(String text) { systemName.setText(text); }
 
+    /*  *  *  *  *  *  *  *  *
+     * START DETAIL METHODS  *
+     *  *  *  *  *  *  *  *  */
+
+    @FXML
+    private AnchorPane metricsDetails, gpioDetails;
+
+    @FXML
+    private TextArea metricsTextArea, gpioTextArea;
+
+    @FXML
+    private Label pinLabel;
+
+    @FXML
+    private TextField levelNonEditable, modeNonEditable, functionNonEditable, pullNonEditable;
+
     protected void toFront(int type) {
         if (type == App.METRICS) {
             metricsDetails.toFront();
             metricsDetails.setVisible(true);
             metricsTextArea.setText(App.currentPi.metricInfo);
+        } else if (type == App.GPIO) {
+            gpioDetails.toFront();
+            gpioDetails.setVisible(true);
         }
     }
 
-    /*  *  *  *  *  *  *  *  *
-     * START SYSTEM METHODS  *
-     *  *  *  *  *  *  *  *  */
-
     public void updateMetrics(String[] timeAndTasks, double temp, String[][] diskMetrics, double[][] usageMetrics) {
         metricsController.updateMetrics(timeAndTasks, temp, diskMetrics, usageMetrics);
+    }
+
+    public void updateGPIO(int pin) {
+        pinLabel.setText("GPIO " + pin);
+        gpioTextArea.setText("Information about pin#" + pin);
+
+        String currentConfig = App.currentPi.executeCommand("raspi-gpio get " + pin);
+        currentConfig = currentConfig.substring(currentConfig.indexOf(':') + 2);
+
+        String[] data = currentConfig.split(" ");
+        levelNonEditable.setText(data[0].substring(data[0].indexOf('=') + 1));
+        modeNonEditable.setText(data[1].substring(data[1].indexOf('=') + 1));
+        functionNonEditable.setText(data[2].substring(data[2].indexOf('=') + 1));
+        pullNonEditable.setText(data[3].substring(data[3].indexOf('=') + 1));
     }
 }

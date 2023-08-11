@@ -23,22 +23,24 @@ public class SettingsController {
     private final int HOST = 0, USER = 1, PASS = 2;
 
     public SettingsController() {
-        Task<Void> task = new Task<>() {
+        Task<Void> init = new Task<>() {
 
             @Override
             protected Void call() {
                 while (deviceName == null || hostname == null || username == null)
                     Thread.onSpinWait();
+
                 Platform.runLater(() -> {
                     deviceName.setText(App.currentPi.getTitle());
                     hostname.setText(App.currentPi.getHost());
                     username.setText(App.currentPi.getUser());
                     password.setText(App.currentPi.getPass());
                 });
+
                 return null;
             }
         };
-        new Thread(task).start();
+        new Thread(init).start();
     }
 
     @FXML
@@ -65,8 +67,6 @@ public class SettingsController {
 
     @FXML
     private void applyChanges() {
-        String[] oldSSHInfo = new String[]{App.currentPi.getHost(), App.currentPi.getUser(), App.currentPi.getPass()};
-
         String title = deviceName.getText();
         String host = hostname.getText();
         String user = username.getText();
@@ -147,8 +147,10 @@ public class SettingsController {
             return 0;
         } else if (type == USER) {
             App.currentPi.setUser(info);
-        } else {
+        } else if (type == PASS){
             App.currentPi.setPass(info);
+        } else {
+            return -1;
         }
         return 0;
     }
