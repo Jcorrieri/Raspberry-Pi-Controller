@@ -19,9 +19,9 @@ public class RaspberryPi {
 
     private TitledPane titledPane;
 
-    public String metricInfo;
-
     private SSHClient ssh;
+
+    public String config;
 
     private Monitor<Void> monitor;
 
@@ -32,7 +32,7 @@ public class RaspberryPi {
         this.username = username;
         this.password = password;
         connect();
-        metricInfo = getMetricInfo();
+        config = execConfigCmd();
     }
 
     public void connect() throws IOException {
@@ -139,7 +139,7 @@ public class RaspberryPi {
         return new double[]{coreVolts, ramVolts};
     }
 
-    public String getMetricInfo() {
+    public String execConfigCmd() {
         double[] voltConfig = getVoltageConfig();
         if (voltConfig == null)
             return model;

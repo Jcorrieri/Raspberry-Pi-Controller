@@ -1,6 +1,8 @@
 package com.example.app.Controllers;
 
 import com.example.app.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -55,7 +57,7 @@ public class AppController {
         }
     }
 
-    protected void addSystemToUI(RaspberryPi newPi) {
+    protected void addPi(RaspberryPi newPi) {
         App.systems.add(newPi);
         App.currentPi = newPi;
 
@@ -79,6 +81,8 @@ public class AppController {
         titledPane.getStyleClass().add("system-titled-pane");
         systemContainer.getChildren().add(titledPane);
         App.currentPi.setTitledPane(titledPane);
+
+        metricsController.initMetrics();
     }
 
     private void createButtons(RaspberryPi newPi, VBox vBox) {
@@ -176,11 +180,11 @@ public class AppController {
 
         if (pane != null) {
             switch (pane.getId()) {
-                case "GPIO" -> App.getController().toFront(App.GPIO);
+                case "GPIO" -> toFront(App.GPIO);
                 case "File Manager" -> {}
                 case "SSH Shell" -> {}
                 case "Scripts" -> {}
-                case "Metrics" -> metricsController.displayMetrics();
+                case "Metrics" -> toFront(App.METRICS);
                 default -> {}
             }
 
@@ -244,24 +248,37 @@ public class AppController {
     private Label pinLabel;
 
     @FXML
+    private Slider levelSlider;
+
+    @FXML
+    private RadioButton inputMode, outputMode;
+
+    @FXML
+    private ToggleGroup functionGroup;
+
+    @FXML
+    private ChoiceBox<String> modeToggle, pullToggle;
+
+    private ObservableList<String> modes;
+
+    @FXML
     private TextField levelNonEditable, modeNonEditable, functionNonEditable, pullNonEditable;
 
     protected void toFront(int type) {
         if (type == App.METRICS) {
             metricsDetails.toFront();
             metricsDetails.setVisible(true);
-            metricsTextArea.setText(App.currentPi.metricInfo);
+            metricsTextArea.setText(App.currentPi.config);
         } else if (type == App.GPIO) {
             gpioDetails.toFront();
             gpioDetails.setVisible(true);
         }
     }
 
-    public void updateMetrics(String[] timeAndTasks, double temp, String[][] diskMetrics, double[][] usageMetrics) {
-        metricsController.updateMetrics(timeAndTasks, temp, diskMetrics, usageMetrics);
-    }
+    // GPIO
+    public void selectBcmPin(int pin) {
+        long start = System.currentTimeMillis();
 
-    public void updateGPIO(int pin) {
         pinLabel.setText("GPIO " + pin);
         gpioTextArea.setText("Information about pin#" + pin);
 
@@ -273,5 +290,70 @@ public class AppController {
         modeNonEditable.setText(data[1].substring(data[1].indexOf('=') + 1));
         functionNonEditable.setText(data[2].substring(data[2].indexOf('=') + 1));
         pullNonEditable.setText(data[3].substring(data[3].indexOf('=') + 1));
+
+        levelSlider.setValue(Double.parseDouble(levelNonEditable.getText()));
+        if (functionNonEditable.getText().equalsIgnoreCase("INPUT")) {
+            inputMode.setSelected(true);
+        } else {
+            outputMode.setSelected(true);
+        }
+
+        modes = FXCollections.observableArrayList(
+                "0",
+                "1",
+                "2"
+        );
+
+        modeToggle.setValue(modeNonEditable.getText());
+        modeToggle.setItems(modes);
+        pullToggle.setValue(pullNonEditable.getText());
+        pullToggle.setItems(FXCollections.observableArrayList("UP", "DOWN"));
+
+        System.out.println(System.currentTimeMillis() - start + "ms");
+    }
+
+    public void updateBcmPin() {
+        Alert confirm = App.createAlert(null, Alert.AlertType.WARNING);
+        confirm.setHeaderText("GPIO PIN MODIFICATION WARNING");
+        confirm.setContentText(
+                """
+                WARNING! raspi-gpio set writes directly to the GPIO control registers
+                ignoring whatever else may be using them (such as Linux drivers) - it is designed as a debug tool,
+                only use it if you know what you are doing and at your own risk!
+                """
+        );
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    double currentLevel = Double.parseDouble(levelNonEditable.getText());
+                    int currentMode = Integer.parseInt(modeNonEditable.getText());
+                    String currentFunction = ((RadioButton)functionGroup.getSelectedToggle()).getText();
+                    String currentPull = pullToggle.getValue();
+
+                    boolean updateLevel = levelSlider.getValue() != currentLevel;
+                    boolean updateMode = currentMode != Integer.parseInt(modeToggle.getValue());
+                    boolean updateFunc = !functionNonEditable.getText().equalsIgnoreCase(currentFunction);
+                    boolean updatePull = !pullNonEditable.getText().equals(currentPull);
+
+                    System.out.println(gpioController.currentPin);
+                    System.out.println(updateLevel + " " + updateMode + " " + updateFunc + " " + updatePull);
+                } catch (NumberFormatException nfe) {
+                    Alert blank = App.createAlert(null, Alert.AlertType.ERROR);
+                    blank.setHeaderText("There are blank fields");
+                    blank.show();
+                }
+            }
+        });
+    }
+
+    // METRICS
+    public void updateMetrics(String[] timeAndTasks, double temp, String[][] diskMetrics, double[][] usageMetrics) {
+        metricsController.updateMetrics(timeAndTasks, temp, diskMetrics, usageMetrics);
+    }
+
+    public void refreshMetricDetails() {
+        App.currentPi.config = App.currentPi.execConfigCmd();
+        metricsTextArea.setText(App.currentPi.config);
     }
 }

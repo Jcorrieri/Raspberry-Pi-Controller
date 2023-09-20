@@ -47,6 +47,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -176,10 +177,11 @@
             <children>
                <AnchorPane fx:id="metricsDetails" visible="false">
                   <children>
-                     <TextArea fx:id="metricsTextArea" focusTraversable="false" layoutX="10.0" layoutY="23.0" prefHeight="329.0" prefWidth="248.0" styleClass="metric-detail-textarea" stylesheets="@../css/metrics.css" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="23.0" />
+                     <TextArea fx:id="metricsTextArea" editable="false" focusTraversable="false" layoutX="10.0" layoutY="23.0" prefHeight="329.0" prefWidth="248.0" styleClass="metric-detail-textarea" stylesheets="@../css/metrics.css" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="23.0" />
+                     <Hyperlink alignment="CENTER" contentDisplay="CENTER" onAction="#refreshMetricDetails" text="Refresh" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="360.0" />
                   </children>
                </AnchorPane>
-               <AnchorPane fx:id="gpioDetails" prefHeight="200.0" prefWidth="200.0">
+               <AnchorPane fx:id="gpioDetails" prefHeight="200.0" prefWidth="200.0" visible="false">
                   <children>
                      <Label fx:id="pinLabel" layoutX="14.0" layoutY="21.0" text="GPIO" textFill="GREY">
                         <font>
@@ -223,11 +225,14 @@
                            <Font name="Arial Rounded MT Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Slider blockIncrement="1.0" layoutX="65.0" layoutY="330.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" />
-                     <RadioButton layoutX="65.0" layoutY="369.0" mnemonicParsing="false" text="Input" />
-                     <RadioButton layoutX="127.0" layoutY="369.0" mnemonicParsing="false" text="Output" />
-                     <ChoiceBox layoutX="85.0" layoutY="409.0" minHeight="20.0" prefHeight="20.0" prefWidth="142.0" />
-                     <ChoiceBox layoutX="50.0" layoutY="450.0" minHeight="20.0" prefHeight="20.0" prefWidth="142.0" />
+                     <Slider fx:id="levelSlider" blockIncrement="1.0" layoutX="65.0" layoutY="330.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" />
+                     <RadioButton fx:id="inputMode" layoutX="85.0" layoutY="409.0" mnemonicParsing="false" text="Input">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="functionGroup" />
+                        </toggleGroup></RadioButton>
+                     <RadioButton fx:id="outputMode" layoutX="147.0" layoutY="409.0" mnemonicParsing="false" text="Output" toggleGroup="$functionGroup" />
+                     <ChoiceBox fx:id="modeToggle" layoutX="65.0" layoutY="369.0" minHeight="20.0" prefHeight="20.0" prefWidth="142.0" />
+                     <ChoiceBox fx:id="pullToggle" layoutX="50.0" layoutY="450.0" minHeight="20.0" prefHeight="20.0" prefWidth="142.0" />
                      <Label layoutX="16.0" layoutY="328.0" text="Level:" textFill="GREY">
                         <font>
                            <Font name="Arial Rounded MT Bold" size="14.0" />
@@ -248,7 +253,7 @@
                            <Font name="Arial Rounded MT Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Button layoutX="92.0" layoutY="508.0" mnemonicParsing="false" prefWidth="87.0" styleClass="generic-button" text="Apply">
+                     <Button layoutX="92.0" layoutY="508.0" mnemonicParsing="false" onAction="#updateBcmPin" prefWidth="87.0" styleClass="generic-button" text="Apply">
                         <font>
                            <Font name="Arial Rounded MT Bold" size="12.0" />
                         </font>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="758.0" prefWidth="503.0" stylesheets="@../css/app.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Controllers.GpioController">
+   <children>
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#2f2f2f" height="735.0" layoutX="367.0" layoutY="23.0" stroke="BLACK" strokeType="INSIDE" width="95.0" />
+      <ImageView fitHeight="405.0" fitWidth="436.0" layoutX="-44.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" smooth="false">
+         <image>
+            <Image url="@../images/board-01.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="32.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ffc72b;" styleClass="gpioPinButton" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="68.0" mnemonicParsing="false" onAction="#bcmPinTwo" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="2">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="104.0" mnemonicParsing="false" onAction="#bcmPinThree" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="3">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="140.0" mnemonicParsing="false" onAction="#bcmPinFour" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="4">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="176.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="212.0" mnemonicParsing="false" onAction="#bcmPinSeventeen" prefHeight="31.0" prefWidth="31.0" text="17">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="248.0" mnemonicParsing="false" onAction="#bcmPinTwentySeven" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="27">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="284.0" mnemonicParsing="false" onAction="#bcmPinTwentyTwo" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="22">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="320.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ffc72b;" styleClass="gpioPinButton" stylesheets="@../css/app.css" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="356.0" mnemonicParsing="false" onAction="#bcmPinTen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="10">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="393.0" mnemonicParsing="false" onAction="#bcmPinNine" prefHeight="31.0" prefWidth="31.0" text="9">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="429.0" mnemonicParsing="false" onAction="#bcmPinEleven" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="11">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="465.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="501.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: white;" styleClass="gpioPinButton" stylesheets="@../css/app.css" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="537.0" mnemonicParsing="false" onAction="#bcmPinFive" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="5">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="573.0" mnemonicParsing="false" onAction="#bcmPinSix" prefHeight="31.0" prefWidth="31.0" text="6">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="609.0" mnemonicParsing="false" onAction="#bcmPinThirteen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="13">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="645.0" mnemonicParsing="false" onAction="#bcmPinNineteen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="19">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="681.0" mnemonicParsing="false" onAction="#bcmPinTwentySix" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="26">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="376.0" layoutY="717.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="32.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: red;" styleClass="gpioPinButton" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="68.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: red;" styleClass="gpioPinButton" stylesheets="@../css/app.css" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="104.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="140.0" mnemonicParsing="false" onAction="#bcmPinFourteen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="14">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="176.0" mnemonicParsing="false" onAction="#bcmPinFifteen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="15">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="212.0" mnemonicParsing="false" onAction="#bcmPinEighteen" prefHeight="31.0" prefWidth="31.0" text="18">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="248.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="284.0" mnemonicParsing="false" onAction="#bcmPinTwentyThree" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="23">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="320.0" mnemonicParsing="false" onAction="#bcmPinTwentyFour" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="24">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="356.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="393.0" mnemonicParsing="false" onAction="#bcmPinTwentyFive" prefHeight="31.0" prefWidth="31.0" text="25">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="429.0" mnemonicParsing="false" onAction="#bcmPinEight" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="8">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="465.0" mnemonicParsing="false" onAction="#bcmPinSeven" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="7">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="501.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: white;" styleClass="gpioPinButton" stylesheets="@../css/app.css" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="537.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: black;" styleClass="gpioPinButton" stylesheets="@../css/app.css" />
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="573.0" mnemonicParsing="false" onAction="#bcmPinTwelve" prefHeight="31.0" prefWidth="31.0" text="12">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="609.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioGroundButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="645.0" mnemonicParsing="false" onAction="#bcmPinSixteen" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="16">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="681.0" mnemonicParsing="false" onAction="#bcmPinTwenty" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="20">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Button contentDisplay="CENTER" graphicTextGap="0.0" layoutX="423.0" layoutY="717.0" mnemonicParsing="false" onAction="#bcmPinTwentyOne" prefHeight="31.0" prefWidth="31.0" stylesheets="@../css/app.css" text="21">
+         <styleClass>
+            <String fx:value="gpioPinButton" />
+            <String fx:value="gpioUsableButton" />
+         </styleClass>
+      </Button>
+      <Line endX="125.0" endY="-90.5" layoutX="242.0" layoutY="481.0" startX="76.24334716796875" startY="-300.0" />
+      <Circle fill="#ffea29" layoutX="56.0" layoutY="502.0" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="RED" layoutX="56.0" layoutY="541.0" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#ffc72b" layoutX="146.0" layoutY="501.0" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle layoutX="146.0" layoutY="540.0" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="76.0" layoutY="492.0" text="GPIO">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="76.0" layoutY="531.0" text="5v">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="166.0" layoutY="491.0" text="3.3v">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="166.0" layoutY="530.0" text="Ground">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Circle fill="WHITE" layoutX="236.0" layoutY="500.0" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="256.0" layoutY="479.0" prefHeight="20.0" prefWidth="87.0" text="GPIO 0/1">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="251.0" layoutY="499.0" prefHeight="20.0" prefWidth="125.0" text="(ID EEPROM)">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

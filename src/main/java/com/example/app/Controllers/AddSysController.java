@@ -81,7 +81,7 @@ public class AddSysController {
             submitButton.setDisable(true);
 
             createPi.setOnSucceeded(e -> {
-                App.getController().addSystemToUI(createPi.getValue());
+                App.getController().addPi(createPi.getValue());
                 stage.close();
             });
             createPi.setOnFailed(e -> {

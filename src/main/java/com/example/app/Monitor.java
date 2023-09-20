@@ -41,8 +41,7 @@ public class Monitor<E> extends Task<E> {
                 continue;
             }
 
-            if (App.currentPi.equals(OWNER)) // Paranoia
-                App.getController().updateMetrics(uptimeAndTasks, temperature, diskMetrics, usages);
+            App.getController().updateMetrics(uptimeAndTasks, temperature, diskMetrics, usages);
 
             // Better than Thread.sleep for performance reasons of sorts (for some reason)
             while (System.currentTimeMillis() - cycleStart < 1000)

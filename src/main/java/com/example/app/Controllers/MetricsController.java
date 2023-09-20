@@ -38,7 +38,7 @@ public class MetricsController {
 
     private XYChart.Series<String, Number> temperatureData;
 
-    protected void displayMetrics() {
+    protected void initMetrics() {
         temperatureData = new XYChart.Series<>();
         temperatureData.setName("Core");
         tempChart.getData().clear();
@@ -46,19 +46,6 @@ public class MetricsController {
 
         if (!App.currentPi.isMonitoring())
             App.currentPi.initMonitor();
-
-        Task<Void> checkDetails = new Task<>() {
-            @Override
-            protected Void call() {
-                String currentInfo = App.currentPi.getMetricInfo();
-                if (!currentInfo.equals(App.currentPi.metricInfo))
-                    App.currentPi.metricInfo = currentInfo;
-                return null;
-            }
-        };
-        new Thread(checkDetails).start();
-
-        App.getController().toFront(App.METRICS);
     }
 
     /*
@@ -95,9 +82,6 @@ public class MetricsController {
      */
     protected void updateMetrics(String[] timeAndTasks, double temp, String[][] diskMetrics, double[][] usageMetrics) {
         // Update GUI on JavaFX app thread
-        if (!App.getSelectedButton().getText().equals("CPU, RAM, and Disk Metrics"))
-            return;
-
         Platform.runLater(() -> {
             temperatureData.getData().add(new XYChart.Data<>(timeAndTasks[0], temp));
             temperature.setText(temp + "°C");
