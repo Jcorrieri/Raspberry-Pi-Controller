@@ -120,7 +120,7 @@
                         </HBox.margin>
                     </Label>
                     <Pane prefHeight="20.0" HBox.hgrow="ALWAYS" />
-                    <ToolBar id="main-toolbar" stylesheets="@../css/app.css">
+                    <ToolBar id="main-toolbar" prefHeight="60.0" prefWidth="138.0" stylesheets="@../css/app.css">
                         <Button mnemonicParsing="false" onAction="#createAddSystemWindow" styleClass="generic-button" text="➕  Add System">
                             <padding>
                                 <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
