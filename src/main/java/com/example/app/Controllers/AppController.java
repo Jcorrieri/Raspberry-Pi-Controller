@@ -14,17 +14,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class AppController {
 
     @FXML
-    private Parent metrics, gpio;
-
-    @FXML
-    private MetricsController metricsController;
+    private Parent gpio, files, metrics;
 
     @FXML
     private GpioController gpioController;
+
+    @FXML
+    private FileController filesController;
+
+    @FXML
+    private MetricsController metricsController;
 
     @FXML
     public Color x4;
@@ -83,6 +87,7 @@ public class AppController {
         App.currentPi.setTitledPane(titledPane);
 
         metricsController.initMetrics();
+        filesController.init();
     }
 
     private void createButtons(RaspberryPi newPi, VBox vBox) {
@@ -178,10 +183,11 @@ public class AppController {
         for (Node node : details.getChildren())
             node.setVisible(false);
 
+        System.out.println(pane);
         if (pane != null) {
             switch (pane.getId()) {
                 case "GPIO" -> toFront(App.GPIO);
-                case "File Manager" -> {}
+                case "File Manager" -> toFront(App.FILE_MAN);
                 case "SSH Shell" -> {}
                 case "Scripts" -> {}
                 case "Metrics" -> toFront(App.METRICS);
@@ -191,6 +197,7 @@ public class AppController {
             pane.toFront();
             pane.setVisible(true);
         }
+
         System.out.println("Swapped panels in: " + (System.currentTimeMillis() - start) + "ms");
     }
 
@@ -259,8 +266,6 @@ public class AppController {
     @FXML
     private ChoiceBox<String> modeToggle, pullToggle;
 
-    private ObservableList<String> modes;
-
     @FXML
     private TextField levelNonEditable, modeNonEditable, functionNonEditable, pullNonEditable;
 
@@ -272,6 +277,8 @@ public class AppController {
         } else if (type == App.GPIO) {
             gpioDetails.toFront();
             gpioDetails.setVisible(true);
+        } else if (type == App.FILE_MAN) {
+
         }
     }
 
@@ -279,13 +286,17 @@ public class AppController {
     public void selectBcmPin(int pin) {
         long start = System.currentTimeMillis();
 
+        String config = App.currentPi.executeCommand("raspi-gpio funcs " + pin + "; raspi-gpio get " + pin);
+        Scanner piOut = new Scanner(config);
+
         pinLabel.setText("GPIO " + pin);
-        gpioTextArea.setText("Information about pin#" + pin);
+        gpioTextArea.setText(piOut.nextLine() + "\n\n" + piOut.nextLine());
 
-        String currentConfig = App.currentPi.executeCommand("raspi-gpio get " + pin);
-        currentConfig = currentConfig.substring(currentConfig.indexOf(':') + 2);
+        config = piOut.nextLine();
+        config = config.substring(config.indexOf(':') + 2);
+        piOut.close();
 
-        String[] data = currentConfig.split(" ");
+        String[] data = config.split(" ");
         levelNonEditable.setText(data[0].substring(data[0].indexOf('=') + 1));
         modeNonEditable.setText(data[1].substring(data[1].indexOf('=') + 1));
         functionNonEditable.setText(data[2].substring(data[2].indexOf('=') + 1));
@@ -298,10 +309,13 @@ public class AppController {
             outputMode.setSelected(true);
         }
 
-        modes = FXCollections.observableArrayList(
+        ObservableList<String> modes = FXCollections.observableArrayList(
                 "0",
                 "1",
-                "2"
+                "2",
+                "3",
+                "4",
+                "5"
         );
 
         modeToggle.setValue(modeNonEditable.getText());

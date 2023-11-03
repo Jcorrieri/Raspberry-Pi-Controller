@@ -167,12 +167,11 @@ public class Monitor<E> extends Task<E> {
             int count = 0;
             while (scnr.hasNextLine()) {
                 scnr.nextLine();
-                if (!scnr.hasNext())
-                    break;
 
                 String[] data = new String[6];
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 6; i++) {
                     data[i] = scnr.next();
+                }
 
                 double percentage = (Double.parseDouble(data[4].substring(0, data[4].length() - 1))) / 100;
 

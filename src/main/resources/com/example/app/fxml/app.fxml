@@ -150,7 +150,7 @@
                </ScrollPane>
                <ScrollPane id="File Manager" fx:id="filePane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
                   <content>
-                            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     <fx:include fx:id="files" source="files.fxml"/>
                   </content>
                </ScrollPane>
                <ScrollPane id="SSH Shell" fx:id="shellPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">

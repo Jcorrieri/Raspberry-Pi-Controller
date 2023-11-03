@@ -56,7 +56,7 @@ public class Popup {
                 height = 465;
             }
             case ADD_SYS -> {
-                resource = "fxml/add-system.fxml";
+                resource = "fxml/add_system.fxml";
                 title = "Add System";
                 width = 335;
                 height = 460;

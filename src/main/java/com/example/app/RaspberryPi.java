@@ -6,6 +6,7 @@ import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.ConnectionException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.connection.channel.direct.Session.Command;
+import net.schmizz.sshj.sftp.StatefulSFTPClient;
 import net.schmizz.sshj.transport.TransportException;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class RaspberryPi {
     private TitledPane titledPane;
 
     private SSHClient ssh;
+
+    private StatefulSFTPClient statefulSFTPClient;
 
     public String config;
 
@@ -56,6 +59,7 @@ public class RaspberryPi {
         try {
             if (isMonitoring())
                 monitor.cancel();
+            statefulSFTPClient.close();
             ssh.disconnect();
             System.out.println(username + "@" + host + " disconnected successfully");
         } catch (IOException e) {
@@ -87,6 +91,15 @@ public class RaspberryPi {
             }
         }
         return result;
+    }
+
+    public StatefulSFTPClient createStatefulSTFPClient() {
+        try {
+            statefulSFTPClient = (StatefulSFTPClient) ssh.newStatefulSFTPClient();
+            return statefulSFTPClient;
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public TitledPane getTitledPane() { return titledPane; }
