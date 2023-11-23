@@ -150,7 +150,7 @@
                </ScrollPane>
                <ScrollPane id="File Manager" fx:id="filePane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
                   <content>
-                     <fx:include fx:id="files" source="files.fxml"/>
+                     <fx:include fx:id="files" source="files.fxml" />
                   </content>
                </ScrollPane>
                <ScrollPane id="SSH Shell" fx:id="shellPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
@@ -258,6 +258,11 @@
                            <Font name="Arial Rounded MT Bold" size="12.0" />
                         </font>
                      </Button>
+                  </children>
+               </AnchorPane>
+               <AnchorPane fx:id="fileDetails" layoutX="10.0" layoutY="10.0">
+                  <children>
+                     <TextArea fx:id="metricsTextArea1" editable="false" focusTraversable="false" layoutX="10.0" layoutY="23.0" prefHeight="329.0" prefWidth="248.0" styleClass="metric-detail-textarea" stylesheets="@../css/metrics.css" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="23.0" />
                   </children>
                </AnchorPane>
             </children>

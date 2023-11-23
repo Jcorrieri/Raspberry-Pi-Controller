@@ -7,9 +7,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
 import net.schmizz.sshj.sftp.RemoteResourceInfo;
 import net.schmizz.sshj.sftp.StatefulSFTPClient;
+import net.schmizz.sshj.xfer.FileSystemFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -50,11 +53,36 @@ public class FileController {
 
                     setRoot.setOnAction(event1 -> setRoot(selectedItem));
 
-                    download.setOnAction(event2 -> System.out.println("Downloading..."));
+                    download.setOnAction(event2 -> {
+                        DirectoryChooser dirChooser = new DirectoryChooser();
+                        dirChooser.setTitle("Select folder to download to");
 
-                    delete.setOnAction(event3 -> remove(selectedItem, selectedItem.getChildren().size() > 0));
+                        File dir = dirChooser.showDialog(App.getPrimaryStage());
 
-                    rename.setOnAction(event4 -> rename(selectedItem, "test232-"));
+                        if (dir == null)
+                            return;
+
+                        String path = dir.getAbsolutePath();
+
+                        download(selectedItem, path);
+                    });
+
+                    delete.setOnAction(event3 -> {
+                        Alert alert = App.createAlert(null, Alert.AlertType.CONFIRMATION);
+                        alert.setHeaderText("Are you sure you want to remove " + selectedItem.getValue());
+
+                        alert.showAndWait().ifPresent(response -> {
+                            if (response == ButtonType.OK) {
+                                remove(selectedItem, selectedItem.getChildren().size() > 0);
+                            }
+                        });
+                    });
+
+                    rename.setOnAction(event4 -> {
+                        TextInputDialog tid = App.createAlert("New Name");
+                        tid.setHeaderText("Rename " + selectedItem.getValue() + "?");
+                        tid.showAndWait().ifPresent(response -> rename(selectedItem, response));
+                    });
                 }
             }
         });
@@ -180,6 +208,15 @@ public class FileController {
             client.rename(item.getPath(), newPath);
             item.updatePath(newPath);
             item.setValue(name);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void download(FileItem<String> item, String path) {
+        try {
+            client.get(item.getPath(), new FileSystemFile(path));
+            App.createAlert("File Downloaded", Alert.AlertType.INFORMATION).show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

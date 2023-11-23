@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -54,6 +55,17 @@ public class App extends Application {
         alert.setY(centerYPosition - 85);
 
         return alert;
+    }
+
+    public static TextInputDialog createAlert(String defaultValue) {
+        TextInputDialog tid = new TextInputDialog(defaultValue);
+
+        double centerXPosition = primaryStage.getX() + (primaryStage.getWidth() / 2d);
+        double centerYPosition = primaryStage.getY() + (primaryStage.getHeight() / 2d);
+        tid.setX(centerXPosition - 188);
+        tid.setY(centerYPosition - 85);
+
+        return tid;
     }
 
     public static Stage getPrimaryStage() { return primaryStage; }

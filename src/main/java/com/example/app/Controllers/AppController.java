@@ -246,7 +246,7 @@ public class AppController {
      *  *  *  *  *  *  *  *  */
 
     @FXML
-    private AnchorPane metricsDetails, gpioDetails;
+    private AnchorPane metricsDetails, gpioDetails, fileDetails;
 
     @FXML
     private TextArea metricsTextArea, gpioTextArea;
