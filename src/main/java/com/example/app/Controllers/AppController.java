@@ -278,7 +278,8 @@ public class AppController {
             gpioDetails.toFront();
             gpioDetails.setVisible(true);
         } else if (type == App.FILE_MAN) {
-
+            fileDetails.toFront();
+            fileDetails.setVisible(true);
         }
     }
 
@@ -370,4 +371,20 @@ public class AppController {
         App.currentPi.config = App.currentPi.execConfigCmd();
         metricsTextArea.setText(App.currentPi.config);
     }
+
+    // FILE_MAN
+    @FXML
+    private Label fileName, fileType, filePath, fileSize, fileUid, fileGid, fileCr, fileMd;
+
+    public void updateFileDetails(String[] details) {
+        fileName.setText(details[0]);
+        fileType.setText(details[1]);
+        filePath.setText(details[2]);
+        fileSize.setText(details[3]);
+        fileUid.setText(details[4]);
+        fileGid.setText(details[5]);
+        fileCr.setText(details[6]);
+        fileMd.setText(details[7]);
+    }
+
 }

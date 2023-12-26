@@ -40,6 +40,8 @@ public class App extends Application {
 
         stage.setTitle("Rpi Project - JFX Demo");
         stage.setScene(scene);
+        stage.setMaxHeight(1080);
+        stage.setMaxWidth(1080);
         stage.setOnCloseRequest(e -> appController.exitApplication());
         stage.show();
     }

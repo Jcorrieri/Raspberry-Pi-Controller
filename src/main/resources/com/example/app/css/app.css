@@ -119,6 +119,8 @@
     -fx-border-style: solid;
 }
 
+/* gpio stuff */
+
 .gpioPinButton {
     -fx-pref-width: 31px;
     -fx-pref-height: 31px;
@@ -133,3 +135,12 @@
     -fx-background-color: #d4c224;
 }
 .gpioGroundButton { -fx-background-color: black; }
+
+/* file manager details stuff */
+
+#fileHR .line { -fx-border-color: #ffffff; }
+
+#fileHR {
+    -fx-background-color: #427eff;
+    -fx-pref-height: 3;
+}

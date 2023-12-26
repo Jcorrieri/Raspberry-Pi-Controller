@@ -15,10 +15,18 @@
          <children>
             <HBox id="center-hbox" fillHeight="false" prefHeight="57.0" prefWidth="462.0" stylesheets="@../css/app.css">
                <children>
+                  <Button id="upload-icon" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#upload" prefHeight="30.0" prefWidth="30.0" styleClass="generic-icon" stylesheets="@../css/file_man.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </Button>
                   <Pane prefHeight="20.0" prefWidth="265.0" HBox.hgrow="ALWAYS" />
                   <HBox alignment="CENTER" prefHeight="46.0" prefWidth="76.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="30.0" text="↰">
+                        <Button id="back-icon" mnemonicParsing="false" onAction="#back" styleClass="generic-icon" stylesheets="@../css/file_man.css">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -26,7 +34,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#goHome" prefHeight="30.0" prefWidth="30.0" text="⌂">
+                        <Button id="home-icon" mnemonicParsing="false" onAction="#goHome" styleClass="generic-icon" stylesheets="@../css/file_man.css">
                            <font>
                               <Font size="14.0" />
                            </font>
