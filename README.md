@@ -17,12 +17,12 @@ Custom Raspberry Pi Controller
 
 ## Screenshots
 
-![GPIO Panel](/gpiosc.png?raw=true "GPIO Panel")
+![GPIO Panel](/gpiosc.jpg?raw=true "GPIO Panel")
 
-![File Manager](/filesc.png?raw=true "File Manager")
+![File Manager](/filesc.jpg?raw=true "File Manager")
 
-![Metrics Panel](/metricssc.png?raw=true "Metrics Panel")
+![Metrics Panel](/metricssc.jpg?raw=true "Metrics Panel")
 
-![Add System](/addsyssc.png?raw=true "Add System")
+![Add System](/addsyssc.jpg?raw=true "Add System")
 
 
