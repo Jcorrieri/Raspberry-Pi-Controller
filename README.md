@@ -4,7 +4,8 @@ Custom Raspberry Pi Controller
 
 ## Features
 
-- GPIO* Manager
+- GPIO Manager
+    - Currently cannot change GPIO configurations  
 - File Manager 
     - Upload
     - Download
@@ -21,8 +22,10 @@ Custom Raspberry Pi Controller
 
 ![File Manager](/filesc.jpg?raw=true "File Manager")
 
+[SSH Shell Not Yet Complete]
+
 ![Metrics Panel](/metricssc.jpg?raw=true "Metrics Panel")
 
-![Add System](/addsyssc.jpg?raw=true "Add System")
+![Add System](/addsys.jpg?raw=true "Add System")
 
 
