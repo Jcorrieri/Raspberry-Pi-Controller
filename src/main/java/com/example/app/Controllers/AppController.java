@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class AppController {
 
     @FXML
-    private Parent gpio, files, metrics;
+    private Parent gpio, files, metrics, shell;
 
     @FXML
     private GpioController gpioController;
@@ -29,6 +29,9 @@ public class AppController {
 
     @FXML
     private MetricsController metricsController;
+
+    @FXML
+    private ShellController shellController;
 
     @FXML
     public Color x4;
@@ -43,7 +46,7 @@ public class AppController {
     private MenuButton userOptions;
 
     @FXML
-    private ScrollPane gpioPane, filePane, shellPane, scriptPane, metricPane;
+    private ScrollPane gpioPane, filePane, shellPane, metricPane;
 
     @FXML
     private StackPane panels, details;
@@ -100,9 +103,6 @@ public class AppController {
         CustomButton sshShell = new CustomButton("SSH Shell", newPi);
         sshShell.setOnAction(e -> swapPanels(shellPane, sshShell.getPi().getTitle(), sshShell));
 
-        CustomButton scripts = new CustomButton("Scripts </>", newPi);
-        scripts.setOnAction(e -> swapPanels(scriptPane, scripts.getPi().getTitle(), scripts));
-
         CustomButton metrics = new CustomButton("CPU, RAM, and Disk Metrics", newPi);
         metrics.setOnAction(e -> swapPanels(metricPane, metrics.getPi().getTitle(), metrics));
 
@@ -125,7 +125,7 @@ public class AppController {
         removeDevice.getStyleClass().add("system-remove-button");
         removeDevice.setOnAction(e -> removeSystemFromUI(newPi));
 
-        vBox.getChildren().addAll(gpio, fileManager, sshShell, scripts, metrics, settings, removeDevice);
+        vBox.getChildren().addAll(gpio, fileManager, sshShell, metrics, settings, removeDevice);
     }
 
     @FXML
@@ -188,8 +188,7 @@ public class AppController {
             switch (pane.getId()) {
                 case "GPIO" -> toFront(App.GPIO);
                 case "File Manager" -> toFront(App.FILE_MAN);
-                case "SSH Shell" -> {}
-                case "Scripts" -> {}
+                case "SSH Shell" -> {toFront(App.SSH);}
                 case "Metrics" -> toFront(App.METRICS);
                 default -> {}
             }
@@ -280,6 +279,9 @@ public class AppController {
         } else if (type == App.FILE_MAN) {
             fileDetails.toFront();
             fileDetails.setVisible(true);
+        } else if (type == App.SSH) {
+            shellPane.toFront();
+            shellController.testPTY();
         }
     }
 

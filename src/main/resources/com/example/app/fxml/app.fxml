@@ -155,12 +155,7 @@
                </ScrollPane>
                <ScrollPane id="SSH Shell" fx:id="shellPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
                   <content>
-                            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-                  </content>
-               </ScrollPane>
-               <ScrollPane id="Scripts" fx:id="scriptPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" visible="false">
-                  <content>
-                            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     <fx:include fx:id="shell" source="shell.fxml" />
                   </content>
                </ScrollPane>
                <ScrollPane id="Metrics" fx:id="metricPane" fitToHeight="true" fitToWidth="true" styleClass="app-scroll-pane" stylesheets="@../css/app.css" visible="false">

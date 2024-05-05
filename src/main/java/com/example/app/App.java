@@ -23,9 +23,9 @@ public class App extends Application {
 
     public static ArrayList<RaspberryPi> systems;
     public static RaspberryPi currentPi;
-    public static final int MAX_SYSTEMS = 8;
+    public static final int MAX_SYSTEMS = 1;
 
-    public static final int GPIO = 0, FILE_MAN = 1, SSH = 2, SCRIPTS = 3, METRICS = 4;
+    public static final int GPIO = 0, FILE_MAN = 1, SSH = 2, METRICS = 3;
 
     @Override
     public void start(Stage stage) throws IOException {

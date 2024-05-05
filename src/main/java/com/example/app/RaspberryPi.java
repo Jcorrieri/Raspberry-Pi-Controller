@@ -1,32 +1,39 @@
 package com.example.app;
 
+import com.example.app.IO.CustomOutputStream;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCode;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.common.LoggerFactory;
+import net.schmizz.sshj.common.StreamCopier;
 import net.schmizz.sshj.connection.ConnectionException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.connection.channel.direct.Session.Command;
 import net.schmizz.sshj.sftp.StatefulSFTPClient;
 import net.schmizz.sshj.transport.TransportException;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class RaspberryPi {
 
-    private final String model;
-    private String title, host, username, password;
+    protected final String model;
+    protected String title, host, username, password;
 
-    private TitledPane titledPane;
+    protected TitledPane titledPane;
 
-    private SSHClient ssh;
+    protected SSHClient ssh;
 
-    private StatefulSFTPClient statefulSFTPClient;
+    protected boolean hasActivePty;
+
+    protected StatefulSFTPClient statefulSFTPClient;
 
     public String config;
 
-    private Monitor<Void> monitor;
+    protected Monitor<Void> monitor;
 
     public RaspberryPi(String model, String title, String hostname, String username, String password) throws IOException {
         this.model = model;
@@ -36,6 +43,7 @@ public class RaspberryPi {
         this.password = password;
         connect();
         config = execConfigCmd();
+        hasActivePty = false;
     }
 
     public void connect() throws IOException {
@@ -102,6 +110,43 @@ public class RaspberryPi {
         }
     }
 
+    public void startPTY(TextArea textArea) throws IOException {
+        if (hasActivePty) return;
+
+        CustomOutputStream os = null;
+
+        try {
+            final Session session = ssh.startSession();
+            session.allocateDefaultPTY();
+
+            hasActivePty = true;
+
+            final Session.Shell shell = session.startShell();
+
+            os = new CustomOutputStream(textArea);
+
+            new StreamCopier(shell.getInputStream(), os, LoggerFactory.DEFAULT)
+                    .bufSize(shell.getLocalMaxPacketSize())
+                    .spawn("stdout");
+
+            new StreamCopier(shell.getErrorStream(), System.err, LoggerFactory.DEFAULT)
+                    .bufSize(shell.getLocalMaxPacketSize())
+                    .spawn("stderr");
+
+            // Now make System.in act as stdin. To exit, hit Ctrl+D (since that results in an EOF on System.in)
+            // This is kinda messy because java only allows console input after you hit return
+            // But this is just an example... a GUI app could implement a proper PTY
+            new StreamCopier(System.in, shell.getOutputStream(), LoggerFactory.DEFAULT)
+                    .bufSize(shell.getRemoteMaxPacketSize())
+                    .copy();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (os != null) os.close();
+        }
+    }
+
     public TitledPane getTitledPane() { return titledPane; }
 
     public void setTitledPane(TitledPane pane) { titledPane = pane; }
@@ -136,7 +181,7 @@ public class RaspberryPi {
         new Thread(monitor).start();
     }
 
-    private double[] getVoltageConfig() {
+    protected double[] getVoltageConfig() {
         String cmd = executeCommand("vcgencmd measure_volts core; vcgencmd measure_volts sdram_c");
         if (cmd == null)
             return null;
