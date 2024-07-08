@@ -1,8 +1,13 @@
 package com.example.app;
 
+import com.example.app.pty.TextAreaInputStream;
+import com.example.app.pty.TextAreaOutputStream;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.common.LoggerFactory;
+import net.schmizz.sshj.common.StreamCopier;
 import net.schmizz.sshj.connection.ConnectionException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.connection.channel.direct.Session.Command;
@@ -99,6 +104,36 @@ public class RaspberryPi {
             return statefulSFTPClient;
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void startPTY(TextArea textArea) {
+
+        try (Session session = ssh.startSession()) {
+            session.allocateDefaultPTY();
+
+            final Session.Shell shell = session.startShell();
+
+            TextAreaInputStream inputStream = new TextAreaInputStream(textArea);
+            TextAreaOutputStream outputStream = new TextAreaOutputStream(textArea);
+
+            new StreamCopier(shell.getInputStream(), outputStream, LoggerFactory.DEFAULT)
+                    .bufSize(shell.getLocalMaxPacketSize())
+                    .spawn("stdout");
+
+            new StreamCopier(shell.getErrorStream(), System.err, LoggerFactory.DEFAULT)
+                    .bufSize(shell.getLocalMaxPacketSize())
+                    .spawn("stderr");
+
+            // Now make System.in act as stdin. To exit, hit Ctrl+D (since that results in an EOF on System.in)
+            // This is kinda messy because java only allows console input after you hit return
+            // But this is just an example... a GUI app could implement a proper PTY
+            new StreamCopier(System.in, shell.getOutputStream(), LoggerFactory.DEFAULT)
+                    .bufSize(shell.getRemoteMaxPacketSize())
+                    .copy();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
