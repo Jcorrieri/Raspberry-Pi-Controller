@@ -43,6 +43,8 @@ public class FileController {
         cachedItems = new HashMap<>();
         client = App.currentPi.createStatefulSTFPClient();
 
+        if (client == null) return;
+
         treeView.setRoot(root);
         treeView.setOnMouseClicked(event -> {
             FileItem<String> selectedItem = (FileItem<String>) treeView.getSelectionModel().getSelectedItem();

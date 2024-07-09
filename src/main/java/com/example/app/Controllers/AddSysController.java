@@ -2,6 +2,7 @@ package com.example.app.Controllers;
 
 import com.example.app.App;
 import com.example.app.RaspberryPi;
+import com.example.app.Testing.TestPi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -35,7 +36,8 @@ public class AddSysController {
         ObservableList<String> models = FXCollections.observableArrayList(
                 "Raspberry Pi 4 Model B",
                 "Raspberry Pi 3 Model A+",
-                "Raspberry Pi Zero 2 W"
+                "Raspberry Pi Zero 2 W",
+                "Test Model"
         );
         selectModel.setItems(models);
     }
@@ -66,6 +68,14 @@ public class AddSysController {
         }
 
         try {
+            Stage stage = (Stage) selectModel.getScene().getWindow();
+
+            if (model.equals("Test Model")) {
+                App.getController().addPi(new TestPi(model, titleStr, ipStr, userStr, passwordStr));
+                stage.close();
+                return;
+            }
+
             Task<RaspberryPi> createPi = new Task<>() {
                 @Override
                 protected RaspberryPi call() throws Exception {
@@ -73,7 +83,7 @@ public class AddSysController {
                 }
             };
             new Thread(createPi).start();
-            Stage stage = (Stage) selectModel.getScene().getWindow();
+
             stage.setOnCloseRequest(e -> createPi.cancel(true));
 
             progressIndicator.setVisible(true);
