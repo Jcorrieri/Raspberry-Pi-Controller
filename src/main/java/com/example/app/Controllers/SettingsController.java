@@ -121,6 +121,8 @@ public class SettingsController {
             stage.setTitle(title);
             message.setText("Changes saved!");
         }
+
+        App.getController().saveData();
     }
 
     private int updateTitle(String title) {

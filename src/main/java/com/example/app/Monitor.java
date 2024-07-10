@@ -157,7 +157,7 @@ public class Monitor<E> extends Task<E> {
 
     private String[][] getDriveInfo() {
         if (App.currentPi.equals(OWNER) && OWNER.isConnected()) {
-            String result = OWNER.executeCommand("df -h");
+            String result = OWNER.executeCommand("df -h | awk 'NR==1 {print; next} {print | \"sort -k 4 -h -r\"}'");
             if (result == null)
                 return null;
 

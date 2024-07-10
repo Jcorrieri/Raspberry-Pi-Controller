@@ -128,7 +128,7 @@ public class RaspberryPi {
             // Now make System.in act as stdin. To exit, hit Ctrl+D (since that results in an EOF on System.in)
             // This is kinda messy because java only allows console input after you hit return
             // But this is just an example... a GUI app could implement a proper PTY
-            new StreamCopier(System.in, shell.getOutputStream(), LoggerFactory.DEFAULT)
+            new StreamCopier(inputStream, shell.getOutputStream(), LoggerFactory.DEFAULT)
                     .bufSize(shell.getRemoteMaxPacketSize())
                     .copy();
 
@@ -140,6 +140,8 @@ public class RaspberryPi {
     public TitledPane getTitledPane() { return titledPane; }
 
     public void setTitledPane(TitledPane pane) { titledPane = pane; }
+
+    public String getModel() { return model; }
 
     public String getTitle() { return title; }
 

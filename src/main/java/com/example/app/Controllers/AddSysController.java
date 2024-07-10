@@ -3,6 +3,7 @@ package com.example.app.Controllers;
 import com.example.app.App;
 import com.example.app.RaspberryPi;
 import com.example.app.Testing.TestPi;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -82,8 +83,6 @@ public class AddSysController {
                     return new RaspberryPi(model, titleStr, ipStr, userStr, passwordStr);
                 }
             };
-            new Thread(createPi).start();
-
             stage.setOnCloseRequest(e -> createPi.cancel(true));
 
             progressIndicator.setVisible(true);
@@ -100,9 +99,31 @@ public class AddSysController {
                 submitButton.setCursor(Cursor.DEFAULT);
                 submitButton.setDisable(false);
             });
+
+            new Thread(createPi).start();
         } catch (Exception e) {
             System.out.println("Thread Error");
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Manually add Rpi system (For loading saved data)
+     * @param data The model, title, hostname, username, and password in an array
+     */
+    protected void setSystem(String[] data) {
+        String model = data[0];
+        String titleStr = data[1];
+        String ipStr = data[2];
+        String userStr = data[3];
+        String passwordStr = data[4];
+
+        Platform.runLater( () -> {
+            selectModel.getSelectionModel().select(model);
+            title.setText(titleStr);
+            ip.setText(ipStr);
+            username.setText(userStr);
+            password.setText(passwordStr);
+        });
     }
 }

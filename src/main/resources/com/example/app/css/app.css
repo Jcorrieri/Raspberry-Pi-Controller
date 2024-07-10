@@ -34,7 +34,6 @@
     -fx-background-radius: 0px;
 }
 
-#profile-icon { -fx-background-image: url('../images/profile-icon.png'); }
 #settings-icon { -fx-background-image: url('../images/settings-icon.png'); }
 #help-icon { -fx-background-image: url('../images/help-icon.png'); }
 

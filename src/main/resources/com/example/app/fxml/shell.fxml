@@ -27,7 +27,7 @@
                   <Insets left="25.0" right="25.0" />
                </padding>
                <children>
-                  <TextArea fx:id="terminalWindow" focusTraversable="false" prefHeight="423.0" prefWidth="456.0" promptText="Bg">
+                  <TextArea fx:id="terminalWindow" style="-fx-focus-color: #B0B0B0; -fx-faint-focus-color: transparent;" focusTraversable="false" prefHeight="423.0" prefWidth="456.0" wrapText="true">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>

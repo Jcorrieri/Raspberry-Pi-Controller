@@ -127,6 +127,9 @@ public class FileController {
                 FileItem<String> child = new FileItem<>(item.getName(), item.getPath());
 
                 if (cachedItems.containsKey(child.getPath())) {
+                    if (rootItem.getChildren().contains(cachedItems.get(child.getPath()))) {
+                        continue;
+                    }
                     rootItem.getChildren().add(cachedItems.get(child.getPath()));
                     continue;
                 }

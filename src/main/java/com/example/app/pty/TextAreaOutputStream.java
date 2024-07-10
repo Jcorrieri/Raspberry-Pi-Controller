@@ -14,7 +14,7 @@ public class TextAreaOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) {
         final char c = (char) b;
         Platform.runLater(() -> {
             textArea.appendText(String.valueOf(c));
@@ -24,7 +24,7 @@ public class TextAreaOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(byte[] b, int off, int len) {
         String text = new String(b, off, len);
         Platform.runLater(() -> {
             textArea.appendText(handleEscapeSequences(text));
@@ -34,6 +34,11 @@ public class TextAreaOutputStream extends OutputStream {
 
     private String handleEscapeSequences(String text) {
         // ANSI escape codes start with ESC (0x1B) followed by '[' and ends with 'm', 'K', etc.
+        if (text.contains("[H")) {
+            textArea.clear();
+            return "";
+        }
+
         return text.replaceAll("\u001B\\[(0|[\\d;]*)m", "")
                 .replaceAll("\u001B\\[\\d*;\\d*m", "")
                 .replaceAll("\u001B\\[\\d*;\\d*H", "")

@@ -4,6 +4,7 @@ import com.example.app.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -13,7 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class AppController {
@@ -40,7 +43,7 @@ public class AppController {
     public Font x1, x3;
 
     @FXML
-    private Label displayName, systemName;
+    private Label savedStatus, systemName;
 
     @FXML
     private MenuButton userOptions;
@@ -144,6 +147,8 @@ public class AppController {
                 swapPanels(null, null, null);
             }
         });
+
+        setSavedStatus("Unsaved");
     }
 
     public void toggleSystemButtons(RaspberryPi pi, boolean enabled) {
@@ -204,27 +209,75 @@ public class AppController {
     @FXML
     protected void accountOptions() { userOptions.show(); }
 
-    protected void updateUserOptions() {
-        CustomMenuItem menuItem = (CustomMenuItem) userOptions.getItems().get(0);
-        Hyperlink link = (Hyperlink) menuItem.getContent();
-
-        if (App.isLoggedIn()) {
-            link.setText("Sign Out");
-            link.setOnAction(e -> {
-                App.setLoggedOut();
-                updateUserOptions();
-            });
+    @FXML
+    protected void saveData() {
+        if (App.currentPi == null) {
+            App.createAlert("Error, no Pi added", Alert.AlertType.ERROR).show();
         } else {
-            link.setText("Sign In");
-            link.setOnAction(e -> {
-                try { createLoginWindow(); } catch (IOException ex) { throw new RuntimeException(ex); }
-            });
-            displayName.setText("Guest User");
+            // Write out save file...?
+            String[] outputData = new String[5];
+
+            outputData[0] = App.currentPi.getModel();
+            outputData[1] = App.currentPi.getTitle();
+            outputData[2] = App.currentPi.getHost();
+            outputData[3] = App.currentPi.getUser();
+            outputData[4] = App.currentPi.getPass();
+
+            File saveFile = new File(Paths.get("").toAbsolutePath() + "\\save-data.txt");
+
+            if (saveFile.exists()) {
+                try (FileReader fileReader = new FileReader(saveFile)){
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    String savedContents = bufferedReader.readLine();
+
+                    if (savedContents.equals(Arrays.toString(outputData))) {
+                        App.createAlert("Data Already Saved", Alert.AlertType.INFORMATION).show();
+                        return;
+                    }
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            try {
+                FileWriter fileWriter = new FileWriter(saveFile);
+                PrintWriter printWriter = new PrintWriter(fileWriter);
+
+                printWriter.println(Arrays.toString(outputData));
+
+                fileWriter.close();
+                printWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            setSavedStatus("Saved");
         }
     }
 
-    @FXML
-    protected void createLoginWindow() throws IOException { new Popup(Popup.LOGIN); }
+    public void loadData() {
+        File saveFile = new File(Paths.get("").toAbsolutePath() + "\\save-data.txt");
+
+        if (saveFile.exists()) {
+            try (FileReader fileReader = new FileReader(saveFile)){
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                String[] data = bufferedReader.readLine().replaceAll("[\\[\\]]", "").split(",");
+                data[1] = data[1].trim();
+                data[2] = data[2].trim();
+                data[3] = data[3].trim();
+                data[4] = data[4].trim();
+
+                FXMLLoader fxml = new Popup(Popup.ADD_SYS).getFxmlLoader(); // Popup returns fxml loader
+                if (fxml.getController() instanceof AddSysController a) a.setSystem(data);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        setSavedStatus("Saved");
+    }
 
     @FXML
     protected void createHelpWindow() throws IOException { new Popup(Popup.HELP); }
@@ -237,7 +290,7 @@ public class AppController {
         App.getPrimaryStage().close();
     }
 
-    protected void setDisplayName(String name) { displayName.setText(name); }
+    protected void setSavedStatus(String name) { savedStatus.setText(name); }
 
     public void setSystemName(String text) { systemName.setText(text); }
 

@@ -1,4 +1,4 @@
-package com.example.app.IO;
+package com.example.app.pty;
 
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;

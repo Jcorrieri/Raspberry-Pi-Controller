@@ -77,7 +77,7 @@
                             <Tooltip text="Help" />
                         </tooltip>
                     </Button>
-                    <Button id="profile-icon" mnemonicParsing="false" onAction="#accountOptions" styleClass="generic-icon" stylesheets="@../css/app.css">
+                    <Button id="settings-icon" mnemonicParsing="false" onAction="#accountOptions" styleClass="generic-icon" stylesheets="@../css/app.css">
                         <tooltip>
                             <Tooltip text="Account" />
                         </tooltip></Button>
@@ -95,7 +95,7 @@
         <AnchorPane maxWidth="500.0" minWidth="235.0" prefHeight="541.0" prefWidth="246.0">
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
-                    <Label fx:id="displayName" alignment="CENTER" minWidth="60.0" style="&#10;" text="Guest User" textAlignment="CENTER" textFill="#9f9f9f">
+                    <Label fx:id="savedStatus" alignment="CENTER" minWidth="60.0" style="&#10;" text="Unsaved" textAlignment="CENTER" textFill="#9f9f9f">
                         <font>
                             <Font size="18.0" fx:id="x1" />
                         </font>
@@ -291,7 +291,7 @@
                 <items>
                     <CustomMenuItem mnemonicParsing="false">
                         <content>
-                            <Hyperlink onAction="#createLoginWindow" text="Sign In" textFill="#249cd3">
+                            <Hyperlink onAction="#saveData" text="Save" textFill="#249cd3">
                                 <font>
                                     <Font size="14.0" />
                                 </font>

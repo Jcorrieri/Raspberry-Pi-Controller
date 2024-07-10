@@ -1,44 +1,60 @@
 package com.example.app.pty;
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class TextAreaInputStream extends InputStream {
 
-    private final BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
-    private String bufferedText = "";
+    private final BlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
     public TextAreaInputStream(TextArea textArea) {
-        // Start a background thread to read from the TextArea
-        new Thread(() -> {
-            while (true) {
-                try {
-                    String text = textArea.getText();
-                    if (!text.equals(bufferedText)) {
-                        bufferedText = text;
-                        queue.offer(text);
-                    }
-                    Thread.sleep(100); // Check every 100ms for new input
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
+
+        textArea.setOnKeyPressed(event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.ENTER
+                    && !event.isControlDown() && !event.isAltDown() && !event.isMetaDown() && !event.isShiftDown()) {
+
+                int inputStartPosition =
+                        (textArea.getTextFormatter() instanceof CustomTextFormatter f) ? f.getInputStartPos() : 0;
+
+                String line = textArea.getText().substring(inputStartPosition);
+
+                // Add the new line to the queue
+                queue.offer(line);
+                // Clear the input area or remove processed text
+                Platform.runLater(() ->
+                        textArea.replaceText(inputStartPosition, textArea.getText().length(), ""));
             }
-        }).start();
+        });
     }
 
     @Override
     public int read() throws IOException {
         try {
-            String text = queue.take();
-            if (text.isEmpty()) {
-                return -1; // End of stream
-            }
-            return text.charAt(0); // Return the first character
+            String line = queue.take();
+            BufferedReader bufferedReader = new BufferedReader(new StringReader(line));
+            return bufferedReader.read();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while reading", e);
+        }
+    }
+
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        try {
+            String line = queue.take();
+            byte[] lineBytes = line.getBytes();
+            int readLength = Math.min(len, lineBytes.length);
+            System.arraycopy(lineBytes, 0, b, off, readLength);
+            return readLength;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IOException("Interrupted while reading", e);

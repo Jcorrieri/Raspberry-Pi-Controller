@@ -12,12 +12,13 @@ public class Popup {
     public static final int LOGIN = 0, SETTINGS = 1, HELP = 2, ADD_SYS = 3;
     private String resource, title;
     private double width, height;
+    private FXMLLoader fxml;
 
     public Popup(int type) throws IOException {
         if (init(type) == -1)
             return;
 
-        FXMLLoader fxml = new FXMLLoader(Popup.class.getResource(resource));
+        fxml = new FXMLLoader(Popup.class.getResource(resource));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
@@ -56,7 +57,7 @@ public class Popup {
                 height = 465;
             }
             case ADD_SYS -> {
-                resource = "fxml/add_system.fxml";
+                resource = "fxml/add-system.fxml";
                 title = "Add System";
                 width = 335;
                 height = 460;
@@ -65,4 +66,10 @@ public class Popup {
         }
         return 0;
     }
+
+    /**
+     * For when you need the FXML loader of the Popup controllers.
+     * @return the FXMLLoader object
+     */
+    public FXMLLoader getFxmlLoader() { return fxml; }
 }

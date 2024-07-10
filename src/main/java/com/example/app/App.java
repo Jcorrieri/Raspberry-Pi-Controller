@@ -44,6 +44,8 @@ public class App extends Application {
         stage.setMaxWidth(1080);
         stage.setOnCloseRequest(e -> appController.exitApplication());
         stage.show();
+
+        appController.loadData();
     }
 
     public static void main(String[] args) { launch(); }

@@ -1,4 +1,4 @@
-package com.example.app.IO;
+package com.example.app.pty;
 
 import java.io.IOException;
 import java.io.InputStream;

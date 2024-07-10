@@ -41,7 +41,7 @@ public class TestPi extends RaspberryPi {
     }
 
     @Override
-    public void startPTY(TextArea textArea) throws IOException {
+    public void startPTY(TextArea textArea) {
         textArea.appendText("Test text...");
     }
 
@@ -57,7 +57,6 @@ public class TestPi extends RaspberryPi {
         isMonitoring = true;
     }
 
-    @Override
     public double[] getVoltageConfig() {
         return new double[]{0.8, 1.1};
     }
