@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -36,11 +38,58 @@
                   <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <Pane prefHeight="365.0" prefWidth="320.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="56.0" layoutY="288.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
-                  <TextArea editable="false" layoutX="67.0" layoutY="97.0" prefHeight="200.0" prefWidth="200.0" text="Help!!! Helpy menu explainy&#10;&#10;" />
-               </children></Pane>
+            <TabPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/dialog.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+              <tabs>
+                <Tab text="General">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" focusTraversable="false" layoutX="3.0" layoutY="5.0" prefHeight="343.0" prefWidth="311.0" text="The Raspberry Pi Controller allows for some remote management of the Raspberry Pi. This includes:&#10;&#10;&gt; GPIO Information&#10;&gt; File Management&#10;&gt; Basic Shell Access&#10;&gt; Basic Metrics&#10;&#10;Currently, only one system is supported&#10;&#10;Login info can be saved for the next session by clicking the gear icon (top right) and clicking 'Save'&#10;&#10;The settings tab (left) allows for changing system information, such as the title, hostname, username, and password (for the application, NOT the system itself)&#10;" wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="GPIO">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" focusTraversable="false" layoutX="3.0" layoutY="5.0" prefHeight="343.0" prefWidth="311.0" text="The GPIO panel displays a graphic of the Raspberry Pi and its corresponding GPIO pins, labeled by number. &#10;&#10;&gt; Yellow pins are editable GPIO pins&#10;&gt; Orange pins are 3.3V pins&#10;&gt; Red pins are 5V pins&#10;&gt; Black pins are ground pins&#10;&gt; White pins are specialty GPIO pins (ID EEPROM)&#10;&#10;Clicking on an available pin displays its pin number, default pull, current level (0/Low or 1/High), mode (alt function), and main function (Input / Output).&#10;&#10;There is a configuration panel available to alter these settings, though it is currently disabled. " wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="File Manager">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" focusTraversable="false" layoutX="3.0" layoutY="5.0" prefHeight="343.0" prefWidth="311.0" text="The File Manager behaves like a rudimentary SFTP client. It allows for the following features (accessible via right-clicking on a node:&#10;&#10;&gt; Uploading files&#10;&gt; Downloading files&#10;&gt; Renaming files&#10;&gt; Deleting files&#10;&#10;To navigate, click the arrow next to a directory to see its contents. It is also possible to make a directory the new root (visually). The buttons at the top right are the back (move up a level) and home buttons (return to root), respectively. &#10;&#10;Uploading files uploads them to the current root directory seen in the tree diagram, and is done by clicking the upload icon at the top left. " wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="SSH">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" focusTraversable="false" layoutX="3.0" layoutY="5.0" prefHeight="343.0" prefWidth="311.0" text="The SSH Shell allows for secure, remote access to the Raspberry Pi. A basic PTY is available, enabling commands and their results to be displayed in the window. " wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Metrics">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" focusTraversable="false" layoutX="3.0" layoutY="5.0" prefHeight="343.0" prefWidth="311.0" text="The Metrics panel allows for a brief overview of some key figures, including:&#10;&#10;&gt; Total System Uptime&#10;&gt; Number of Running Tasks&#10;&gt; CPU, Ram and SWAP Usage&#10;&gt; Disk Usage (Top Three Devices by Size)&#10;&gt; Current Temperature&#10;&#10;As well as other miscellaneous information on the righthand panel. " wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+               <VBox.margin>
+                  <Insets left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+            </TabPane>
          </children>
       </VBox>
    </children>

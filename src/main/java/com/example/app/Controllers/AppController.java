@@ -104,7 +104,7 @@ public class AppController {
         CustomButton fileManager = new CustomButton("File Manager", newPi);
         fileManager.setOnAction(e -> swapPanels(filePane, fileManager.getPi().getTitle(), fileManager));
 
-        CustomButton sshShell = new CustomButton("SSH Shell", newPi);
+        CustomButton sshShell = new CustomButton("Secure Shell", newPi);
         sshShell.setOnAction(e -> swapPanels(shellPane, sshShell.getPi().getTitle(), sshShell));
 
         CustomButton metrics = new CustomButton("CPU, RAM, and Disk Metrics", newPi);

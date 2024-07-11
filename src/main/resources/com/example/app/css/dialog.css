@@ -31,3 +31,27 @@
     -fx-background-repeat: no-repeat;
     -fx-background-color: rgba(255, 255, 255, 0);
 }
+
+.tab-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ccc;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+}
+
+.tab:selected {
+    -fx-background-color: lightblue;
+    -fx-text-fill: #fff;
+}
+
+.tab-content-area {
+    -fx-background-color: #ffffff;
+}
