@@ -11,10 +11,10 @@ Custom Raspberry Pi Controller
     - Download
     - Delete
     - Rename
-- SSH Shell (IN PROGRESS)
-- CPU, RAM, and Disk Metrics (MORE TO BE ADDED)
-- Supports up to 8 Systems (STILL IN TESTING)
+- Secure Shell
+- CPU, RAM, and Disk Metrics
 - GUI Interface
+- Save System Profile
 
 ## Screenshots
 
@@ -22,7 +22,7 @@ Custom Raspberry Pi Controller
 
 ![File Manager](/filesc.jpg?raw=true "File Manager")
 
-[SSH Shell Not Yet Complete]
+![Secure Shell](/shell.jpg?raw=true "Secure Shell")
 
 ![Metrics Panel](/metricssc.jpg?raw=true "Metrics Panel")
 
