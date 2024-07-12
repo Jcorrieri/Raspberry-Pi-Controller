@@ -22,7 +22,7 @@ Custom Raspberry Pi Controller
 
 ![File Manager](/filesc.jpg?raw=true "File Manager")
 
-[SSH Shell Not Yet Complete]
+[Secure Shell](/shell.jpg?raw=true "Secure Shell")
 
 ![Metrics Panel](/metricssc.jpg?raw=true "Metrics Panel")
 
