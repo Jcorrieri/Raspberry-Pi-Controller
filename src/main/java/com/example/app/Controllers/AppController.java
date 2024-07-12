@@ -151,11 +151,16 @@ public class AppController {
         setSavedStatus("Unsaved");
     }
 
-    public void toggleSystemButtons(RaspberryPi pi, boolean enabled) {
+    /**
+     * Used in the event of a system disconnect during the session
+     * @param pi The current Raspberry Pi object
+     * @param enable Boolean value representing whether the buttons should be enabled
+     */
+    public void toggleSystemButtons(RaspberryPi pi, boolean enable) {
         AnchorPane anchorPane = (AnchorPane) pi.getTitledPane().getContent();
         VBox buttons = (VBox) anchorPane.getChildren().get(0);
 
-        if (enabled) {
+        if (enable) {
             for (Node node : buttons.getChildren()){
                 CustomButton b = (CustomButton) node;
                 b.setDisable(false);
@@ -194,7 +199,7 @@ public class AppController {
             switch (pane.getId()) {
                 case "GPIO" -> toFront(App.GPIO);
                 case "File Manager" -> toFront(App.FILE_MAN);
-                case "SSH Shell" -> {toFront(App.SSH);}
+                case "SSH Shell" -> toFront(App.SSH);
                 case "Metrics" -> toFront(App.METRICS);
                 default -> {}
             }
@@ -207,7 +212,7 @@ public class AppController {
     }
 
     @FXML
-    protected void accountOptions() { userOptions.show(); }
+    protected void showMenuOptions() { userOptions.show(); }
 
     @FXML
     protected void saveData() {

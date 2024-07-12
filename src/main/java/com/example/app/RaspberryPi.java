@@ -24,11 +24,11 @@ public class RaspberryPi {
     private String title, host, username, password;
     public String config;
 
-    private TitledPane titledPane;
+    private TitledPane titledPane; // JavaFX GUI component representing the system
     private SSHClient ssh;
     private StatefulSFTPClient statefulSFTPClient;
     private Session ptySession;
-    private Monitor<Void> monitor;
+    private Monitor<Void> monitor; // Used to get system metrics
 
     public RaspberryPi(String model, String title, String hostname, String username, String password) throws IOException {
         this.model = model;
@@ -58,6 +58,7 @@ public class RaspberryPi {
         if (!isConnected())
             return;
 
+        // Close all applicable threads and tasks
         try {
             if (isMonitoring())
                 monitor.cancel();
@@ -71,6 +72,11 @@ public class RaspberryPi {
         }
     }
 
+    /**
+     * Used internally to run commands on the raspberry pi (GPIO and Metrics)
+     * @param command The bash command string to be executed
+     * @return The result of the command (can be null)
+     */
     public String executeCommand(String command) {
         Session session = null;
         if (ssh == null || !ssh.isConnected())

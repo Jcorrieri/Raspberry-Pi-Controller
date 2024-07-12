@@ -7,34 +7,29 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="527.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Controllers.ShellController">
-   <children>
-      <VBox layoutX="10.0" layoutY="10.0" prefWidth="512.0">
-         <children>
-            <HBox id="center-hbox" fillHeight="false" prefHeight="57.0" prefWidth="488.0" stylesheets="@../css/app.css">
-               <children>
-                  <Pane prefHeight="20.0" prefWidth="265.0" HBox.hgrow="ALWAYS" />
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-            <VBox prefWidth="512.0" VBox.vgrow="ALWAYS">
-               <padding>
-                  <Insets left="25.0" right="25.0" />
-               </padding>
-               <children>
-                  <TextArea fx:id="terminalWindow" style="-fx-focus-color: #B0B0B0; -fx-faint-focus-color: transparent;" focusTraversable="false" prefHeight="423.0" prefWidth="456.0" wrapText="true">
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </TextArea>
-               </children>
-            </VBox>
-         </children>
+<AnchorPane prefHeight="567.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Controllers.ShellController">
+   <VBox layoutX="5.0" layoutY="16.0" prefWidth="512.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.topAnchor="0.0">
+      <HBox id="center-hbox" fillHeight="false" prefHeight="57.0" prefWidth="488.0" stylesheets="@../css/app.css">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0"/>
+         </VBox.margin>
+         <padding>
+            <Insets left="10.0" right="10.0" top="10.0"/>
+         </padding>
+         <Pane prefHeight="20.0" prefWidth="265.0" HBox.hgrow="ALWAYS"/>
+      </HBox>
+      <VBox prefWidth="512.0" VBox.vgrow="ALWAYS">
+         <padding>
+            <Insets left="25.0" right="25.0"/>
+         </padding>
+         <TextArea fx:id="terminalWindow" focusTraversable="false" prefHeight="459.0" prefWidth="462.0"
+                   style="-fx-focus-color: #B0B0B0; -fx-faint-focus-color: transparent;" wrapText="true">
+            <VBox.margin>
+               <Insets top="20.0"/>
+            </VBox.margin>
+         </TextArea>
       </VBox>
-   </children>
+   </VBox>
 </AnchorPane>
