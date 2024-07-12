@@ -1,7 +1,10 @@
 package com.example.app;
 
+import com.example.app.Controllers.ShellController;
 import com.example.app.pty.TextAreaInputStream;
 import com.example.app.pty.TextAreaOutputStream;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import net.schmizz.sshj.SSHClient;

@@ -108,14 +108,12 @@ public class AddSysController {
         String titleStr = data[1];
         String ipStr = data[2];
         String userStr = data[3];
-        String passwordStr = data[4];
 
         Platform.runLater( () -> {
             selectModel.getSelectionModel().select(model);
             title.setText(titleStr);
             ip.setText(ipStr);
             username.setText(userStr);
-            password.setText(passwordStr);
         });
     }
 }

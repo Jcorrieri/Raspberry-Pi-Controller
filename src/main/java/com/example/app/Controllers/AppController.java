@@ -142,6 +142,7 @@ public class AppController {
             if (response == ButtonType.OK) {
                 systemContainer.getChildren().removeIf(node -> node.getId().equals(raspberryPi.getTitle()));
                 App.systems.remove(raspberryPi);
+                shellController.closePtyThread(); // Need to close this along with Pi. Not the most efficient way.
                 raspberryPi.disconnect();
                 systemName.setText("No System Selected");
                 swapPanels(null, null, null);
@@ -220,13 +221,12 @@ public class AppController {
             App.createAlert("Error, no Pi added", Alert.AlertType.ERROR).show();
         } else {
             // Write out save file...?
-            String[] outputData = new String[5];
+            String[] outputData = new String[4];
 
             outputData[0] = App.currentPi.getModel();
             outputData[1] = App.currentPi.getTitle();
             outputData[2] = App.currentPi.getHost();
             outputData[3] = App.currentPi.getUser();
-            outputData[4] = App.currentPi.getPass();
 
             File saveFile = new File(Paths.get("").toAbsolutePath() + "\\save-data.txt");
 
@@ -236,10 +236,9 @@ public class AppController {
                     String savedContents = bufferedReader.readLine();
 
                     if (savedContents.equals(Arrays.toString(outputData))) {
-                        App.createAlert("Data Already Saved", Alert.AlertType.INFORMATION).show();
+                        setSavedStatus("Saved");
                         return;
                     }
-
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -272,7 +271,6 @@ public class AppController {
                 data[1] = data[1].trim();
                 data[2] = data[2].trim();
                 data[3] = data[3].trim();
-                data[4] = data[4].trim();
 
                 FXMLLoader fxml = new Popup(Popup.ADD_SYS).getFxmlLoader(); // Popup returns fxml loader
                 if (fxml.getController() instanceof AddSysController a) a.setSystem(data);
