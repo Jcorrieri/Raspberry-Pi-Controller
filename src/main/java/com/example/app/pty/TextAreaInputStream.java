@@ -16,7 +16,6 @@ public class TextAreaInputStream extends InputStream {
     private final BlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
     public TextAreaInputStream(TextArea textArea) {
-
         textArea.setOnKeyPressed(event -> {
             if (event.getCode() == javafx.scene.input.KeyCode.ENTER
                     && !event.isControlDown() && !event.isAltDown() && !event.isMetaDown() && !event.isShiftDown()) {

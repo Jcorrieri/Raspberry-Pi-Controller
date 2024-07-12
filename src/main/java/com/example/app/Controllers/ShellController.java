@@ -13,18 +13,21 @@ public class ShellController {
     @FXML
     private TextArea terminalWindow;
 
+    private Task<Void> ptyTask;
+
     public void startPTY() {
         terminalWindow.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPress);
 
-        Task<Void> ptyTask = new Task<>() {
+        ptyTask = new Task<>() {
             @Override
-            protected Void call() throws Exception {
+            protected Void call() {
                 App.currentPi.startPTY(terminalWindow);
                 return null;
             }
         };
 
         new Thread(ptyTask).start();
+        ptyTask.setOnCancelled(event -> {System.out.println("yurr");});
     }
 
     private void handleKeyPress(KeyEvent event) {
@@ -57,4 +60,6 @@ public class ShellController {
             }
         }
     }
+
+    public void closePtyThread() { ptyTask.cancel(); }
 }

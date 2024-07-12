@@ -2,7 +2,6 @@ package com.example.app.Controllers;
 
 import com.example.app.App;
 import com.example.app.RaspberryPi;
-import com.example.app.Testing.TestPi;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,8 +36,7 @@ public class AddSysController {
         ObservableList<String> models = FXCollections.observableArrayList(
                 "Raspberry Pi 4 Model B",
                 "Raspberry Pi 3 Model A+",
-                "Raspberry Pi Zero 2 W",
-                "Test Model"
+                "Raspberry Pi Zero 2 W"
         );
         selectModel.setItems(models);
     }
@@ -70,12 +68,6 @@ public class AddSysController {
 
         try {
             Stage stage = (Stage) selectModel.getScene().getWindow();
-
-            if (model.equals("Test Model")) {
-                App.getController().addPi(new TestPi(model, titleStr, ipStr, userStr, passwordStr));
-                stage.close();
-                return;
-            }
 
             Task<RaspberryPi> createPi = new Task<>() {
                 @Override

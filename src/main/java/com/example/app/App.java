@@ -17,8 +17,6 @@ public class App extends Application {
     private static Stage primaryStage;
     private static AppController appController;
 
-    private static boolean loggedIn = false;
-
     private static Button selectedButton;
 
     public static ArrayList<RaspberryPi> systems;
@@ -76,20 +74,12 @@ public class App extends Application {
 
     public static AppController getController() { return appController; }
 
-    public static boolean isLoggedIn() { return loggedIn; }
-
-    public static void setLoggedIn() { loggedIn = true; }
-
-    public static void setLoggedOut() { loggedIn = false; }
-
     public static void selectButton(Button button) {
         if (selectedButton != null)
             selectedButton.getStyleClass().remove("selected-system-button");
         button.getStyleClass().add("selected-system-button");
         selectedButton = button;
     }
-
-    public static Button getSelectedButton() { return selectedButton; }
 
     public static boolean alreadyExists(String identifier) {
         for (RaspberryPi pi : App.systems)

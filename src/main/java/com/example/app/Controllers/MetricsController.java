@@ -2,7 +2,6 @@ package com.example.app.Controllers;
 
 import com.example.app.App;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;

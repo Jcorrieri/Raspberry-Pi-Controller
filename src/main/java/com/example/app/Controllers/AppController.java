@@ -285,8 +285,10 @@ public class AppController {
     @FXML
     public void exitApplication() {
         for (RaspberryPi pi : App.systems)
-            if (pi != null)
+            if (pi != null) {
+                shellController.closePtyThread();
                 pi.disconnect();
+            }
         App.getPrimaryStage().close();
     }
 
