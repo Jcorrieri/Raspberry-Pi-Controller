@@ -77,6 +77,8 @@ public class FileController {
                                 download(selectedItem, dir.getAbsolutePath());
                             }
                         });
+                    } else {
+                        download(selectedItem, dir.getAbsolutePath());
                     }
                 });
 
@@ -94,7 +96,7 @@ public class FileController {
 
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                            remove(selectedItem, selectedItem.getChildren().size() > 0);
+                            remove(selectedItem, !selectedItem.getChildren().isEmpty());
                         }
                     });
                 });
@@ -242,6 +244,7 @@ public class FileController {
             client.get(item.getPath(), new FileSystemFile(path));
             App.createAlert("File Downloaded", Alert.AlertType.INFORMATION).show();
         } catch (IOException e) {
+            System.out.println("ERROR");
             throw new RuntimeException(e);
         }
     }

@@ -191,28 +191,21 @@
                     </Label>
                     <TextField fx:id="levelNonEditable" editable="false" focusTraversable="false" layoutX="61.0"
                                layoutY="153.0" minHeight="20.0" prefHeight="20.0"/>
-                    <Label layoutX="16.0" layoutY="182.0" text="Mode:" textFill="GREY">
-                        <font>
-                            <Font name="Arial Rounded MT Bold" size="14.0"/>
-                        </font>
-                    </Label>
-                    <TextField fx:id="modeNonEditable" editable="false" focusTraversable="false" layoutX="61.0"
-                               layoutY="181.0" minHeight="20.0" prefHeight="20.0"/>
-                    <Label layoutX="16.0" layoutY="210.0" text="Function:" textFill="GREY">
+                    <Label layoutX="16.0" layoutY="182.0" text="Function:" textFill="GREY">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="14.0"/>
                         </font>
                     </Label>
                     <TextField fx:id="functionNonEditable" editable="false" focusTraversable="false" layoutX="82.0"
-                               layoutY="208.0" minHeight="20.0" prefHeight="20.0"/>
-                    <Label layoutX="16.0" layoutY="237.0" text="Pull:" textFill="GREY">
+                               layoutY="180.0" minHeight="20.0" prefHeight="20.0"/>
+                    <Label layoutX="16.0" layoutY="209.0" text="Pull:" textFill="GREY">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="14.0"/>
                         </font>
                     </Label>
                     <TextField fx:id="pullNonEditable" editable="false" focusTraversable="false" layoutX="48.0"
-                               layoutY="237.0" minHeight="20.0" prefHeight="20.0"/>
-                    <Separator layoutX="14.0" layoutY="265.0" prefHeight="7.0" prefWidth="241.0"/>
+                               layoutY="209.0" minHeight="20.0" prefHeight="20.0"/>
+                    <Separator layoutX="14.0" layoutY="245.0" prefHeight="7.0" prefWidth="241.0"/>
                     <Separator layoutX="14.0" layoutY="44.0" prefHeight="7.0" prefWidth="241.0"/>
                     <Label layoutX="14.0" layoutY="276.0" text="Edit Configuration" textFill="GREY">
                         <font>
@@ -228,39 +221,32 @@
                     <Slider fx:id="levelSlider" blockIncrement="1.0" layoutX="65.0" layoutY="330.0"
                             majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickLabels="true"
                             snapToTicks="true"/>
-                    <RadioButton fx:id="inputMode" layoutX="85.0" layoutY="409.0" mnemonicParsing="false"
+                    <RadioButton fx:id="inputMode" layoutX="85.0" layoutY="371.0" mnemonicParsing="false"
                                  text="Input">
                         <toggleGroup>
                             <ToggleGroup fx:id="functionGroup"/>
                         </toggleGroup>
                     </RadioButton>
-                    <RadioButton fx:id="outputMode" layoutX="147.0" layoutY="409.0" mnemonicParsing="false"
+                    <RadioButton fx:id="outputMode" layoutX="147.0" layoutY="371.0" mnemonicParsing="false"
                                  text="Output" toggleGroup="$functionGroup"/>
-                    <ChoiceBox fx:id="modeToggle" layoutX="65.0" layoutY="369.0" minHeight="20.0" prefHeight="20.0"
-                               prefWidth="142.0"/>
-                    <ChoiceBox fx:id="pullToggle" layoutX="50.0" layoutY="450.0" minHeight="20.0" prefHeight="20.0"
+                    <ChoiceBox fx:id="pullToggle" layoutX="50.0" layoutY="409.0" minHeight="20.0" prefHeight="20.0"
                                prefWidth="142.0"/>
                     <Label layoutX="16.0" layoutY="328.0" text="Level:" textFill="GREY">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="14.0"/>
                         </font>
                     </Label>
-                    <Label layoutX="16.0" layoutY="369.0" text="Mode:" textFill="GREY">
+                    <Label layoutX="16.0" layoutY="369.0" text="Function:" textFill="GREY">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="14.0"/>
                         </font>
                     </Label>
-                    <Label layoutX="16.0" layoutY="410.0" text="Function:" textFill="GREY">
+                    <Label layoutX="16.0" layoutY="410.0" text="Pull:" textFill="GREY">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="14.0"/>
                         </font>
                     </Label>
-                    <Label layoutX="16.0" layoutY="451.0" text="Pull:" textFill="GREY">
-                        <font>
-                            <Font name="Arial Rounded MT Bold" size="14.0"/>
-                        </font>
-                    </Label>
-                    <Button layoutX="92.0" layoutY="508.0" mnemonicParsing="false" onAction="#updateBcmPin"
+                    <Button layoutX="92.0" layoutY="467.0" mnemonicParsing="false" onAction="#updateBcmPin"
                             prefWidth="87.0" styleClass="generic-button" text="Apply">
                         <font>
                             <Font name="Arial Rounded MT Bold" size="12.0"/>

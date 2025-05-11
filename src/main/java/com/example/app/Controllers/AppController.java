@@ -358,10 +358,10 @@ public class AppController {
         piOut.close();
 
         String[] data = config.split(" ");
+        System.out.println(Arrays.toString(data));
         levelNonEditable.setText(data[0].substring(data[0].indexOf('=') + 1));
-        modeNonEditable.setText(data[1].substring(data[1].indexOf('=') + 1));
-        functionNonEditable.setText(data[2].substring(data[2].indexOf('=') + 1));
-        pullNonEditable.setText(data[3].substring(data[3].indexOf('=') + 1));
+        functionNonEditable.setText(data[1].substring(data[1].indexOf('=') + 1));
+        pullNonEditable.setText(data[2].substring(data[2].indexOf('=') + 1));
 
         levelSlider.setValue(Double.parseDouble(levelNonEditable.getText()));
         if (functionNonEditable.getText().equalsIgnoreCase("INPUT")) {
@@ -370,17 +370,6 @@ public class AppController {
             outputMode.setSelected(true);
         }
 
-        ObservableList<String> modes = FXCollections.observableArrayList(
-                "0",
-                "1",
-                "2",
-                "3",
-                "4",
-                "5"
-        );
-
-        modeToggle.setValue(modeNonEditable.getText());
-        modeToggle.setItems(modes);
         pullToggle.setValue(pullNonEditable.getText());
         pullToggle.setItems(FXCollections.observableArrayList("UP", "DOWN"));
 
@@ -402,17 +391,15 @@ public class AppController {
             if (response == ButtonType.OK) {
                 try {
                     double currentLevel = Double.parseDouble(levelNonEditable.getText());
-                    int currentMode = Integer.parseInt(modeNonEditable.getText());
                     String currentFunction = ((RadioButton)functionGroup.getSelectedToggle()).getText();
                     String currentPull = pullToggle.getValue();
 
                     boolean updateLevel = levelSlider.getValue() != currentLevel;
-                    boolean updateMode = currentMode != Integer.parseInt(modeToggle.getValue());
                     boolean updateFunc = !functionNonEditable.getText().equalsIgnoreCase(currentFunction);
                     boolean updatePull = !pullNonEditable.getText().equals(currentPull);
 
                     System.out.println(gpioController.currentPin);
-                    System.out.println(updateLevel + " " + updateMode + " " + updateFunc + " " + updatePull);
+                    System.out.println(updateLevel + " " + updateFunc + " " + updatePull);
                 } catch (NumberFormatException nfe) {
                     Alert blank = App.createAlert(null, Alert.AlertType.ERROR);
                     blank.setHeaderText("There are blank fields");
