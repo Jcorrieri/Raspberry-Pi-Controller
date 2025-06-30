@@ -1,6 +1,6 @@
 ## Raspberry-Pi-Controller
 
-Custom Raspberry Pi Controller
+This project implements a desktop interface in Java to control a Raspberry Pi system. It features a graphical UI to interact with the Pi’s components and monitor key system resources. Key modules include a file manager for uploading, downloading, renaming, and deleting files; a basic shell interface; and real-time CPU, RAM, disk usage monitoring, and a GPIO control panel (currently read-only). The application makes use of JavaFX Tasks to handle multithreaded operations, ensuring background processes such as loading and data collection do not block program usage. Users can save their system preferences for greater convenience when re-launching the application.
 
 ## Features
 
